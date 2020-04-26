@@ -11,7 +11,6 @@ Plug 'tpope/vim-commentary'
 Plug 'vim-airline/vim-airline'
 Plug 'tpope/vim-surround'
 Plug 'morhetz/gruvbox'
-Plug 'vivien/vim-linux-coding-style'
 Plug 'ekalinin/Dockerfile.vim'
 Plug 'previm/previm'
 call plug#end()
