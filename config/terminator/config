@@ -1,0 +1,20 @@
+[global_config]
+  suppress_multiple_term_dialog = True
+[keybindings]
+  line_down = <Primary>j
+  line_up = <Primary>k
+[layouts]
+  [[default]]
+    [[[child1]]]
+      parent = window0
+      type = Terminal
+    [[[window0]]]
+      parent = ""
+      type = Window
+[plugins]
+[profiles]
+  [[default]]
+    background_darkness = 0.84
+    background_image = None
+    background_type = transparent
+    scrollback_infinite = True
