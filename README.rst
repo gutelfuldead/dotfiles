@@ -38,10 +38,19 @@ Other Apps needed for these dotfiles ::
 		ctags \
 		terminator
 
+Install dotfiles
+================
+
+Point to repo and use ``rcup`` ::
+
+	rcup -v -d ~/.dotfiles
+
 Use RCM
 =======
 
-`Good Guide <https://distrotube.com/blog/rcm-guide/>`_
+`Decent Guide <https://distrotube.com/blog/rcm-guide/>`_
+
+`manpage <http://thoughtbot.github.io/rcm/rcm.7.html>`_
 
 Add new file to rcm control ::
 
