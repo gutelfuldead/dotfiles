@@ -60,7 +60,7 @@ Use RCM
 
 `Decent Guide <https://distrotube.com/blog/rcm-guide/>`_
 
-`manpage <http://thoughtbot.github.io/rcm/rcm.7.html>`_
+`manish page <http://thoughtbot.github.io/rcm/rcm.7.html>`_
 
 Add new file to rcm control ::
 
