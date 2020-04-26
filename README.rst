@@ -23,13 +23,16 @@ Installation of RCM and other apps
 
 Use `RCM <https://github.com/thoughtbot/rcm>`_ to manage symlinks and installation.
 
-Debian installation ::
+source installation ::
 
-	wget -qO - https://apt.thoughtbot.com/thoughtbot.gpg.key | sudo apt-key add -
-	echo "deb https://apt.thoughtbot.com/debian/ stable main" | sudo tee
-	/etc/apt/sources.list.d/thoughtbot.list
-	sudo apt-get update
-	sudo apt-get install rcm
+	mkdir ~/rcm
+	cd ~/rcm
+	curl -LO https://thoughtbot.github.io/rcm/dist/rcm-1.3.3.tar.gz &&
+	tar -xvf rcm-1.3.3.tar.gz &&
+	cd rcm-1.3.3 &&
+	./configure &&
+	make &&
+	sudo make install
 
 Other Apps needed for these dotfiles ::
 
@@ -44,6 +47,13 @@ Install dotfiles
 Point to repo and use ``rcup`` ::
 
 	rcup -v -d ~/.dotfiles
+
+Vim Setup
+=========
+
+#. Open vim and install packages with ``:PlugInstall``
+
+#. open ~/.vim/vbas/Align.vba in vim and run ``:source %``
 
 Use RCM
 =======
@@ -65,16 +75,4 @@ View all symlinks ::
 Update all symlinks ::
 
 	rcup
-
-Vim Setup
-=========
-
-Vim requires a few extra steps after it the dotfiles are updated.
-
-Install Packages
-----------------
-
-#. Open vim and install packages with ``:PlugInstall``
-
-#. open ~/.vim/vbas/Align.vba in vim and run ``:source %``
 
