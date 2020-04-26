@@ -48,9 +48,9 @@ Point to repo and use ``rcup`` ::
 Vim Setup
 =========
 
-#. Open vim and install packages with ``:PlugInstall``
+#. ``vim .`` and install packages with ``:PlugInstall``
 
-#. open ~/.vim/vbas/Align.vba in vim and run ``:source %``
+#. ``vim ~/.vim/vbas/Align.vba`` and run ``:source %``
 
 Use RCM
 =======
