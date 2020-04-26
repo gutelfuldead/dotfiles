@@ -23,10 +23,6 @@ alias l='ls -hN --color=auto --group-directories-first'
 alias ll='ls -lahN --color=auto --group-directories-first'
 alias grep='grep --color=auto --exclude=tags --exclude-dir=".svn" --exclude-dir=".git" --line-number'
 alias ccat="highlight --out-format=ansi" # Color cat - print file with syntax highlighting.
-alias cdcspbr='cd /home/afx/work/svn/csp-em-05/buildroot'
-alias cdcsp='cd /home/afx/work/svn/csp-em-05'
-alias cdcspfw='cd /home/afx/work/svn/csp-em-05/fw/trunk'
-alias cdblue='cd /home/jgutel/svn/blue-origin-uhf-development/SW/code/usdr'
 
 # Internet
 alias yt="youtube-dl --add-metadata -ic" # Download video link
@@ -37,11 +33,5 @@ alias wifispeed="speedometer -r wlp3s0"
 export stand_path=/bin:/usr/bin:/usr/local/sbin:/usr/local/bin
 export vivado20171path=/opt/Xilinx/Vivado/2017.1/bin:/opt/Xilinx/SDK/2017.1/bin
 export other_progs=
-export PATH=$PATH:$stand_path:$other_progs:$vivado20171path
 
-# mount google-drive
-# if [ -d ~/google-drive ]; then
-# 	if [ ! -f ~/google-drive/mounted ]; then
-# 		google-drive-ocamlfuse ~/google-drive
-# 	fi
-# fi
+export PATH=$PATH:$stand_path:$other_progs:$vivado20171path
