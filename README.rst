@@ -2,10 +2,6 @@
 Gutelfuldead DotFiles
 =====================
 
-This repo should be checked out to ~./dotfiles so... ::
-
-	git clone https://github.com/gutelfuldead/dotfiles.git ~/.dotfiles
-
 Packages with dotfiles
 ======================
 
@@ -38,6 +34,7 @@ Other Apps needed for these dotfiles ::
 
 	sudo apt install vim \
 		rst2pdf \
+		docutils-common \
 		ctags \
 		terminator
 

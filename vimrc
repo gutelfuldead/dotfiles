@@ -9,6 +9,7 @@ let mapleader ="-"
 call plug#begin('~/.vim/plugged')
 Plug 'tpope/vim-commentary'
 Plug 'vim-airline/vim-airline'
+Plug 'preservim/nerdtree'
 Plug 'tpope/vim-surround'
 Plug 'morhetz/gruvbox'
 Plug 'vivien/vim-linux-coding-style'
@@ -35,6 +36,7 @@ call plug#end()
 	set background=dark
 	let g:gruvbox_contrast_dark = 'hard'
 	colorscheme gruvbox
+	let NERDTreeShowHidden=1 " show hidden .dotfiles in nerdtree
 
 " Previm open command
 	let g:previm_open_cmd = 'google-chrome --new-window'
@@ -127,4 +129,18 @@ function! s:DiffWithSaved()
   exe "setlocal bt=nofile bh=wipe nobl noswf ro ft=" . filetype
 endfunction
 com! DiffSaved call s:DiffWithSaved()
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" NERDTree Stuff
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" autostart nerdtree if no file was specified
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+
+" open nerdtree if a directory was opened
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
+
+" Bind NERDtree to Ctrl+n
+map <C-n> :NERDTreeToggle<CR>
 
