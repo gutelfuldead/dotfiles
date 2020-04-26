@@ -131,7 +131,12 @@ com! DiffSaved call s:DiffWithSaved()
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " NERDTree Stuff
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let NERDTreeShowHidden=1 " show hidden .dotfiles in nerdtree
+
+" Bind NERDtree to Ctrl+n
+map <C-n> :NERDTreeToggle<CR>
+
+" show hidden . files
+let NERDTreeShowHidden=1
 
 " autostart nerdtree if no file was specified
 autocmd StdinReadPre * let s:std_in=1
@@ -140,9 +145,6 @@ autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 " open nerdtree if a directory was opened
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
-
-" Bind NERDtree to Ctrl+n
-map <C-n> :NERDTreeToggle<CR>
 
 " autoclose NERDtree when slecting a file from it
 let NERDTreeQuitOnOpen = 1
