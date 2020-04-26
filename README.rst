@@ -19,31 +19,31 @@ Installation of RCM and other apps
 
 Use `RCM <https://github.com/thoughtbot/rcm>`_ to manage symlinks and installation.
 
-source installation ::
+source installation (tested on debian/redhat/WSL) ::
 
-	mkdir ~/rcm
-	cd ~/rcm
-	curl -LO https://thoughtbot.github.io/rcm/dist/rcm-1.3.3.tar.gz &&
-	tar -xvf rcm-1.3.3.tar.gz &&
-	cd rcm-1.3.3 &&
-	./configure &&
-	make &&
-	sudo make install
+        mkdir ~/rcm
+        cd ~/rcm
+        curl -LO https://thoughtbot.github.io/rcm/dist/rcm-1.3.3.tar.gz &&
+        tar -xvf rcm-1.3.3.tar.gz &&
+        cd rcm-1.3.3 &&
+        ./configure &&
+        make &&
+        sudo make install
 
 Other Apps needed for these dotfiles ::
 
-	sudo apt install vim \
-		rst2pdf \
-		docutils-common \
-		ctags \
-		terminator
+        sudo apt install vim \
+                rst2pdf \
+                docutils-common \
+                ctags \
+                terminator
 
 Install dotfiles
 ================
 
 Point to repo and use ``rcup`` ::
 
-	rcup -v -d ~/.dotfiles
+        rcup -v -d ~/.dotfiles
 
 Vim Setup
 =========
@@ -61,15 +61,15 @@ Use RCM
 
 Add new file to rcm control ::
 
-	mkrc -v ~/.thisfile
+        mkrc -v ~/.thisfile
 
 Will copy file to local ~/.dotfiles (which should be this repo)
 
 View all symlinks ::
 
-	lsrc
+        lsrc
 
 Update all symlinks ::
 
-	rcup
+        rcup
 
