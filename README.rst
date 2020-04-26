@@ -6,6 +6,18 @@ This repo should be checked out to ~./dotfiles so... ::
 
 	git clone https://github.com/gutelfuldead/dotfiles.git ~/.dotfiles
 
+Packages with dotfiles
+======================
+
+Bashrc is managed as well as...
+
+- vim
+- ctags
+- terminator
+- rst2pdf
+- rst2html
+- ranger
+
 Installation of RCM and other apps
 ==================================
 
@@ -23,7 +35,7 @@ Other Apps needed for these dotfiles ::
 
 	sudo apt install vim \
 		rst2pdf \
-		tags \
+		ctags \
 		terminator
 
 Use RCM
@@ -44,4 +56,16 @@ View all symlinks ::
 Update all symlinks ::
 
 	rcup
+
+Vim Setup
+=========
+
+Vim requires a few extra steps after it the dotfiles are updated.
+
+Install Packages
+----------------
+
+#. Open vim and install packages with ``:PlugInstall``
+
+#. open ~/.vim/vbas/Align.vba in vim and run ``:source %``
 
