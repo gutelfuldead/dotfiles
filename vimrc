@@ -35,7 +35,6 @@ call plug#end()
 	set background=dark
 	let g:gruvbox_contrast_dark = 'hard'
 	colorscheme gruvbox
-	let NERDTreeShowHidden=1 " show hidden .dotfiles in nerdtree
 
 " Previm open command
 	let g:previm_open_cmd = 'google-chrome --new-window'
@@ -132,6 +131,8 @@ com! DiffSaved call s:DiffWithSaved()
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " NERDTree Stuff
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let NERDTreeShowHidden=1 " show hidden .dotfiles in nerdtree
+
 " autostart nerdtree if no file was specified
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
@@ -143,3 +144,9 @@ autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in
 " Bind NERDtree to Ctrl+n
 map <C-n> :NERDTreeToggle<CR>
 
+" autoclose NERDtree when slecting a file from it
+let NERDTreeQuitOnOpen = 1
+
+" pretty NERD
+let NERDTreeMinimalUI = 1
+let NERDTreeDirArrows = 1
