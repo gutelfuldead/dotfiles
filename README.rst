@@ -43,7 +43,7 @@ Install dotfiles
 
 Point to repo and use ``rcup`` ::
 
-        rcup -v -d ~/.dotfiles/files
+        rcup -v -d ./files
 
 Vim Setup
 =========
