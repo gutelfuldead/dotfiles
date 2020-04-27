@@ -80,6 +80,9 @@ call plug#end()
 " .tex files automatically detected
 	autocmd BufRead,BufNewFile *.tex set filetype=tex
 
+" .bash* files automatically detected
+	autocmd BufRead,BufNewFile *.bash* set filetype=sh
+
 " Readmes autowrap text:
 	autocmd BufRead,BufNewFile README.* set tw=79
 
@@ -150,5 +153,5 @@ autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in
 let NERDTreeQuitOnOpen = 1
 
 " pretty NERD
-let NERDTreeMinimalUI = 1
+" let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1

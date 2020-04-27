@@ -15,6 +15,11 @@ fi
 alias kvivado='kill $(pidof vivado)'
 alias mkd="mkdir -pv"
 alias pdf='okular'
+alias xclip='xclip -selection c'
+alias bigfiles='find -type f -exec du -Sh {} + | sort -rh | head -n 20'
+alias scpi='scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
+alias feh='eog'
+alias rst2html='rst2html --stylesheet-dirs=~/.rst2html/html --stylesheet=sm-docutils.css'
 
 # Adding color
 alias ls='ls -hN --color=auto --group-directories-first'
@@ -29,10 +34,11 @@ alias ethspeed="speedometer -r enp12s0"
 alias wifispeed="speedometer -r wlp3s0"
 
 # Set path
-export stand_path=/bin:/usr/bin:/usr/local/sbin:/usr/local/bin
+export stand_path=/bin:/usr/bin:/user/sbin:/usr/local/sbin:/usr/local/bin
 export other_progs=
-
 export PATH=$PATH:$stand_path:$other_progs
+
+export SVN_EDITOR='vim'
 
 if [ -f ~/.bash_extended ]; then
 	source ~/.bash_extended
