@@ -1,11 +1,9 @@
-=====================
-Gutelfuldead DotFiles
-=====================
+======================
+Gutelfuldead Dot Files
+======================
 
 Packages with dotfiles
 ======================
-
-Bashrc is managed as well as...
 
 - vim
 - ctags
@@ -13,6 +11,12 @@ Bashrc is managed as well as...
 - rst2pdf
 - rst2html
 - ranger
+
+Bashrc
+======
+
+The bashrc used sets up common aliases. Will also source local files on a
+machine under `~/.bash_aliases` and `~/.bash_extended`.
 
 Installation of RCM and other apps
 ==================================
@@ -62,7 +66,7 @@ Use RCM
 
 Add new file to rcm control ::
 
-        mkrc -v ~/.thisfile
+        mkrc -v -d /point/to/this/repo/files ~/.thisfile
 
 Will copy file to local ~/.dotfiles (which should be this repo)
 
