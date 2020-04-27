@@ -5,6 +5,11 @@
 # | |_) | (_| \__ \ | | | | | (__
 # |_.__/ \__,_|___/_| |_|_|  \___|
 
+# source global definitions
+if [ -f /etc/bashrc ]; then
+	. /etc/bashrc
+fi
+
 if [ "`id -u`" -eq 0 ]; then
 	PS1="[ \[\e[1;31m\]λ\[\e[1;32m\]\[\e[49m\]:\h \W \[\e[0m\]] "
 else
@@ -42,4 +47,8 @@ export SVN_EDITOR='vim'
 
 if [ -f ~/.bash_extended ]; then
 	source ~/.bash_extended
+fi
+
+if [ -f ~/.bash_aliases ]; then
+	source ~/.bash_aliases
 fi
