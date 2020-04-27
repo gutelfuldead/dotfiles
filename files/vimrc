@@ -101,10 +101,6 @@ call plug#end()
         set wildmode=longest,list,full
 	set wildmenu
 
-" Only apply linux-coding-style plugin to these directories
-	let g:linuxsty_patterns = [ "/usr/src/", "/linux" ]
-	nnoremap <silent> <leader>l :LinuxCodingStyle<cr>
-
 " Set diff mode to ignore whitespace
     if &diff
         " diff mode
