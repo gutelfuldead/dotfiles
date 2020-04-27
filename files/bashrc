@@ -44,6 +44,7 @@ alias wifispeed="speedometer -r wlp3s0"
 export stand_path=/bin:/usr/bin:/user/sbin:/usr/local/sbin:/usr/local/bin
 export PATH=$stand_path
 
+export EDITOR='vim'
 export SVN_EDITOR='vim'
 
 if [ -f ~/.bash_extended ]; then
