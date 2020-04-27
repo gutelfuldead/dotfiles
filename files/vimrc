@@ -153,5 +153,4 @@ autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in
 let NERDTreeQuitOnOpen = 1
 
 " pretty NERD
-" let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
