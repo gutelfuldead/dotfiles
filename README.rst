@@ -21,14 +21,15 @@ Use `RCM <https://github.com/thoughtbot/rcm>`_ to manage symlinks and installati
 
 source installation (tested on debian/redhat/WSL) ::
 
-        mkdir ~/rcm
-        cd ~/rcm
+        mkdir ./rcm
+        cd ./rcm
         curl -LO https://thoughtbot.github.io/rcm/dist/rcm-1.3.3.tar.gz &&
         tar -xvf rcm-1.3.3.tar.gz &&
         cd rcm-1.3.3 &&
         ./configure &&
         make &&
         sudo make install
+        cd ..
 
 Other Apps needed for these dotfiles ::
 
