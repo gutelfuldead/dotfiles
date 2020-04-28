@@ -48,10 +48,6 @@ export PATH=$PATH:$stand_path
 export EDITOR='vim'
 export SVN_EDITOR='vim'
 
-if [ -f ~/.bash_extended ]; then
-	source ~/.bash_extended
-fi
-
  if [ -f ~/.bash_aliases ]; then
 	source ~/.bash_aliases
  fi
