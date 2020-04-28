@@ -42,6 +42,9 @@ call plug#end()
 " remap ESC to jk because my pinky is fucked
 	inoremap jk <ESC>
 
+" re-indent entire file
+	noremap <leader>i gg=G
+
 " keep search results at the center of the screen
 	nnoremap n nzz
 	nnoremap N Nzz
@@ -119,11 +122,11 @@ call plug#end()
 " Allows to see diff in current file before saving with :diffSaved
 " https://stackoverflow.com/questions/749297/can-i-see-changes-before-i-save-my-file-in-vim
 function! s:DiffWithSaved()
-  let filetype=&ft
-  diffthis
-  vnew | r # | normal! 1Gdd
-  diffthis
-  exe "setlocal bt=nofile bh=wipe nobl noswf ro ft=" . filetype
+	let filetype=&ft
+	diffthis
+	vnew | r # | normal! 1Gdd
+	diffthis
+	exe "setlocal bt=nofile bh=wipe nobl noswf ro ft=" . filetype
 endfunction
 com! DiffSaved call s:DiffWithSaved()
 
@@ -132,21 +135,21 @@ com! DiffSaved call s:DiffWithSaved()
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Bind NERDtree to Ctrl+n
-map <C-n> :NERDTreeToggle<CR>
+	map <C-n> :NERDTreeToggle<CR>
 
 " show hidden . files
-let NERDTreeShowHidden=1
+	let NERDTreeShowHidden=1
 
 " autostart nerdtree if no file was specified
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+	autocmd StdinReadPre * let s:std_in=1
+	autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 
 " open nerdtree if a directory was opened
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
+	autocmd StdinReadPre * let s:std_in=1
+	autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
 
 " autoclose NERDtree when slecting a file from it
-let NERDTreeQuitOnOpen = 1
+	let NERDTreeQuitOnOpen = 1
 
 " pretty NERD
-let NERDTreeDirArrows = 1
+	let NERDTreeDirArrows = 1
