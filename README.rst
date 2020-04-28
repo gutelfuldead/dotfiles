@@ -34,7 +34,7 @@ source installation (tested on debian/redhat/WSL) ::
         ./configure &&
         make &&
         sudo make install
-        cd ..
+        cd ../..
 
 Other Apps needed for these dotfiles ::
 
