@@ -6,6 +6,7 @@
 # |_.__/ \__,_|___/_| |_|_|  \___|
 
 # source global definitions
+export PATH=$(getconf PATH)
 if [ -f /etc/bashrc ]; then
 	. /etc/bashrc
 fi
