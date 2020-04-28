@@ -6,9 +6,9 @@
 # |_.__/ \__,_|___/_| |_|_|  \___|
 
 # source global definitions
- if [ -f /etc/bashrc ]; then
+if [ -f /etc/bashrc ]; then
 	. /etc/bashrc
- fi
+fi
 
 if [ "`id -u`" -eq 0 ]; then
 	PS1="[ \[\e[1;31m\]λ\[\e[1;32m\]\[\e[49m\]:\h \W \[\e[0m\]] "
@@ -18,6 +18,7 @@ fi
 
 # Some aliases
 alias kvivado='kill $(pidof vivado)'
+alias ksdk='kill $(pidof xsdk)'
 alias mkd="mkdir -pv"
 alias pdf='okular'
 alias xclip='xclip -selection c'
@@ -41,13 +42,24 @@ alias yt="youtube-dl --add-metadata -ic" # Download video link
 alias ethspeed="speedometer -r enp12s0"
 alias wifispeed="speedometer -r wlp3s0"
 
-# Set path
-export stand_path=/bin:/usr/bin:/usr/sbin:/usr/local/sbin:/usr/local/bin
-export PATH=$PATH:$stand_path
-
 export EDITOR='vim'
 export SVN_EDITOR='vim'
 
- if [ -f ~/.bash_aliases ]; then
+if [ -f ~/.bash_aliases ]; then
 	source ~/.bash_aliases
- fi
+fi
+
+# remove duplicate entries in path
+if [ -n "$PATH" ]; then
+	old_PATH=$PATH:; PATH=
+	while [ -n "$old_PATH" ]; do
+		x=${old_PATH%%:*}       # the first remaining entry
+		case $PATH: in
+			*:"$x":*) ;;          # already there
+			*) PATH=$PATH:$x;;    # not there yet
+		esac
+		old_PATH=${old_PATH#*:}
+	done
+	PATH=${PATH#:}
+	unset old_PATH x
+fi
