@@ -17,8 +17,11 @@ else
 	PS1="[ \[\e[1;32m\]λ:\h \W \[\e[0m\]] "
 fi
 
+export EDITOR='vim'
+export SVN_EDITOR='vim'
+
 # Some aliases
-alias kvivado='kill $(pidof vivado)'
+alias kviv='kill $(pidof vivado)'
 alias ksdk='kill $(pidof xsdk)'
 alias mkd="mkdir -pv"
 alias pdf='okular'
@@ -37,14 +40,6 @@ alias ll='ls -lahN --color=auto --group-directories-first'
 alias llusb='ls /dev/ttyUSB*'
 alias grep='grep --color=auto --exclude=tags --exclude-dir=".svn" --exclude-dir=".git" --line-number'
 alias ccat="highlight --out-format=ansi" # Color cat - print file with syntax highlighting.
-
-# Internet
-alias yt="youtube-dl --add-metadata -ic" # Download video link
-alias ethspeed="speedometer -r enp12s0"
-alias wifispeed="speedometer -r wlp3s0"
-
-export EDITOR='vim'
-export SVN_EDITOR='vim'
 
 if [ -f ~/.bash_aliases ]; then
 	source ~/.bash_aliases
