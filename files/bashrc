@@ -18,7 +18,6 @@ else
 fi
 
 export EDITOR='vim'
-export SVN_EDITOR='vim'
 
 # Some aliases
 alias kviv='kill $(pidof vivado)'
