@@ -2,8 +2,9 @@
 Gutelfuldead Dot Files
 ======================
 
-Packages with dotfiles
-======================
+Probably best to checkout to ~/.dotfiles
+
+Manage dotfiles for the following packages,
 
 - vim
 - ctags
@@ -11,12 +12,12 @@ Packages with dotfiles
 - rst2pdf
 - rst2html
 - ranger
+- tmux
 
-Bashrc
-======
+Also manages bashrc
 
 The bashrc used sets up common aliases. Will also source local files on a
-machine under `~/.bash_aliases` and `~/.bash_extended`.
+machine under `~/.bash_aliases`
 
 Installation of RCM and other apps
 ==================================
@@ -41,7 +42,8 @@ Other Apps needed for these dotfiles ::
                 rst2pdf \
                 docutils-common \
                 ctags \
-                terminator
+                terminator \
+                tmux
 
 Install dotfiles
 ================
@@ -66,9 +68,9 @@ Use RCM
 
 Add new file to rcm control ::
 
-        mkrc -v -d /point/to/this/repo/files ~/.thisfile
+        mkrc -v -d /path/to/this/repo/dotfiles/files ~/.thisfile
 
-Will copy file to local ~/.dotfiles (which should be this repo)
+Will copy file to local /path/to/this/repo/dotfiles/files (which should be this repo)
 
 View all symlinks ::
 
