@@ -6,9 +6,9 @@
 # |_.__/ \__,_|___/_| |_|_|  \___|
 
 # source global definitions
-if [ -f /etc/bashrc ]; then
+ if [ -f /etc/bashrc ]; then
 	. /etc/bashrc
-fi
+ fi
 
 if [ "`id -u`" -eq 0 ]; then
 	PS1="[ \[\e[1;31m\]λ\[\e[1;32m\]\[\e[49m\]:\h \W \[\e[0m\]] "
@@ -32,6 +32,7 @@ alias rst2pdf='rst2pdf --stylesheet-path=~/.rst2pdf --stylesheets=rst2pdf.style 
 alias ls='ls -hN --color=auto --group-directories-first'
 alias l='ls -hN --color=auto --group-directories-first'
 alias ll='ls -lahN --color=auto --group-directories-first'
+alias llusb='ls /dev/ttyUSB*'
 alias grep='grep --color=auto --exclude=tags --exclude-dir=".svn" --exclude-dir=".git" --line-number'
 alias ccat="highlight --out-format=ansi" # Color cat - print file with syntax highlighting.
 
@@ -41,7 +42,7 @@ alias ethspeed="speedometer -r enp12s0"
 alias wifispeed="speedometer -r wlp3s0"
 
 # Set path
-export stand_path=/bin:/usr/bin:/user/sbin:/usr/local/sbin:/usr/local/bin
+export stand_path=/bin:/usr/bin:/usr/sbin:/usr/local/sbin:/usr/local/bin
 export PATH=$stand_path
 
 export EDITOR='vim'
@@ -51,6 +52,6 @@ if [ -f ~/.bash_extended ]; then
 	source ~/.bash_extended
 fi
 
-if [ -f ~/.bash_aliases ]; then
+ if [ -f ~/.bash_aliases ]; then
 	source ~/.bash_aliases
-fi
+ fi
