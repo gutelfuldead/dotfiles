@@ -8,12 +8,9 @@ let mapleader ="-"
 
 call plug#begin('~/.vim/plugged')
 Plug 'tpope/vim-commentary'
-Plug 'vim-airline/vim-airline'
-Plug 'preservim/nerdtree'
 Plug 'tpope/vim-surround'
+Plug 'vim-airline/vim-airline'
 Plug 'morhetz/gruvbox'
-Plug 'ekalinin/Dockerfile.vim'
-Plug 'previm/previm'
 call plug#end()
 
 " Some basics:
@@ -36,14 +33,11 @@ call plug#end()
 	let g:gruvbox_contrast_dark = 'hard'
 	colorscheme gruvbox
 
-" Previm open command
-	let g:previm_open_cmd = 'google-chrome --new-window'
-
 " remap ESC to jk because my pinky is fucked
 	inoremap jk <ESC>
 
 " re-indent entire file
-	noremap <leader>i gg=G
+	noremap <leader>I gg=G
 
 " keep search results at the center of the screen
 	nnoremap n nzz
@@ -95,20 +89,14 @@ call plug#end()
 " Spell-check:
 	map <leader>s :setlocal spell! spelllang=en_us<CR>
 
-" Copy selected text to system clipboard (requires gvim installed):
-	set clipboard=unnamedplus
-        vnoremap <C-c> "*Y :let @+=@*<CR>
-	map <C-p> "+P
-
 " Enable
         set wildmode=longest,list,full
 	set wildmenu
 
 " Set diff mode to ignore whitespace
-    if &diff
-        " diff mode
-        set diffopt+=iwhite
-    endif
+	if &diff
+		set diffopt+=iwhite
+	endif
 
 " Automatically retab on save.
 	autocmd BufWritePre * retab
@@ -120,7 +108,6 @@ call plug#end()
 	" autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
 " Allows to see diff in current file before saving with :diffSaved
-" https://stackoverflow.com/questions/749297/can-i-see-changes-before-i-save-my-file-in-vim
 function! s:DiffWithSaved()
 	let filetype=&ft
 	diffthis
@@ -130,26 +117,10 @@ function! s:DiffWithSaved()
 endfunction
 com! DiffSaved call s:DiffWithSaved()
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" NERDTree Stuff
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""
+" netrw
+"""""""
+let g:netrw_banner = 0
+let g:netrw_liststyle = 3
+let g:netrw_fastbrowse = 0 " prevents buffer closing issue when using tree view
 
-" Bind NERDtree to Ctrl+n
-	map <C-n> :NERDTreeToggle<CR>
-
-" show hidden . files
-	let NERDTreeShowHidden=1
-
-" autostart nerdtree if no file was specified
-	autocmd StdinReadPre * let s:std_in=1
-	autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-
-" open nerdtree if a directory was opened
-	autocmd StdinReadPre * let s:std_in=1
-	autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
-
-" autoclose NERDtree when slecting a file from it
-	let NERDTreeQuitOnOpen = 1
-
-" pretty NERD
-	let NERDTreeDirArrows = 1

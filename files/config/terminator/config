@@ -1,6 +1,7 @@
 [global_config]
   suppress_multiple_term_dialog = True
 [keybindings]
+  help = <Primary>F1
   line_down = <Primary>j
   line_up = <Primary>k
 [layouts]
