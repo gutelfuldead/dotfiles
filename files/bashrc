@@ -11,7 +11,7 @@ if [ -f /etc/bashrc ]; then
 	. /etc/bashrc
 fi
 def_path=/usr/bin:/usr/sbin:/usr/local/bin
-PATH=$PATH:$def_path
+PATH=$def_path
 
 if [ "`id -u`" -eq 0 ]; then
 	PS1="[ \[\e[1;31m\]λ\[\e[1;32m\]\[\e[49m\]:\h \W \[\e[0m\]] "
