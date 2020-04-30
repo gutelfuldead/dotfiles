@@ -6,13 +6,12 @@
 # |_.__/ \__,_|___/_| |_|_|  \___|
 
 # source global definitions
-export PATH=$(getconf PATH)
+# export PATH=$(getconf PATH)
 if [ -f /etc/bashrc ]; then
 	. /etc/bashrc
 fi
-
-additional_path=/sbin
-PATH=$PATH:$additional_path
+def_path=/usr/bin:/usr/sbin:/usr/local/bin
+PATH=$PATH:$def_path
 
 if [ "`id -u`" -eq 0 ]; then
 	PS1="[ \[\e[1;31m\]λ\[\e[1;32m\]\[\e[49m\]:\h \W \[\e[0m\]] "
