@@ -33,7 +33,7 @@ source installation (tested on debian/redhat/WSL) ::
         cd rcm-1.3.3 &&
         ./configure &&
         make &&
-        sudo make install
+        sudo make install &&
         cd ../..
 
 Other Apps needed for these dotfiles ::
