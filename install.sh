@@ -69,12 +69,18 @@ fi
 ################################################################################
 # ranger
 ################################################################################
-tmp=$(which ranger > /dev/null 2>&1)
-if [ $? -ne 0 ]; then
-	echon "installing ranger ..." | tee -a $logfile
-	git clone git@github.com:ranger/ranger.git ~/.ranger | tee -a $logfile
-	sudo make -C ~/.ranger install | tee -a $logfile
-fi
+# tmp=$(which ranger > /dev/null 2>&1)
+# if [ $? -ne 0 ]; then
+#	echon "installing ranger ..." | tee -a $logfile
+#	mkdir ~/.ranger
+#	cd ~/.ranger
+#	curl -LO https://github.com/ranger/ranger/archive/v1.9.3.zip | tee -a $logfile
+#	unzip v1.9.3.zip | tee -a $logfile
+#	cd ranger-1.9.3
+#	# git clone git@github.com:ranger/ranger.git ~/.ranger | tee -a $logfile
+#	sudo make install | tee -a $logfile
+#	cd $here
+# fi
 
 ################################################################################
 # install common apps

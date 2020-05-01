@@ -13,7 +13,6 @@ Manage dotfiles for the following packages (installed as part of script),
 - terminator
 - rst2pdf
 - rst2html (docutils)
-- ranger
 - tmux
 - lynx
 
