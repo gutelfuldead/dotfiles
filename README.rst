@@ -2,8 +2,6 @@
 Gutelfuldead Dot Files
 ======================
 
-Probably best to checkout to ~/.dotfiles
-
 Manage dotfiles for the following packages (installed as part of script),
 
 - fzf
