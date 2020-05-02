@@ -78,7 +78,7 @@ Add new file to rcm control ::
 
         mkrc -v -d /path/to/this/repo/dotfiles/files ~/.thisfile
 
-Will copy file to local /path/to/this/repo/dotfiles/files (which should be this repo)
+Will copy file to local /path/to/this/repo/dotfiles/files
 
 View all symlinks ::
 
