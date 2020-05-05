@@ -120,6 +120,19 @@ fi
 ################################################################################
 echon "installing apps with $tool ..."
 sudo $tool install -y \
+	tree \
+	make \
+	cmake \
+	meld \
+	curl \
+	pinta \
+	wireshark \
+	htop \
+	bison \
+	flex \
+	sshfs \
+	feh \
+	ccrypt \
 	vim \
 	rst2pdf \
 	$docutils \
