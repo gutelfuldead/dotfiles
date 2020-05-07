@@ -80,6 +80,7 @@ call plug#end()
 
 " .bash* files automatically detected
 	autocmd BufRead,BufNewFile *.bash* set filetype=sh
+	autocmd BufRead,BufNewFile *.d set filetype=sh
 
 " Readmes autowrap text:
 	autocmd BufRead,BufNewFile README.* set tw=79
