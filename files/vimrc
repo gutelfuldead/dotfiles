@@ -26,6 +26,9 @@ call plug#end()
 	set smartcase  " re enables case sensitivity when pattern has upper case
 	set cursorline
 	set noesckeys
+	set expandtab
+	set shiftwidth=4
+	set tabstop=4
 	set autoindent
 	set pastetoggle=<F3> " F3 toggles paste/nopaste
 	set autochdir
@@ -82,6 +85,7 @@ call plug#end()
 
 " .bash* files automatically detected
 	autocmd BufRead,BufNewFile *.bash* set filetype=sh
+	autocmd BufRead,BufNewFile *.d set filetype=sh
 
 " Readmes autowrap text:
 	autocmd BufRead,BufNewFile README.* set tw=79
@@ -92,6 +96,10 @@ call plug#end()
 	set spellfile=$HOME/.spellen.utf-8.add
 	autocmd BufRead,BufNewFile *.md setlocal spell
 	autocmd BufRead,BufNewFile *.rst setlocal spell
+	map <leader>sn ]s
+	map <leader>sp [s
+	map <leader>sa zg
+	map <leader>s? z=
 
 
 " Set diff mode to ignore whitespace
