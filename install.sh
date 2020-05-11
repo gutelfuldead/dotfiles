@@ -17,9 +17,12 @@ echon ()
 ################################################################################
 distro=""
 tool=""
+debian=0
+centos=0
 tmp=$(which apt > /dev/null 2>&1)
 if [ $? -eq 0 ]; then
 	distro="debian"
+	debian=1
 	tool=apt
 	docutils=docutils-common
 fi
@@ -27,6 +30,7 @@ fi
 tmp=$(which yum > /dev/null 2>&1)
 if [ $? -eq 0 ]; then
 	distro="centos"
+	centos=1
 	tool=yum
 	docutils=geany-plugins-geanygendoc
 fi
@@ -62,7 +66,7 @@ if [ $? -ne 0 ]; then
 		git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf | tee -a $logfile
 		~/.fzf/install | tee -a $logfile
 	else
-		mkdir -pv ~/.fzf | tee -a $logfile
+		mkdir -pv ~/.fzf
 		cd ~/.fzf
 		curl -LO https://github.com/junegunn/fzf/archive/0.21.1.zip | tee -a $logfile
 		unzip 0.21.1.zip | tee -a $logfile
@@ -77,21 +81,21 @@ fi
 tmp=$(which rcup > /dev/null 2>&1)
 if [ $? -ne 0 ]; then
 	echon "installing rcm ..."
-	if [ $distro -eq "debian" ]; then
+	if [ $debian -eq 1 ]; then
 		wget -qO - https://apt.thoughtbot.com/thoughtbot.gpg.key | sudo apt-key add - | tee -a $logfile
 		echo "deb https://apt.thoughtbot.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/thoughtbot.list | tee -a $logfile
 		sudo apt-get update | tee -a $logfile
 		sudo apt-get install rcm | tee -a $logfile
 	else
-		mkdir ~/.rcm | tee -a $logfile
-		cd ~/.rcm | tee -a $logfile
+		mkdir -p ~/.rcm 
+		cd ~/.rcm
 		curl -LO https://thoughtbot.github.io/rcm/dist/rcm-1.3.3.tar.gz | tee -a $logfile
 		tar -xvf rcm-1.3.3.tar.gz | tee -a $logfile
-		cd rcm-1.3.3 | tee -a $logfile
+		cd rcm-1.3.3
 		./configure | tee -a $logfile
 		make | tee -a $logfile
 		sudo make install | tee -a $logfile
-		cd $here | tee -a $logfile
+		cd $here
 	fi
 fi
 
@@ -105,7 +109,7 @@ fi
 		git clone git@github.com:ranger/ranger.git ~/.ranger | tee -a $logfile
 		sudo make -C ~/.ranger install | tee -a $logfile
 	else
-		mkdir ~/.ranger
+		mkdir -p ~/.ranger
 		cd ~/.ranger
 		curl -LO https://github.com/ranger/ranger/archive/v1.9.3.zip | tee -a $logfile
 		unzip v1.9.3.zip | tee -a $logfile
