@@ -23,6 +23,9 @@ fi
 def_path=/usr/bin:/usr/sbin:/usr/local/bin
 PATH=$def_path
 
+# add python 2.7 path ... needed for ranger
+export PYTHONPATH=/usr/local/lib/python2.7/site-packages
+
 # don't put duplicate lines in the history. See bash(1) for more options
 export HISTCONTROL=ignoredups:erasedups
 export HISTTIMEFORMAT="%Y/%m/%d %H:%M:%S:   "
