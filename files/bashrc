@@ -57,6 +57,8 @@ alias .....='cd ../../../..'
 alias vi=$EDITOR
 alias vim=$EDITOR
 alias llusb='ls /dev/ttyUSB*'
+alias r='ranger --choosedir=$HOME/.rangerdir; LASTDIR=`cat $HOME/.rangerdir`; cd "$LASTDIR"'
+
 
 # Adding color
 alias ls='ls -hN --color=auto --group-directories-first'
