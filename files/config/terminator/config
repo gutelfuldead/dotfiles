@@ -9,8 +9,8 @@
 [layouts]
   [[default]]
     [[[child1]]]
-      command = ranger
-      directory = ~/
+      /* command = ranger */
+      /* directory = ~/ */
       parent = window0
       profile = default
       type = Terminal
