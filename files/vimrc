@@ -15,114 +15,113 @@ Plug 'junegunn/fzf'
 call plug#end()
 
 " Some basics:
-	set nocompatible
-	filetype plugin on
-	syntax on
-	set encoding=utf-8
-	set number
-	set hlsearch
-	set incsearch
-	set ignorecase " case insensitivity when searching
-	set smartcase  " re enables case sensitivity when pattern has upper case
-	set cursorline
-	set noesckeys
-	set expandtab
-	set shiftwidth=4
-	set tabstop=4
-	set autoindent
-	set pastetoggle=<F3> " F3 toggles paste/nopaste
-	set autochdir
-        set wildmode=longest,list,full
-	set wildmenu
-	let g:netrw_banner=0
-	" set relativenumber
+    set nocompatible
+    filetype plugin on
+    syntax on
+    set encoding=utf-8
+    set number
+    set hlsearch
+    set incsearch
+    set ignorecase " case insensitivity when searching
+    set smartcase  " re enables case sensitivity when pattern has upper case
+    set cursorline
+    set noesckeys
+    set expandtab
+    set shiftwidth=4
+    set tabstop=4
+    set autoindent
+    set pastetoggle=<F3> " F3 toggles paste/nopaste
+    set autochdir
+    set wildmode=longest,list,full
+    set wildmenu
+    let g:netrw_banner=0
 
 " Theme
-	set background=dark
-	let g:gruvbox_contrast_dark = 'hard'
-	colorscheme gruvbox
+    set background=dark
+    let g:gruvbox_contrast_dark = 'hard'
+    colorscheme gruvbox
 
 " remap ESC to jk because my pinky is fucked
-	inoremap jk <ESC>
+    inoremap jk <ESC>
 
 " keep search results at the center of the screen
-	nnoremap n nzz
-	nnoremap N Nzz
+    nnoremap n nzz
+    nnoremap N Nzz
 
 " Press <leader> Enter to remove search highlights
-	noremap <silent> <leader><cr> :noh<cr>
+    noremap <silent> <leader><cr> :noh<cr>
 
 " Press <leader> r to resource ~/.vimrc
-	noremap <leader>r :source ~/.vimrc<cr>
+    noremap <leader>r :source ~/.vimrc<cr>
 
 " set comment string for vhdl files
-	autocmd FileType vhdl setlocal commentstring=--\ %s
+    autocmd FileType vhdl setlocal commentstring=--\ %s
 
 " Interpret _defconfig files as conf
-	autocmd BufNewFile,BufRead *_defconfig,*.defconfig set syntax=conf
+    autocmd BufNewFile,BufRead *_defconfig,*.defconfig set syntax=conf
 
 " set comment string for conf files
-	autocmd FileType conf setlocal commentstring=#\ %s
+    autocmd FileType conf setlocal commentstring=#\ %s
 
 " Splits open at the bottom and right, which is non-retarded, unlike vim defaults.
-	set splitbelow
-	set splitright
+    set splitbelow
+    set splitright
 
 " Shortcutting split navigation, saving a keypress:
-	map <C-h> <C-w>h
-	map <C-j> <C-w>j
-	map <C-k> <C-w>k
-	map <C-l> <C-w>l
+    map <C-h> <C-w>h
+    map <C-j> <C-w>j
+    map <C-k> <C-w>k
+    map <C-l> <C-w>l
 
 " resize current buffer by +/- 5
-        nnoremap <C-left> :vertical resize -5<cr>
-        nnoremap <C-down> :resize +5<cr>
-        nnoremap <C-up> :resize -5<cr>
-        nnoremap <C-right> :vertical resize +5<cr>
+    nnoremap <C-left> :vertical resize -5<cr>
+    nnoremap <C-down> :resize +5<cr>
+    nnoremap <C-up> :resize -5<cr>
+    nnoremap <C-right> :vertical resize +5<cr>
 
 " .tex files automatically detected
-	autocmd BufRead,BufNewFile *.tex set filetype=tex
+    autocmd BufRead,BufNewFile *.tex set filetype=tex
 
 " .bash* files automatically detected
-	autocmd BufRead,BufNewFile *.bash* set filetype=sh
-	autocmd BufRead,BufNewFile *.d set filetype=sh
+    autocmd BufRead,BufNewFile *.bash* set filetype=sh
+    autocmd BufRead,BufNewFile *.d set filetype=sh
 
 " Readmes autowrap text:
-	autocmd BufRead,BufNewFile README.* set tw=79
+    autocmd BufRead,BufNewFile README.* set tw=79
 
 " Spell-check (underline misspelled words in md,rst files)
-	hi clear SpellBad
-	hi SpellBad cterm=underline
-	set spellfile=$HOME/.spellen.utf-8.add
-	autocmd BufRead,BufNewFile *.md setlocal spell
-	autocmd BufRead,BufNewFile *.rst setlocal spell
-	map <leader>sn ]s
-	map <leader>sp [s
-	map <leader>sa zg
-	map <leader>s? z=
+    hi clear SpellBad
+    hi SpellBad cterm=underline
+    set spellfile=$HOME/.spellen.utf-8.add
+    autocmd BufRead,BufNewFile *.md setlocal spell
+    autocmd BufRead,BufNewFile *.rst setlocal spell
+    map <leader>sn ]s
+    map <leader>sp [s
+    map <leader>sa zg
+    map <leader>s? z=
 
 
 " Set diff mode to ignore whitespace
-	if &diff
-		set diffopt+=iwhite
-	endif
+    if &diff
+        set diffopt+=iwhite
+    endif
 
 " Automatically retab on save.
-	autocmd BufWritePre * retab
+    autocmd BufWritePre * retab
 
 " Automatically deletes all trailing whitespace on save.
-	autocmd BufWritePre * %s/\s\+$//e
+    autocmd BufWritePre * %s/\s\+$//e
 
 " Disables automatic commenting on newline:
-	" autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+    " autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
 " Allows to see diff in current file before saving with :diffSaved
 function! s:DiffWithSaved()
-	let filetype=&ft
-	diffthis
-	vnew | r # | normal! 1Gdd
-	diffthis
-	exe "setlocal bt=nofile bh=wipe nobl noswf ro ft=" . filetype
+    let filetype=&ft
+    diffthis
+    vnew | r # | normal! 1Gdd
+    diffthis
+    exe "setlocal bt=nofile bh=wipe nobl noswf ro ft=" . filetype
 endfunction
 com! DiffSaved call s:DiffWithSaved()
 
