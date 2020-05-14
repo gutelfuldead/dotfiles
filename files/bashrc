@@ -57,6 +57,7 @@ alias .....='cd ../../../..'
 alias vi=$EDITOR
 alias vim=$EDITOR
 alias llusb='ls /dev/ttyUSB*'
+alias r='ranger'
 
 # Adding color
 alias ls='ls -hN --color=auto --group-directories-first'
