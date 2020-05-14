@@ -1,5 +1,7 @@
 [global_config]
+  enabled_plugins = LaunchpadCodeURLHandler, APTURLHandler, LaunchpadBugURLHandler
   suppress_multiple_term_dialog = True
+  window_state = maximise
 [keybindings]
   help = <Primary>F1
   line_down = <Primary>j
@@ -7,7 +9,10 @@
 [layouts]
   [[default]]
     [[[child1]]]
+      command = ranger
+      directory = ~/
       parent = window0
+      profile = default
       type = Terminal
     [[[window0]]]
       parent = ""
@@ -19,3 +24,4 @@
     background_image = None
     background_type = transparent
     scrollback_lines = 10000
+    visible_bell = True
