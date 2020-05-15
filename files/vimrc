@@ -86,6 +86,9 @@ call plug#end()
     autocmd BufRead,BufNewFile *.bash* set filetype=sh
     autocmd BufRead,BufNewFile *.d set filetype=sh
 
+" autodetetc xilinx xdc
+    autocmd BufNewFile,BufRead *.xdc setfiletype xdc
+
 " Readmes autowrap text:
     autocmd BufRead,BufNewFile README.* set tw=79
 
@@ -99,7 +102,6 @@ call plug#end()
     map <leader>sp [s
     map <leader>sa zg
     map <leader>s? z=
-
 
 " Set diff mode to ignore whitespace
     if &diff
