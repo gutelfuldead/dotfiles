@@ -149,9 +149,17 @@ fi
 ################################################################################
 # update dotfiles
 ################################################################################
-echon "updating dotfiles ..."
-rcup -v -d $here/files | tee -a $logfile
-source ~/.bashrc
+read -r -p "Replace local dotfiles? WARNING THIS WILL REMOVE ANY OLD COPIES [y/n] : " response
+case "$response" in
+    [yY][eE][sS]|[yY])
+        echon "updating dotfiles ..."
+        rcup -v -d $here/files | tee -a $logfile
+        source ~/.bashrc
+    ;;
+    *)
+        echon "Not replacing dotfiles"
+    ;;
+esac
 
 ################################################################################
 # install vim plugins
@@ -161,4 +169,15 @@ vim -c 'PlugClean' +qa
 vim -c 'PlugInstall' +qa
 vim ~/.vim/vbas/Align.vba 'source %' +qa
 
-sudo $tool autoremove
+################################################################################
+# clean up
+################################################################################
+read -r -p "Clean unused packages? [y/n] : " response
+case "$response" in
+    [yY][eE][sS]|[yY])
+        sudo $tool autoremove
+    ;;
+    *)
+        echon "Not cleaning packages"
+    ;;
+esac
