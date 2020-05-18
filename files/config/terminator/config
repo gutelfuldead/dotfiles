@@ -6,6 +6,8 @@
   help = <Primary>F1
   line_down = <Primary>j
   line_up = <Primary>k
+  page_down_half = <Primary><Shift>j
+  page_up_half = <Primary><Shift>k
 [layouts]
   [[default]]
     [[[child1]]]
