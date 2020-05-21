@@ -1,5 +1,5 @@
 #!/bin/bash
-#  _               _
+################################################################################
 # | |__   __ _ ___| |__  _ __ ___
 # | '_ \ / _` / __| '_ \| '__/ __|
 # | |_) | (_| \__ \ | | | | | (__
@@ -16,9 +16,8 @@
 [ -z "$PS1" ] && return
 
 # source global definitions
-if [ -f /etc/bashrc ]; then
-    . /etc/bashrc
-fi
+[ -f /etc/bashrc ] && source /etc/bashrc
+
 # adding /bin causes issues with buildroot
 def_path=/usr/bin:/usr/sbin:/usr/local/bin
 PATH=$def_path
@@ -30,6 +29,7 @@ export PYTHONPATH=/usr/local/lib/python2.7/site-packages
 export HISTCONTROL=ignoredups:erasedups
 export HISTTIMEFORMAT="%Y/%m/%d %H:%M:%S:   "
 
+# change color when running as su
 if [ "`id -u`" -eq 0 ]; then
     PS1="[ \[\e[1;31m\]λ\[\e[1;32m\]\[\e[49m\]:\h \W \[\e[0m\]] "
 else
@@ -39,6 +39,8 @@ fi
 export EDITOR='vim'
 
 # Some aliases
+alias vi=$EDITOR
+alias vim=$EDITOR
 alias kviv='kill $(pidof vivado)'
 alias ksdk='kill $(pidof xsdk)'
 alias mkd="mkdir -pv"
@@ -54,8 +56,6 @@ alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
 alias .....='cd ../../../..'
-alias vi=$EDITOR
-alias vim=$EDITOR
 alias llusb='ls /dev/ttyUSB*'
 alias r='ranger --choosedir=$HOME/.rangerdir; LASTDIR=`cat $HOME/.rangerdir`; cd "$LASTDIR"'
 
@@ -69,38 +69,34 @@ alias ll='ls -lahN --color=auto --group-directories-first'
 extract () {
     if [ -f $1 ] ; then
         case $1 in
-            *.tar.bz2)   tar xjf $1        ;;
-            *.tar.gz)    tar xzf $1     ;;
-            *.bz2)       bunzip2 $1       ;;
-            *.rar)       rar x $1     ;;
-            *.gz)        gunzip $1     ;;
-            *.tar)       tar xf $1        ;;
-            *.tbz2)      tar xjf $1      ;;
-            *.tgz)       tar xzf $1       ;;
-            *.zip)       unzip $1     ;;
-            *.Z)         uncompress $1  ;;
-            *.7z)        7z x $1    ;;
-            *)           echo "'$1' cannot be extracted via extract()" ;;
+            *.tar.bz2)   tar xjf $1;;
+            *.tar.gz)    tar xzf $1;;
+            *.bz2)       bunzip2 $1;;
+            *.rar)       rar x $1;;
+            *.gz)        gunzip $1;;
+            *.tar)       tar xf $1;;
+            *.tbz2)      tar xjf $1;;
+            *.tgz)       tar xzf $1;;
+            *.zip)       unzip $1;;
+            *.Z)         uncompress $1;;
+            *.7z)        7z x $1;;
+            *)           echo "'$1' cannot be extracted via extract()";;
         esac
     else
         echo "'$1' is not a valid file"
     fi
 }
 
-#netinfo - shows network information for your system
-netinfo ()
+# publicip - shows public IP address
+publicip ()
 {
-    echo "--------------- Network Information ---------------"
-    /sbin/ifconfig | awk /'inet addr/ {print $2}'
-    /sbin/ifconfig | awk /'Bcast/ {print $3}'
-    /sbin/ifconfig | awk /'inet addr/ {print $4}'
-    /sbin/ifconfig | awk /'HWaddr/ {print $4,$5}'
+    echo "--------------- Public IP ---------------"
     myip=`lynx -dump -hiddenlinks=ignore -nolist http://checkip.dyndns.org:8245/ | sed '/^$/d; s/^[ ]*//g; s/[ ]*$//g' `
     echo "${myip}"
-    echo "---------------------------------------------------"
+    echo "-----------------------------------------"
 }
 
-#dirsize - finds directory sizes and lists them for the current directory
+# dirsize - finds directory sizes and lists them for the current directory
 dirsize ()
 {
     du -shx * .[a-zA-Z0-9_]* 2> /dev/null | \
@@ -110,12 +106,10 @@ dirsize ()
     rm -rf /tmp/list
 }
 
+# source files
 [[ -r /usr/local/etc/profile.d/bash_completion.sh ]] && . /usr/local/etc/profile.d/bash_completion.sh
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
-
-if [ -f ~/.bash_aliases ]; then
-    source ~/.bash_aliases
-fi
+[ -f ~/.bash_aliases ] && source ~/.bash_aliases
 
 # remove duplicate entries in path
 if [ -n "$PATH" ]; then
