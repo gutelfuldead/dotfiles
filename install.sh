@@ -172,7 +172,7 @@ vim ~/.vim/vbas/Align.vba 'source %' +qa
 ################################################################################
 # clean up
 ################################################################################
-read -r -p "Clean unused packages? [y/n] : " response
+read -r -p "Clean unused packages ($tool autoremove)? [y/n] : " response
 case "$response" in
     [yY][eE][sS]|[yY])
         sudo $tool autoremove
