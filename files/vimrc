@@ -44,6 +44,10 @@ call plug#end()
 " remap ESC to jk because my pinky is fucked
     inoremap jk <ESC>
 
+" remap :tabe to :te because im that lazy
+" does it interfere with anything? not yet.
+    cmap te tabe
+
 " keep search results at the center of the screen
     nnoremap n nzz
     nnoremap N Nzz
@@ -126,5 +130,3 @@ function! s:DiffWithSaved()
     exe "setlocal bt=nofile bh=wipe nobl noswf ro ft=" . filetype
 endfunction
 com! DiffSaved call s:DiffWithSaved()
-
-
