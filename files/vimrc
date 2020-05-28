@@ -65,6 +65,9 @@ call plug#end()
 " Interpret _defconfig files as conf
     autocmd BufNewFile,BufRead *_defconfig,*.defconfig set syntax=conf
 
+" Interpret its files as device tree
+    autocmd BufNewFile,BufRead *.its set syntax=dts
+
 " set comment string for conf files
     autocmd FileType conf setlocal commentstring=#\ %s
 
