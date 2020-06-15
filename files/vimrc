@@ -45,10 +45,6 @@ call plug#end()
 " remap ESC to jk because my pinky is fucked
     inoremap jk <ESC>
 
-" remap :tabe to :te because im that lazy
-" does it interfere with anything? not yet.
-    cmap te tabe
-
 " keep search results at the center of the screen
     nnoremap n nzz
     nnoremap N Nzz
@@ -64,6 +60,9 @@ call plug#end()
 
 " Interpret _defconfig files as conf
     autocmd BufNewFile,BufRead *_defconfig,*.defconfig set syntax=conf
+
+" Interpret its files as device tree
+    autocmd BufNewFile,BufRead *.its set syntax=dts
 
 " set comment string for conf files
     autocmd FileType conf setlocal commentstring=#\ %s
