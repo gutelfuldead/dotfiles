@@ -1,0 +1,7 @@
+Host remote-pc
+    HostName 192.168.0.99
+    User Bob
+    Port 22
+    ForwardX11 yes
+    LogLevel QUIET
+    StrictHostKeyChecking no

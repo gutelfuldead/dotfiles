@@ -12,6 +12,7 @@ applist="tree \
     wireshark \
     htop \
     bison \
+    neofetch \
     flex \
     sshfs \
     feh \
@@ -22,8 +23,7 @@ applist="tree \
     ctags \
     terminator \
     tmux \
-    lynx \
-    fzf \
+    lynx
     "
 
 echon ()
@@ -92,9 +92,9 @@ echon "Installing on $distro ..."
 ################################################################################
 echon "installing apps with $tool ..."
 if [ $arch -eq 1 ]; then
-	sudo pacman -S $applist | tee -a $logfile
+    sudo pacman -S $applist | tee -a $logfile
 else
-	sudo $tool install -y $applist | tee -a $logfile
+    sudo $tool install -y $applist | tee -a $logfile
 fi
 
 ################################################################################
@@ -102,18 +102,22 @@ fi
 ################################################################################
 tmp=$(which fzf > /dev/null 2>&1)
 if [ $? -ne 0 ]; then
-    echon "installing fzf ..."
-    if [ $use_git -eq 1 ]; then
-        git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf | tee -a $logfile
-        ~/.fzf/install | tee -a $logfile
+    if [ $arch -eq 1 ]; then
+        sudo pacman -S fzf
     else
-        mkdir -pv ~/.fzf
-        cd ~/.fzf
-        curl -LO https://github.com/junegunn/fzf/archive/0.21.1.zip | tee -a $logfile
-        unzip 0.21.1.zip | tee -a $logfile
-        ./fzf-0.21.1/install | tee -a $logfile
+        echon "installing fzf ..."
+        if [ $use_git -eq 1 ]; then
+            git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf | tee -a $logfile
+            ~/.fzf/install | tee -a $logfile
+        else
+            mkdir -pv ~/.fzf
+            cd ~/.fzf
+            curl -LO https://github.com/junegunn/fzf/archive/0.21.1.zip | tee -a $logfile
+            unzip 0.21.1.zip | tee -a $logfile
+            ./fzf-0.21.1/install | tee -a $logfile
+        fi
+        cd $here
     fi
-    cd $here
 fi
 
 ################################################################################
