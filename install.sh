@@ -3,6 +3,28 @@ here=$(pwd)
 logfile=$here/install.log
 rm -f $logfile
 touch $logfile
+applist="tree \
+    make \
+    cmake \
+    meld \
+    curl \
+    pinta \
+    wireshark \
+    htop \
+    bison \
+    flex \
+    sshfs \
+    feh \
+    ccrypt \
+    vim \
+    rst2pdf \
+    $docutils \
+    ctags \
+    terminator \
+    tmux \
+    lynx \
+    fzf \
+    "
 
 echon ()
 {
@@ -19,6 +41,7 @@ distro=""
 tool=""
 debian=0
 centos=0
+arch=0
 tmp=$(which apt > /dev/null 2>&1)
 if [ $? -eq 0 ]; then
     distro="debian"
@@ -32,6 +55,14 @@ if [ $? -eq 0 ]; then
     distro="centos"
     centos=1
     tool=yum
+    docutils=geany-plugins-geanygendoc
+fi
+
+tmp=$(which pacman > /dev/null 2>&1)
+if [ $? -eq 0 ]; then
+    distro="arch"
+    arch=1
+    tool=pacman
     docutils=geany-plugins-geanygendoc
 fi
 
@@ -60,28 +91,11 @@ echon "Installing on $distro ..."
 # install common apps
 ################################################################################
 echon "installing apps with $tool ..."
-sudo $tool install -y \
-    tree \
-    make \
-    cmake \
-    meld \
-    curl \
-    pinta \
-    wireshark \
-    htop \
-    bison \
-    flex \
-    sshfs \
-    feh \
-    ccrypt \
-    vim \
-    rst2pdf \
-    $docutils \
-    ctags \
-    terminator \
-    tmux \
-    lynx \
-    | tee -a $logfile
+if [ $arch -eq 1 ]; then
+	sudo pacman -S $applist | tee -a $logfile
+else
+	sudo $tool install -y $applist | tee -a $logfile
+fi
 
 ################################################################################
 # fzf
