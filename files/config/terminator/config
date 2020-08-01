@@ -15,7 +15,7 @@
     cursor_color = "#aaaaaa"
     scrollback_lines = 10000
     exit_action = hold
-    use_custom_command = True
+    use_custom_command = False
     custom_command = neofetch; bash
 [layouts]
   [[default]]
