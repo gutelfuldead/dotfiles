@@ -1,13 +1,22 @@
 [global_config]
+  window_state = maximise
   enabled_plugins = LaunchpadCodeURLHandler, APTURLHandler, LaunchpadBugURLHandler
   suppress_multiple_term_dialog = True
-  window_state = maximise
 [keybindings]
-  help = <Primary>F1
-  line_down = <Primary>j
-  line_up = <Primary>k
-  page_down_half = <Primary><Shift>j
   page_up_half = <Primary><Shift>k
+  page_down_half = <Primary><Shift>j
+  line_up = <Primary>k
+  line_down = <Primary>j
+  help = <Primary>F1
+[profiles]
+  [[default]]
+    background_darkness = 0.84
+    background_type = transparent
+    cursor_color = "#aaaaaa"
+    scrollback_lines = 10000
+    exit_action = hold
+    use_custom_command = False
+    custom_command = neofetch; bash
 [layouts]
   [[default]]
     [[[child1]]]
@@ -20,9 +29,3 @@
       parent = ""
       type = Window
 [plugins]
-[profiles]
-  [[default]]
-    background_darkness = 0.84
-    background_image = None
-    background_type = transparent
-    scrollback_lines = 10000
