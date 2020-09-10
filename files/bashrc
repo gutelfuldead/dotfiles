@@ -76,6 +76,8 @@ alias .....='cd ../../../..'
 alias llusb='ls /dev/ttyUSB*'
 alias r='ranger --choosedir=$HOME/.rangerdir; LASTDIR=`cat $HOME/.rangerdir`; cd "$LASTDIR"' # when ranger closes terminal will cd to directory it was at
 alias files='find -type f -exec du -Sh {} + | sort -rh | head -n 10' # sort files by size in local dir
+alias vimb='vim ~/.bashrc'
+alias vimba='vim ~/.bash_aliases'
 
 # Adding color
 alias ls='ls -hN --color=auto --group-directories-first'
