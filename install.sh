@@ -7,6 +7,7 @@ applist="tree \
     make \
     cmake \
     meld \
+    xpdf \
     curl \
     pinta \
     wireshark \
@@ -22,6 +23,7 @@ applist="tree \
     $docutils \
     ctags \
     terminator \
+    kakuake \
     tmux \
     lynx
     "
