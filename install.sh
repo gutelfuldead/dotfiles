@@ -3,6 +3,28 @@ here=$(pwd)
 logfile=$here/install.log
 rm -f $logfile
 touch $logfile
+applist="tree \
+    make \
+    cmake \
+    meld \
+    curl \
+    pinta \
+    wireshark \
+    htop \
+    bison \
+    neofetch \
+    flex \
+    sshfs \
+    feh \
+    ccrypt \
+    vim \
+    rst2pdf \
+    $docutils \
+    ctags \
+    terminator \
+    tmux \
+    lynx
+    "
 
 echon ()
 {
@@ -19,6 +41,7 @@ distro=""
 tool=""
 debian=0
 centos=0
+arch=0
 tmp=$(which apt > /dev/null 2>&1)
 if [ $? -eq 0 ]; then
     distro="debian"
@@ -32,6 +55,14 @@ if [ $? -eq 0 ]; then
     distro="centos"
     centos=1
     tool=yum
+    docutils=geany-plugins-geanygendoc
+fi
+
+tmp=$(which pacman > /dev/null 2>&1)
+if [ $? -eq 0 ]; then
+    distro="arch"
+    arch=1
+    tool=pacman
     docutils=geany-plugins-geanygendoc
 fi
 
@@ -60,46 +91,33 @@ echon "Installing on $distro ..."
 # install common apps
 ################################################################################
 echon "installing apps with $tool ..."
-sudo $tool install -y \
-    tree \
-    make \
-    cmake \
-    meld \
-    curl \
-    pinta \
-    wireshark \
-    htop \
-    bison \
-    flex \
-    sshfs \
-    feh \
-    ccrypt \
-    vim \
-    rst2pdf \
-    $docutils \
-    ctags \
-    terminator \
-    tmux \
-    lynx \
-    | tee -a $logfile
+if [ $arch -eq 1 ]; then
+    sudo pacman -S $applist | tee -a $logfile
+else
+    sudo $tool install -y $applist | tee -a $logfile
+fi
 
 ################################################################################
 # fzf
 ################################################################################
 tmp=$(which fzf > /dev/null 2>&1)
 if [ $? -ne 0 ]; then
-    echon "installing fzf ..."
-    if [ $use_git -eq 1 ]; then
-        git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf | tee -a $logfile
-        ~/.fzf/install | tee -a $logfile
+    if [ $arch -eq 1 ]; then
+        sudo pacman -S fzf
     else
-        mkdir -pv ~/.fzf
-        cd ~/.fzf
-        curl -LO https://github.com/junegunn/fzf/archive/0.21.1.zip | tee -a $logfile
-        unzip 0.21.1.zip | tee -a $logfile
-        ./fzf-0.21.1/install | tee -a $logfile
+        echon "installing fzf ..."
+        if [ $use_git -eq 1 ]; then
+            git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf | tee -a $logfile
+            ~/.fzf/install | tee -a $logfile
+        else
+            mkdir -pv ~/.fzf
+            cd ~/.fzf
+            curl -LO https://github.com/junegunn/fzf/archive/0.21.1.zip | tee -a $logfile
+            unzip 0.21.1.zip | tee -a $logfile
+            ./fzf-0.21.1/install | tee -a $logfile
+        fi
+        cd $here
     fi
-    cd $here
 fi
 
 ################################################################################

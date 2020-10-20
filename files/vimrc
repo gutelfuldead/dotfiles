@@ -13,6 +13,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'vim-airline/vim-airline'
 Plug 'morhetz/gruvbox'
 Plug 'junegunn/fzf'
+Plug 'amal-khailtash/vim-xdc-syntax'
 call plug#end()
 
 " Some basics:
@@ -58,8 +59,8 @@ call plug#end()
 " set comment string for vhdl files
     autocmd FileType vhdl setlocal commentstring=--\ %s
 
-" Interpret _defconfig files as conf
-    autocmd BufNewFile,BufRead *_defconfig,*.defconfig set syntax=conf
+" Interpret _defconfig,config files as conf
+    autocmd BufNewFile,BufRead *_defconfig,*.defconfig,*.config set syntax=conf
 
 " Interpret its files as device tree
     autocmd BufNewFile,BufRead *.its set syntax=dts
