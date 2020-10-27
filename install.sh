@@ -3,6 +3,7 @@ here=$(pwd)
 logfile=$here/install.log
 rm -f $logfile
 touch $logfile
+groups=(wheel dialout libvirt vboxusers wireshark)
 applist="tree \
     make \
     cmake \
@@ -191,22 +192,19 @@ vim ~/.vim/vbas/Align.vba 'source %' +qa
 # Add user to groups
 ################################################################################
 echon "Adding user to groups..."
-user=$(whoami)
-if [ $(getent group | grep wheel) -eq 0 ]; then
-    sudo usermod -a -G wheel $user
-fi
-if [ $(getent group | grep dialout) -eq 0 ]; then
-    sudo usermod -a -G dialout $user
-fi
-if [ $(getent group | grep libvirt) -eq 0 ]; then
-    sudo usermod -a -G libvirt $user
-fi
-if [ $(getent group | grep vboxusers) -eq 0 ]; then
-    sudo usermod -a -G vboxusers $user
-fi
-if [ $(getent group | grep wireshark) -eq 0 ]; then
-    sudo usermod -a -G wireshark $user
-fi
+addGroup() {
+    user=$(whoami)
+    getent group | grep $1 > /dev/null 2>&1
+    if [ $? -eq 0 ]; then
+        echo "adding user $user to $1 ..."
+        sudo usermod -a -G $1 $user
+    fi
+}
+
+for i in ${groups[@]}; do
+    addGroup $i
+done
+
 
 ################################################################################
 # clean up
