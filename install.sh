@@ -149,7 +149,7 @@ fi
 ################################################################################
  tmp=$(which ranger > /dev/null 2>&1)
  if [ $? -ne 0 ]; then
-    echon "installing ranger ..." | tee -a $logfile
+    echon "installing ranger ..."
     if [ $use_git -eq 1 ]; then
         git clone git@github.com:ranger/ranger.git ~/.ranger | tee -a $logfile
         sudo make -C ~/.ranger install | tee -a $logfile
@@ -186,6 +186,27 @@ echon "installing vim settings ... "
 vim -c 'PlugClean' +qa
 vim -c 'PlugInstall' +qa
 vim ~/.vim/vbas/Align.vba 'source %' +qa
+
+################################################################################
+# Add user to groups
+################################################################################
+echon "Adding user to groups..."
+user=$(whoami)
+if [ $(getent group | grep wheel) -eq 0 ]; then
+    sudo usermod -a -G wheel $user
+fi
+if [ $(getent group | grep dialout) -eq 0 ]; then
+    sudo usermod -a -G dialout $user
+fi
+if [ $(getent group | grep libvirt) -eq 0 ]; then
+    sudo usermod -a -G libvirt $user
+fi
+if [ $(getent group | grep vboxusers) -eq 0 ]; then
+    sudo usermod -a -G vboxusers $user
+fi
+if [ $(getent group | grep wireshark) -eq 0 ]; then
+    sudo usermod -a -G wireshark $user
+fi
 
 ################################################################################
 # clean up
