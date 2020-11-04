@@ -8,24 +8,39 @@ applist="tree \
     make \
     cmake \
     clang \
+    gcc \
+    gcc-c++ \
     meld \
     curl \
     pinta \
+    git \
     wireshark \
     htop \
     bison \
+    dropbear \
     neofetch \
     flex \
+    ncurses-devel \
     sshfs \
     feh \
+    openssl-devel \
     ccrypt \
     vim \
     rst2pdf \
-    $docutils \
+    patch \
     ctags \
     terminator \
     tmux \
     lynx
+    "
+
+centosApps="perl-Tk-devel.x86_64 \
+    perl-Thread-Queue \
+    geany-plugins-geanygendoc \
+    perl-ExtUtils-MakeMaker
+    "
+
+ubuntuApps="docutils-common \
     "
 
 echon ()
@@ -49,7 +64,8 @@ if [ $? -eq 0 ]; then
     distro="debian"
     debian=1
     tool=apt
-    docutils=docutils-common
+    applist+=" "$ubuntuApps
+    applist+=$ubuntuApps
 fi
 
 tmp=$(which yum > /dev/null 2>&1)
@@ -57,7 +73,8 @@ if [ $? -eq 0 ]; then
     distro="centos"
     centos=1
     tool=yum
-    docutils=geany-plugins-geanygendoc
+    applist+=" "$centosApps
+    applist+=$centosApps
 fi
 
 tmp=$(which pacman > /dev/null 2>&1)
@@ -65,7 +82,6 @@ if [ $? -eq 0 ]; then
     distro="arch"
     arch=1
     tool=pacman
-    docutils=geany-plugins-geanygendoc
 fi
 
 if [ $distro == "" ]; then
