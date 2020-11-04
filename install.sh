@@ -7,6 +7,7 @@ groups=(wheel dialout libvirt vboxusers wireshark)
 applist="tree \
     make \
     cmake \
+    clang \
     meld \
     curl \
     pinta \

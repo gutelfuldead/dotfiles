@@ -119,6 +119,9 @@ call plug#end()
 " Automatically deletes all trailing whitespace on save.
     autocmd BufWritePre * %s/\s\+$//e
 
+" Automatically run clang-format when using gg=G
+    " autocmd FileType c,cpp setlocal equalprg=clang-format
+
 " Disables automatic commenting on newline:
     " autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
