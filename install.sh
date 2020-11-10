@@ -8,6 +8,7 @@ applist="tree \
     make \
     cmake \
     clang \
+    pdftk \
     gcc \
     gcc-c++ \
     meld \
