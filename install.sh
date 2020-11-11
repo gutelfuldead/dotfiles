@@ -4,6 +4,8 @@ logfile=$here/install.log
 rm -f $logfile
 touch $logfile
 groups=(wheel dialout libvirt vboxusers wireshark)
+
+# apps to install in all distributions
 applist="tree \
     make \
     cmake \
@@ -35,14 +37,19 @@ applist="tree \
     lynx
     "
 
+# apps to install if using centos
 centosApps="perl-Tk-devel.x86_64 \
     perl-Thread-Queue \
     geany-plugins-geanygendoc \
     perl-ExtUtils-MakeMaker
     "
 
-ubuntuApps="docutils-common \
+# apps to install if using ubuntu
+ubuntuApps="docutils-common
     "
+
+# apps to install if using arch
+archApps=""
 
 echon ()
 {
@@ -68,6 +75,15 @@ backup ()
     cd $here
 }
 
+addGroup() {
+    user=$(whoami)
+    getent group | grep $1 > /dev/null 2>&1
+    if [ $? -eq 0 ]; then
+        echo "adding user $user to $1 ..."
+        sudo usermod -a -G $1 $user
+    fi
+}
+
 ################################################################################
 # get linux distro
 ################################################################################
@@ -82,7 +98,6 @@ if [ $? -eq 0 ]; then
     debian=1
     tool=apt
     applist+=" "$ubuntuApps
-    applist+=$ubuntuApps
 fi
 
 tmp=$(which yum > /dev/null 2>&1)
@@ -91,7 +106,6 @@ if [ $? -eq 0 ]; then
     centos=1
     tool=yum
     applist+=" "$centosApps
-    applist+=$centosApps
 fi
 
 tmp=$(which pacman > /dev/null 2>&1)
@@ -99,6 +113,7 @@ if [ $? -eq 0 ]; then
     distro="arch"
     arch=1
     tool=pacman
+    applist+=" "$archApps
 fi
 
 if [ $distro == "" ]; then
@@ -129,6 +144,7 @@ echon "installing apps with $tool ..."
 if [ $arch -eq 1 ]; then
     sudo pacman -S $applist | tee -a $logfile
 else
+    # sudo $tool update -y | tee -a $logfile
     sudo $tool install -y $applist | tee -a $logfile
 fi
 
@@ -227,15 +243,6 @@ vim ~/.vim/vbas/Align.vba 'source %' +qa
 # Add user to groups
 ################################################################################
 echon "Adding user to groups..."
-addGroup() {
-    user=$(whoami)
-    getent group | grep $1 > /dev/null 2>&1
-    if [ $? -eq 0 ]; then
-        echo "adding user $user to $1 ..."
-        sudo usermod -a -G $1 $user
-    fi
-}
-
 for i in ${groups[@]}; do
     addGroup $i
 done
