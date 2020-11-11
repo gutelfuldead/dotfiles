@@ -52,6 +52,22 @@ echon ()
     sleep 1
 }
 
+backup ()
+{
+    here=$(pwd)
+    backupdir=$here/backup
+    echon "backing up current files to $backupdir ..."
+    cd files
+    all=$(find . -maxdepth 100 -type f -not -path '/*\.*' | sort)
+    if [ ! -d $here/backup ]; then
+        mkdir $here/backup
+    fi
+    for i in $all; do
+        cp --verbose --parents $i $here/backup | tee -a $logfile
+    done
+    cd $here
+}
+
 ################################################################################
 # get linux distro
 ################################################################################
@@ -186,9 +202,10 @@ fi
 ################################################################################
 # update dotfiles
 ################################################################################
-read -r -p "Replace local dotfiles? WARNING THIS WILL REMOVE ANY OLD COPIES [y/n] : " response
+read -r -p "Replace local dotfiles? (current versions will be backed up) [y/n] : " response
 case "$response" in
     [yY][eE][sS]|[yY])
+        backup
         echon "updating dotfiles ..."
         rcup -v -d $here/files | tee -a $logfile
         source ~/.bashrc
