@@ -73,6 +73,7 @@ alias r='ranger --choosedir=$HOME/.rangerdir; LASTDIR=`cat $HOME/.rangerdir`; cd
 alias files='find -type f -exec du -Sh {} + | sort -rh | head -n 10' # sort files by size in local dir
 alias vimb='vim ~/.bashrc'
 alias vimba='vim ~/.bash_aliases'
+alias vimv='vim ~/.vimrc'
 
 # Adding color
 alias ls='ls -hN --color=auto --group-directories-first'
