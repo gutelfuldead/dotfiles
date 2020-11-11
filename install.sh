@@ -1,4 +1,6 @@
 #!/bin/bash
+# Installs applications and updated dotfiles
+
 here=$(pwd)
 logfile=$here/install.log
 rm -f $logfile
@@ -77,6 +79,7 @@ backup ()
 
 addGroup() {
     user=$(whoami)
+    # check to see if the group exists first
     getent group | grep $1 > /dev/null 2>&1
     if [ $? -eq 0 ]; then
         echo "adding user $user to $1 ..."
@@ -140,12 +143,12 @@ echon "Installing on $distro ..."
 ################################################################################
 # install common apps
 ################################################################################
-echon "installing apps with $tool ..."
+echon "installing and updating apps with $tool ..."
 if [ $arch -eq 1 ]; then
     sudo pacman -S $applist | tee -a $logfile
 else
-    # sudo $tool update -y | tee -a $logfile
-    sudo $tool install -y $applist | tee -a $logfile
+    sudo $tool update -y | tee -a $logfile
+    sudo $tool install -y --skip-broken $applist | tee -a $logfile
 fi
 
 ################################################################################
@@ -246,7 +249,6 @@ echon "Adding user to groups..."
 for i in ${groups[@]}; do
     addGroup $i
 done
-
 
 ################################################################################
 # clean up
