@@ -1,26 +1,39 @@
 #!/bin/bash
+# Installs applications and updated dotfiles
+
 here=$(pwd)
 logfile=$here/install.log
 rm -f $logfile
 touch $logfile
+groups=(wheel dialout libvirt vboxusers wireshark)
+
+# apps to install in all distributions
 applist="tree \
     make \
     cmake \
+    clang \
+    pdftk \
+    gcc \
+    gcc-c++ \
     meld \
     xpdf \
     curl \
     pinta \
+    git \
     wireshark \
     htop \
     bison \
+    dropbear \
     neofetch \
     flex \
+    ncurses-devel \
     sshfs \
     feh \
+    openssl-devel \
     ccrypt \
     vim \
     rst2pdf \
-    $docutils \
+    patch \
     ctags \
     terminator \
     kakuake \
@@ -28,12 +41,52 @@ applist="tree \
     lynx
     "
 
+# apps to install if using centos
+centosApps="perl-Tk-devel.x86_64 \
+    perl-Thread-Queue \
+    geany-plugins-geanygendoc \
+    perl-ExtUtils-MakeMaker
+    "
+
+# apps to install if using ubuntu
+ubuntuApps="docutils-common
+    "
+
+# apps to install if using arch
+archApps=""
+
 echon ()
 {
     echo -e "\n################################################################################" | tee -a $logfile
     echo -e "$1" | tee -a $logfile
     echo -e "################################################################################\n" | tee -a $logfile
     sleep 1
+}
+
+backup ()
+{
+    here=$(pwd)
+    backupdir=$here/backup
+    echon "backing up current files to $backupdir ..."
+    cd files
+    all=$(find . -maxdepth 100 -type f -not -path '/*\.*' | sort)
+    if [ ! -d $here/backup ]; then
+        mkdir $here/backup
+    fi
+    for i in $all; do
+        cp --verbose --parents $i $here/backup | tee -a $logfile
+    done
+    cd $here
+}
+
+addGroup() {
+    user=$(whoami)
+    # check to see if the group exists first
+    getent group | grep $1 > /dev/null 2>&1
+    if [ $? -eq 0 ]; then
+        echo "adding user $user to $1 ..."
+        sudo usermod -a -G $1 $user
+    fi
 }
 
 ################################################################################
@@ -49,7 +102,7 @@ if [ $? -eq 0 ]; then
     distro="debian"
     debian=1
     tool=apt
-    docutils=docutils-common
+    applist+=" "$ubuntuApps
 fi
 
 tmp=$(which yum > /dev/null 2>&1)
@@ -57,7 +110,7 @@ if [ $? -eq 0 ]; then
     distro="centos"
     centos=1
     tool=yum
-    docutils=geany-plugins-geanygendoc
+    applist+=" "$centosApps
 fi
 
 tmp=$(which pacman > /dev/null 2>&1)
@@ -65,7 +118,7 @@ if [ $? -eq 0 ]; then
     distro="arch"
     arch=1
     tool=pacman
-    docutils=geany-plugins-geanygendoc
+    applist+=" "$archApps
 fi
 
 if [ $distro == "" ]; then
@@ -92,11 +145,12 @@ echon "Installing on $distro ..."
 ################################################################################
 # install common apps
 ################################################################################
-echon "installing apps with $tool ..."
+echon "installing and updating apps with $tool ..."
 if [ $arch -eq 1 ]; then
     sudo pacman -S $applist | tee -a $logfile
 else
-    sudo $tool install -y $applist | tee -a $logfile
+    sudo $tool update -y | tee -a $logfile
+    sudo $tool install -y --skip-broken $applist | tee -a $logfile
 fi
 
 ################################################################################
@@ -151,7 +205,7 @@ fi
 ################################################################################
  tmp=$(which ranger > /dev/null 2>&1)
  if [ $? -ne 0 ]; then
-    echon "installing ranger ..." | tee -a $logfile
+    echon "installing ranger ..."
     if [ $use_git -eq 1 ]; then
         git clone git@github.com:ranger/ranger.git ~/.ranger | tee -a $logfile
         sudo make -C ~/.ranger install | tee -a $logfile
@@ -169,9 +223,10 @@ fi
 ################################################################################
 # update dotfiles
 ################################################################################
-read -r -p "Replace local dotfiles? WARNING THIS WILL REMOVE ANY OLD COPIES [y/n] : " response
+read -r -p "Replace local dotfiles? (current versions will be backed up) [y/n] : " response
 case "$response" in
     [yY][eE][sS]|[yY])
+        backup
         echon "updating dotfiles ..."
         rcup -v -d $here/files | tee -a $logfile
         source ~/.bashrc
@@ -188,6 +243,14 @@ echon "installing vim settings ... "
 vim -c 'PlugClean' +qa
 vim -c 'PlugInstall' +qa
 vim ~/.vim/vbas/Align.vba 'source %' +qa
+
+################################################################################
+# Add user to groups
+################################################################################
+echon "Adding user to groups..."
+for i in ${groups[@]}; do
+    addGroup $i
+done
 
 ################################################################################
 # clean up
