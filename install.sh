@@ -56,6 +56,13 @@ ubuntuApps="docutils-common
 # apps to install if using arch
 archApps=""
 
+# arch AUR apps to install
+archAurRepos=(https://aur.archlinux.org/xrdp.git \
+    https://aur.archlinux.org/rst2pdf.git \
+    https://aur.archlinux.org/spotify.git \
+    https://aur.archlinux.org/ncurses5-compat-libs.git \
+)
+
 echon ()
 {
     echo -e "\n################################################################################" | tee -a $logfile
@@ -85,9 +92,43 @@ addGroup() {
     # check to see if the group exists first
     getent group | grep $1 > /dev/null 2>&1
     if [ $? -eq 0 ]; then
-        echo "adding user $user to $1 ..."
+        echon "adding user $user to $1 ..."
         sudo usermod -a -G $1 $user
     fi
+}
+
+archAurInstall() {
+    here=$(pwd)
+    gitrepos=$here/archPkgs
+    repos=$1
+
+    echon "Installing ARCH AUR Repos..."
+
+    # create directory for repos
+    if [ ! -d $gitrepos ]; then
+        mkdir $gitrepos
+    fi
+    cd $gitrepos
+
+    # clone all the repos
+    for i in ${repos[@]}; do
+        git clone $i | tee -a $logfile
+    done
+
+    # go in each one and install it
+    d=$(find . -maxdepth 1 -type d)
+    echo $d
+    init=1
+    for i in $d; do
+        if [ $init -ne 1 ]; then
+            cd $i
+            makepkg -si --skippgpcheck | tee -a $logfile
+            cd ..
+        else
+            let init=0
+        fi
+    done
+    cd $here
 }
 
 ################################################################################
@@ -220,6 +261,13 @@ fi
     sudo make install | tee -a $logfile
     cd $here
  fi
+
+################################################################################
+# install all arch AUR apps
+################################################################################
+if [ $arch -eq 1 ]; then
+    archAurInstall $archAurRepos
+fi
 
 ################################################################################
 # update dotfiles
