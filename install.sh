@@ -99,16 +99,16 @@ addGroup() {
 
 archAurInstall() {
     here=$(pwd)
-    gitrepos=$here/archPkgs
+    gr=$here/archAurPkgs
     repos=$1
 
     echon "Installing ARCH AUR Repos..."
 
     # create directory for repos
-    if [ ! -d $gitrepos ]; then
-        mkdir $gitrepos
+    if [ ! -d $gr ]; then
+        mkdir $gr
     fi
-    cd $gitrepos
+    cd $gr
 
     # clone all the repos
     for i in ${repos[@]}; do
