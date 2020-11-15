@@ -28,6 +28,7 @@ applist="tree \
     flex \
     ncurses-devel \
     sshfs \
+    wine \
     feh \
     openssl-devel \
     ccrypt \
