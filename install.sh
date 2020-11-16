@@ -118,14 +118,14 @@ archAurInstall() {
     # go in each one and install it
     d=$(find . -maxdepth 1 -type d)
     echo $d
-    init=1
+    init=0 # ignore the first entry which is ./
     for i in $d; do
-        if [ $init -ne 1 ]; then
+        if [ $init -ne 0 ]; then
             cd $i
             makepkg -si --skippgpcheck | tee -a $logfile
             cd ..
         else
-            let init=0
+            let init=1
         fi
     done
     cd $here
