@@ -75,7 +75,7 @@ backup ()
 {
     here=$(pwd)
     backupdir=$here/backup
-    echon "backing up current files to $backupdir ..."
+    echon "Backing up current existing dot files to $backupdir ..."
     cd files
     all=$(find . -maxdepth 100 -type f -not -path '/*\.*' | sort)
     if [ ! -d $here/backup ]; then
@@ -279,19 +279,18 @@ case "$response" in
         echon "updating dotfiles ..."
         rcup -v -d $here/files | tee -a $logfile
         source ~/.bashrc
+        ###################################
+        # install vim dotfiles and packages
+        ###################################
+        echon "installing vim settings ... "
+        vim -c 'PlugClean' +qa
+        vim -c 'PlugInstall' +qa
+        vim ~/.vim/vbas/Align.vba 'source %' +qa
     ;;
     *)
-        echon "Not replacing dotfiles"
+        echon "NOT replacing dotfiles"
     ;;
 esac
-
-################################################################################
-# install vim plugins
-################################################################################
-echon "installing vim settings ... "
-vim -c 'PlugClean' +qa
-vim -c 'PlugInstall' +qa
-vim ~/.vim/vbas/Align.vba 'source %' +qa
 
 ################################################################################
 # Add user to groups
