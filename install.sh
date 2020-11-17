@@ -1,4 +1,6 @@
 #!/bin/bash
+# Installs applications and updated dotfiles
+
 here=$(pwd)
 logfile=$here/install.log
 rm -f $logfile
@@ -14,6 +16,7 @@ applist="tree \
     gcc \
     gcc-c++ \
     meld \
+    xpdf \
     curl \
     pinta \
     git \
@@ -25,6 +28,7 @@ applist="tree \
     flex \
     ncurses-devel \
     sshfs \
+    wine \
     feh \
     openssl-devel \
     ccrypt \
@@ -33,6 +37,7 @@ applist="tree \
     patch \
     ctags \
     terminator \
+    kakuake \
     tmux \
     lynx
     "
@@ -50,6 +55,13 @@ ubuntuApps="docutils-common
 
 # apps to install if using arch
 archApps=""
+
+# arch AUR apps to install
+archAurRepos=(https://aur.archlinux.org/xrdp.git \
+    https://aur.archlinux.org/rst2pdf.git \
+    https://aur.archlinux.org/spotify.git \
+    https://aur.archlinux.org/ncurses5-compat-libs.git \
+)
 
 echon ()
 {
@@ -77,11 +89,46 @@ backup ()
 
 addGroup() {
     user=$(whoami)
+    # check to see if the group exists first
     getent group | grep $1 > /dev/null 2>&1
     if [ $? -eq 0 ]; then
-        echo "adding user $user to $1 ..."
+        echon "adding user $user to $1 ..."
         sudo usermod -a -G $1 $user
     fi
+}
+
+archAurInstall() {
+    here=$(pwd)
+    gr=$here/archAurPkgs
+    repos=$1
+
+    echon "Installing ARCH AUR Repos..."
+
+    # create directory for repos
+    if [ ! -d $gr ]; then
+        mkdir $gr
+    fi
+    cd $gr
+
+    # clone all the repos
+    for i in ${repos[@]}; do
+        git clone $i | tee -a $logfile
+    done
+
+    # go in each one and install it
+    d=$(find . -maxdepth 1 -type d)
+    echo $d
+    init=0 # ignore the first entry which is ./
+    for i in $d; do
+        if [ $init -ne 0 ]; then
+            cd $i
+            makepkg -si --skippgpcheck | tee -a $logfile
+            cd ..
+        else
+            let init=1
+        fi
+    done
+    cd $here
 }
 
 ################################################################################
@@ -140,12 +187,12 @@ echon "Installing on $distro ..."
 ################################################################################
 # install common apps
 ################################################################################
-echon "installing apps with $tool ..."
+echon "installing and updating apps with $tool ..."
 if [ $arch -eq 1 ]; then
     sudo pacman -S $applist | tee -a $logfile
 else
-    # sudo $tool update -y | tee -a $logfile
-    sudo $tool install -y $applist | tee -a $logfile
+    sudo $tool update -y | tee -a $logfile
+    sudo $tool install -y --skip-broken $applist | tee -a $logfile
 fi
 
 ################################################################################
@@ -216,6 +263,13 @@ fi
  fi
 
 ################################################################################
+# install all arch AUR apps
+################################################################################
+if [ $arch -eq 1 ]; then
+    archAurInstall $archAurRepos
+fi
+
+################################################################################
 # update dotfiles
 ################################################################################
 read -r -p "Replace local dotfiles? (current versions will be backed up) [y/n] : " response
@@ -246,7 +300,6 @@ echon "Adding user to groups..."
 for i in ${groups[@]}; do
     addGroup $i
 done
-
 
 ################################################################################
 # clean up
