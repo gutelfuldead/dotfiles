@@ -2,8 +2,6 @@
 # Installs applications and updated dotfiles
 here=$(pwd)
 logfile=$here/install.log
-rm -f $logfile
-touch $logfile
 
 # groups to add the user to
 groups=(wheel dialout libvirt vboxusers wireshark)
@@ -76,6 +74,18 @@ backup ()
 {
     here=$(pwd)
     backupdir=$here/backup
+    if [ -d $backupdir ]; then
+        read -r -p "Overwrite current contents of $backupdir (if no then dotfiles will still be installed hit ctrl+c to prevent this) ? [y/n] : " response
+        case "$response" in
+            [yY][eE][sS]|[yY])
+                echon "OVERWRITING CURRENT CONTENTS OF $backupdir"
+                overwrite=1
+                ;;
+            *)
+                overwrite=0
+                ;;
+        esac
+    fi
     echon "Backing up current existing dot files to $backupdir ..."
     cd files
     all=$(find . -maxdepth 100 -type f -not -path '/*\.*' | sort)
@@ -131,6 +141,11 @@ archAurInstall() {
     done
     cd $here
 }
+
+if [ ! -f $logfile ]; then
+    touch $logfile
+fi
+echon "$0 ran @ $(date)..."
 
 ################################################################################
 # get linux distro
@@ -191,9 +206,16 @@ echon "Installing on $distro ..."
 echon "installing and updating apps with $tool ..."
 if [ $arch -eq 1 ]; then
     sudo pacman -S $applist | tee -a $logfile
-else
+elif [ $debian -eq 1 ]; then
     sudo $tool update -y | tee -a $logfile
+    sudo $tool upgrade -y | tee -a $logfile
+    sudo $tool install -y $applist | tee -a $logfile
+elif [ $centos -eq 1 ]; then
+    sudo $tool update -y | tee -a $logfile
+    sudo $tool upgrade -y | tee -a $logfile
     sudo $tool install -y --skip-broken $applist | tee -a $logfile
+else
+    exit 1
 fi
 
 ################################################################################
