@@ -1,16 +1,22 @@
 #!/bin/bash
+# Installs applications and updated dotfiles
+
 here=$(pwd)
 logfile=$here/install.log
 rm -f $logfile
 touch $logfile
 groups=(wheel dialout libvirt vboxusers wireshark)
+
+# apps to install in all distributions
 applist="tree \
     make \
     cmake \
     clang \
+    pdftk \
     gcc \
     gcc-c++ \
     meld \
+    xpdf \
     curl \
     pinta \
     git \
@@ -22,6 +28,7 @@ applist="tree \
     flex \
     ncurses-devel \
     sshfs \
+    wine \
     feh \
     openssl-devel \
     ccrypt \
@@ -30,18 +37,31 @@ applist="tree \
     patch \
     ctags \
     terminator \
+    kakuake \
     tmux \
     lynx
     "
 
+# apps to install if using centos
 centosApps="perl-Tk-devel.x86_64 \
     perl-Thread-Queue \
     geany-plugins-geanygendoc \
     perl-ExtUtils-MakeMaker
     "
 
-ubuntuApps="docutils-common \
+# apps to install if using ubuntu
+ubuntuApps="docutils-common
     "
+
+# apps to install if using arch
+archApps=""
+
+# arch AUR apps to install
+archAurRepos=(https://aur.archlinux.org/xrdp.git \
+    https://aur.archlinux.org/rst2pdf.git \
+    https://aur.archlinux.org/spotify.git \
+    https://aur.archlinux.org/ncurses5-compat-libs.git \
+)
 
 echon ()
 {
@@ -49,6 +69,66 @@ echon ()
     echo -e "$1" | tee -a $logfile
     echo -e "################################################################################\n" | tee -a $logfile
     sleep 1
+}
+
+backup ()
+{
+    here=$(pwd)
+    backupdir=$here/backup
+    echon "Backing up current existing dot files to $backupdir ..."
+    cd files
+    all=$(find . -maxdepth 100 -type f -not -path '/*\.*' | sort)
+    if [ ! -d $here/backup ]; then
+        mkdir $here/backup
+    fi
+    for i in $all; do
+        cp --verbose --parents $i $here/backup | tee -a $logfile
+    done
+    cd $here
+}
+
+addGroup() {
+    user=$(whoami)
+    # check to see if the group exists first
+    getent group | grep $1 > /dev/null 2>&1
+    if [ $? -eq 0 ]; then
+        echon "adding user $user to $1 ..."
+        sudo usermod -a -G $1 $user
+    fi
+}
+
+archAurInstall() {
+    here=$(pwd)
+    gr=$here/archAurPkgs
+    repos=$1
+
+    echon "Installing ARCH AUR Repos..."
+
+    # create directory for repos
+    if [ ! -d $gr ]; then
+        mkdir $gr
+    fi
+    cd $gr
+
+    # clone all the repos
+    for i in ${repos[@]}; do
+        git clone $i | tee -a $logfile
+    done
+
+    # go in each one and install it
+    d=$(find . -maxdepth 1 -type d)
+    echo $d
+    init=0 # ignore the first entry which is ./
+    for i in $d; do
+        if [ $init -ne 0 ]; then
+            cd $i
+            makepkg -si --skippgpcheck | tee -a $logfile
+            cd ..
+        else
+            let init=1
+        fi
+    done
+    cd $here
 }
 
 ################################################################################
@@ -65,7 +145,6 @@ if [ $? -eq 0 ]; then
     debian=1
     tool=apt
     applist+=" "$ubuntuApps
-    applist+=$ubuntuApps
 fi
 
 tmp=$(which yum > /dev/null 2>&1)
@@ -74,7 +153,6 @@ if [ $? -eq 0 ]; then
     centos=1
     tool=yum
     applist+=" "$centosApps
-    applist+=$centosApps
 fi
 
 tmp=$(which pacman > /dev/null 2>&1)
@@ -82,6 +160,7 @@ if [ $? -eq 0 ]; then
     distro="arch"
     arch=1
     tool=pacman
+    applist+=" "$archApps
 fi
 
 if [ $distro == "" ]; then
@@ -108,11 +187,12 @@ echon "Installing on $distro ..."
 ################################################################################
 # install common apps
 ################################################################################
-echon "installing apps with $tool ..."
+echon "installing and updating apps with $tool ..."
 if [ $arch -eq 1 ]; then
     sudo pacman -S $applist | tee -a $logfile
 else
-    sudo $tool install -y $applist | tee -a $logfile
+    sudo $tool update -y | tee -a $logfile
+    sudo $tool install -y --skip-broken $applist | tee -a $logfile
 fi
 
 ################################################################################
@@ -183,45 +263,42 @@ fi
  fi
 
 ################################################################################
+# install all arch AUR apps
+################################################################################
+if [ $arch -eq 1 ]; then
+    archAurInstall $archAurRepos
+fi
+
+################################################################################
 # update dotfiles
 ################################################################################
-read -r -p "Replace local dotfiles? WARNING THIS WILL REMOVE ANY OLD COPIES [y/n] : " response
+read -r -p "Replace local dotfiles? (current versions will be backed up) [y/n] : " response
 case "$response" in
     [yY][eE][sS]|[yY])
+        backup
         echon "updating dotfiles ..."
         rcup -v -d $here/files | tee -a $logfile
         source ~/.bashrc
+        ###################################
+        # install vim dotfiles and packages
+        ###################################
+        echon "installing vim settings ... "
+        vim -c 'PlugClean' +qa
+        vim -c 'PlugInstall' +qa
+        vim ~/.vim/vbas/Align.vba 'source %' +qa
     ;;
     *)
-        echon "Not replacing dotfiles"
+        echon "NOT replacing dotfiles"
     ;;
 esac
-
-################################################################################
-# install vim plugins
-################################################################################
-echon "installing vim settings ... "
-vim -c 'PlugClean' +qa
-vim -c 'PlugInstall' +qa
-vim ~/.vim/vbas/Align.vba 'source %' +qa
 
 ################################################################################
 # Add user to groups
 ################################################################################
 echon "Adding user to groups..."
-addGroup() {
-    user=$(whoami)
-    getent group | grep $1 > /dev/null 2>&1
-    if [ $? -eq 0 ]; then
-        echo "adding user $user to $1 ..."
-        sudo usermod -a -G $1 $user
-    fi
-}
-
 for i in ${groups[@]}; do
     addGroup $i
 done
-
 
 ################################################################################
 # clean up
