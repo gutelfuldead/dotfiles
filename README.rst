@@ -17,8 +17,8 @@ Manage dotfiles for the following packages (installed as part of script),
 
 Also manages bashrc
 
-The bashrc used sets up common aliases. Will also source local files on a
-machine under `~/.bash_aliases`
+Anything machine specific should be placed in `~/.bash_aliases`. The default
+`~/.bashrc` will source this file.
 
 Installation
 ============
