@@ -102,8 +102,11 @@ Update all symlinks ::
 
         rcup
 
-Random Arch notes
-=================
+Random Installation notes
+=========================
+
+Arch
+----
 
 `Install Melodics
 <https://gist.github.com/klingtnet/942fdd9d52be46317fd2ca502f19c2cf>`_
