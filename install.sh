@@ -1,5 +1,4 @@
 #!/bin/bash
-# Installs applications and updated dotfiles
 here=$(pwd)
 logfile=$here/install.log
 
@@ -75,7 +74,7 @@ backup ()
     here=$(pwd)
     backupdir=$here/backup
     if [ -d $backupdir ]; then
-        read -r -p "Overwrite current contents of $backupdir (if no then dotfiles will still be installed hit ctrl+c to prevent this) ? [y/n] : " response
+        read -r -p "Overwrite current contents of $backupdir (if no then dotfiles will still be installed press ctrl+c to prevent this) ? [y/n] : " response
         case "$response" in
             [yY][eE][sS]|[yY])
                 echon "OVERWRITING CURRENT CONTENTS OF $backupdir"
