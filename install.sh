@@ -1,10 +1,11 @@
 #!/bin/bash
 # Installs applications and updated dotfiles
-
 here=$(pwd)
 logfile=$here/install.log
 rm -f $logfile
 touch $logfile
+
+# groups to add the user to
 groups=(wheel dialout libvirt vboxusers wireshark)
 
 # apps to install in all distributions
@@ -60,7 +61,7 @@ archApps=""
 archAurRepos=(https://aur.archlinux.org/xrdp.git \
     https://aur.archlinux.org/rst2pdf.git \
     https://aur.archlinux.org/spotify.git \
-    https://aur.archlinux.org/ncurses5-compat-libs.git \
+    https://aur.archlinux.org/ncurses5-compat-libs.git
 )
 
 echon ()
@@ -172,14 +173,14 @@ read -r -p "use git to source latest builds? If not tarballs will be used [y/n] 
 case "$response" in
     [yY][eE][sS]|[yY])
         use_git=1
-    ;;
+        ;;
     [nN][oO]|[nN])
         use_git=0
-    ;;
+        ;;
     *)
         echo "Must choose y/n..."
         exit 1
-    ;;
+        ;;
 esac
 
 echon "Installing on $distro ..."
@@ -266,7 +267,15 @@ fi
 # install all arch AUR apps
 ################################################################################
 if [ $arch -eq 1 ]; then
-    archAurInstall $archAurRepos
+    read -r -p "Install AUR packages $archAurRepos ? [y/n] : " response
+    case "$response" in
+        [yY][eE][sS]|[yY])
+            echon "Installing ARCH AUR packages"
+            archAurInstall $archAurRepos
+            ;;
+        *)
+            ;;
+    esac
 fi
 
 ################################################################################
@@ -286,10 +295,10 @@ case "$response" in
         vim -c 'PlugClean' +qa
         vim -c 'PlugInstall' +qa
         vim ~/.vim/vbas/Align.vba 'source %' +qa
-    ;;
+        ;;
     *)
         echon "NOT replacing dotfiles"
-    ;;
+        ;;
 esac
 
 ################################################################################
@@ -307,8 +316,8 @@ read -r -p "Clean unused packages ($tool autoremove)? [y/n] : " response
 case "$response" in
     [yY][eE][sS]|[yY])
         sudo $tool autoremove
-    ;;
+        ;;
     *)
         echon "Not cleaning packages"
-    ;;
+        ;;
 esac
