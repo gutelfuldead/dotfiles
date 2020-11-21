@@ -13,9 +13,7 @@ applist="tree \
     clang \
     pdftk \
     gcc \
-    gcc-c++ \
     meld \
-    xpdf \
     curl \
     pinta \
     git \
@@ -25,18 +23,15 @@ applist="tree \
     dropbear \
     neofetch \
     flex \
-    ncurses-devel \
     sshfs \
     wine \
     feh \
-    openssl-devel \
     ccrypt \
     vim \
     rst2pdf \
     patch \
     ctags \
     terminator \
-    kakuake \
     tmux \
     lynx
     "
@@ -44,16 +39,21 @@ applist="tree \
 # apps to install if using centos
 centosApps="perl-Tk-devel.x86_64 \
     perl-Thread-Queue \
+    gcc-c++ \
+    ncurses-devel \
+    openssl-devel \
+    xpdf \
     geany-plugins-geanygendoc \
     perl-ExtUtils-MakeMaker
     "
 
 # apps to install if using ubuntu
-ubuntuApps="docutils-common
+ubuntuApps="docutils-common \
+    g++
     "
 
 # apps to install if using arch
-archApps=""
+archApps="kakuake"
 
 # arch AUR apps to install
 archAurRepos=(https://aur.archlinux.org/xrdp.git \
@@ -142,6 +142,9 @@ archAurInstall() {
     cd $here
 }
 
+################################################################################
+# start main
+################################################################################
 if [ ! -f $logfile ]; then
     touch $logfile
 fi
