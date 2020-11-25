@@ -11,6 +11,7 @@ applist="tree \
     cmake \
     clang \
     pdftk \
+    minicom \
     gcc \
     meld \
     curl \
