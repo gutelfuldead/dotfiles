@@ -11,6 +11,7 @@ applist="tree \
     cmake \
     clang \
     pdftk \
+    minicom \
     gcc \
     meld \
     curl \
@@ -257,7 +258,7 @@ tmp=$(which yum > /dev/null 2>&1)
 if [ $? -eq 0 ]; then
     distro="centos"
     centos=1
-    tool=yum
+    tool="yum --nogpgcheck --skip-broken"
     applist+=" "$centosApps
 fi
 
