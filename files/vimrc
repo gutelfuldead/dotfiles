@@ -32,7 +32,7 @@ call plug#end()
     set shiftwidth=4
     set tabstop=4
     set autoindent
-    set pastetoggle=<F3> " F3 toggles paste/nopaste
+    set pastetoggle=<F3> " F3 toggles paste/nopaste vim paste is trash
     set autochdir
     set wildmode=longest,list,full
     set wildmenu
@@ -56,23 +56,23 @@ call plug#end()
 " Press <leader> r to resource ~/.vimrc
     noremap <leader>r :source ~/.vimrc<cr>
 
-" set comment string for vhdl files
+" set comment string for vhdl files to work with vim-commentary
     autocmd FileType vhdl setlocal commentstring=--\ %s
 
 " Interpret _defconfig,config files as conf
     autocmd BufNewFile,BufRead *_defconfig,*.defconfig,*.config set syntax=conf
 
-" Interpret its files as device tree
+" Interpret ITS files as device tree
     autocmd BufNewFile,BufRead *.its set syntax=dts
 
 " set comment string for conf files
     autocmd FileType conf setlocal commentstring=#\ %s
 
-" Splits open at the bottom and right, which is non-retarded, unlike vim defaults.
+" Splits open at the bottom and right, instead of the stupid default
     set splitbelow
     set splitright
 
-" Shortcutting split navigation, saving a keypress:
+" Shortcutting split navigation, saving a keypress
     map <C-h> <C-w>h
     map <C-j> <C-w>j
     map <C-k> <C-w>k
@@ -91,10 +91,10 @@ call plug#end()
     autocmd BufRead,BufNewFile *.bash* set filetype=sh
     autocmd BufRead,BufNewFile *.d set filetype=sh
 
-" autodetetc xilinx xdc
+" autodetetc xilinx constraints (.xdc)
     autocmd BufNewFile,BufRead *.xdc setfiletype xdc
 
-" Readmes autowrap text:
+" Readmes autowrap text
     autocmd BufRead,BufNewFile README.* set tw=79
 
 " Spell-check (underline misspelled words in md,rst files)
@@ -113,16 +113,16 @@ call plug#end()
         set diffopt+=iwhite
     endif
 
-" Automatically retab on save.
+" Automatically retab on save
     autocmd BufWritePre * retab
 
-" Automatically deletes all trailing whitespace on save.
+" Automatically deletes all trailing whitespace on save
     autocmd BufWritePre * %s/\s\+$//e
 
 " Automatically run clang-format when using gg=G
     " autocmd FileType c,cpp setlocal equalprg=clang-format
 
-" Disables automatic commenting on newline:
+" Disables automatic commenting on newline
     " autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
 " Allows to see diff in current file before saving with :diffSaved
