@@ -18,6 +18,7 @@ applist="tree \
     pinta \
     git \
     wireshark \
+    wireshark-gnome \
     htop \
     bison \
     dropbear \
