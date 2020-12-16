@@ -57,7 +57,7 @@ export EDITOR='vim'
 alias vi='vim'
 alias kviv='kill $(pidof vivado)'
 alias ksdk='kill $(pidof xsdk)'
-alias pdf='okular'
+alias pdf='xpdf'
 alias xclip='xclip -selection c' # cat some.file | xclip # now it is in system clipboard
 alias scpi='scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null' # ignore keys
 alias sshi='ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null' # ignore keys
@@ -145,3 +145,5 @@ if [ -n "$PATH" ]; then
     PATH=${PATH#:}
     unset old_PATH x
 fi
+export PATH="$HOME/.rbenv/bin:$PATH"
+eval "$(rbenv init -)"

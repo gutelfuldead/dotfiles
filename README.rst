@@ -2,7 +2,7 @@
 Gutelfuldead Dot Files
 ======================
 
-Manage dotfiles for the following packages (installed as part of script),
+Manage dotfiles for the following packages,
 
 - fzf
 - rcm
@@ -13,12 +13,15 @@ Manage dotfiles for the following packages (installed as part of script),
 - rst2html (docutils)
 - tmux
 - lynx
+- clang
+
+Any existing dotfiles for these programs will be backed up before being
+overwritten.
 
 Also manages bashrc
 
-The bashrc used sets up common aliases. Will also source local files on a
-machine under `~/.bash_aliases`
-
+Anything machine specific should be placed in `~/.bash_aliases`. The default
+`~/.bashrc` will source this file.
 
 Installation
 ============
@@ -32,23 +35,37 @@ If using this installs script then the following packages will be installed,
 - tree
 - make
 - cmake
+- clang
+- pdftk
+- gcc
+- gcc-c++
 - meld
+- xpdf
 - curl
 - pinta
+- git
 - wireshark
 - htop
 - bison
+- dropbear
+- neofetch
 - flex
+- ncurses-devel
 - sshfs
+- wine
 - feh
+- openssl-devel
 - ccrypt
 - vim
 - rst2pdf
-- $docutils
+- patch
 - ctags
 - terminator
+- kakuake
 - tmux
 - lynx
+
++ more... see the $applist variable in `install.sh`.
 
 Otherwise just install rcm ::
 
@@ -87,4 +104,3 @@ View all symlinks ::
 Update all symlinks ::
 
         rcup
-
