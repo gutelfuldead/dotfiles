@@ -2,7 +2,7 @@
 Gutelfuldead Dot Files
 ======================
 
-Manage dotfiles for the following packages (installed as part of script),
+Manage dotfiles for the following packages,
 
 - fzf
 - rcm
@@ -14,6 +14,9 @@ Manage dotfiles for the following packages (installed as part of script),
 - tmux
 - lynx
 - clang
+
+Any existing dotfiles for these programs will be backed up before being
+overwritten.
 
 Also manages bashrc
 
@@ -101,12 +104,3 @@ View all symlinks ::
 Update all symlinks ::
 
         rcup
-
-Random Installation notes
-=========================
-
-Arch
-----
-
-`Install Melodics
-<https://gist.github.com/klingtnet/942fdd9d52be46317fd2ca502f19c2cf>`_

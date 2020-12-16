@@ -75,8 +75,9 @@ backup ()
 {
     here=$(pwd)
     backupdir=$here/backup
+    overwrite=0
     if [ -d $backupdir ]; then
-        read -r -p "Overwrite current contents of $backupdir (if no then dotfiles will still be installed press ctrl+c to prevent this) ? [y/n] : " response
+        read -r -p "Overwrite current contents of $backupdir ? [y/n] : " response
         case "$response" in
             [yY][eE][sS]|[yY])
                 echon "OVERWRITING CURRENT CONTENTS OF $backupdir"
@@ -93,9 +94,11 @@ backup ()
     if [ ! -d $here/backup ]; then
         mkdir $here/backup
     fi
-    for i in $all; do
-        cp --verbose --parents $i $here/backup | tee -a $logfile
-    done
+    if [ $overwrite -eq 1 ]; then
+        for i in $all; do
+            cp --verbose --parents $i $here/backup | tee -a $logfile
+        done
+    fi
     cd $here
 }
 
@@ -145,20 +148,30 @@ archAurInstall() {
 
 non_pacman_apps () {
     use_git=0
+    nonpacmanapps="fzf rcm ranger"
+    read -r -p "Install non-pacman < $nonpacmanapps > apps from git/wget tars? [y/n] : " response
+    case "$response" in
+        [yY][eE][sS]|[yY])
+            echon "Installing non package manager apps"
+            ;;
+        *)
+            echon "NOT Installing non package manager apps"
+            return 0
+            ;;
+    esac
+
     ################################################################################
     # install non-pacman apps option
     ################################################################################
     read -r -p "use git to source latest builds? If not tarballs will be used [y/n] : " response
     case "$response" in
         [yY][eE][sS]|[yY])
+            echon "Using GIT to source non package manager apps"
             use_git=1
             ;;
-        [nN][oO]|[nN])
-            use_git=0
-            ;;
         *)
-            echo "Must choose y/n..."
-            exit 1
+            echon "Using wget and tarballs to source non package manager apps"
+            use_git=0
             ;;
     esac
 
@@ -250,15 +263,17 @@ tmp=$(which apt > /dev/null 2>&1)
 if [ $? -eq 0 ]; then
     distro="debian"
     debian=1
-    tool=apt
     applist+=" "$ubuntuApps
+    tool=apt
+    toolArgs=""
 fi
 
 tmp=$(which yum > /dev/null 2>&1)
 if [ $? -eq 0 ]; then
     distro="centos"
     centos=1
-    tool="yum --nogpgcheck --skip-broken"
+    tool="yum"
+    toolArgs="--nogpgcheck --skip-broken"
     applist+=" "$centosApps
 fi
 
@@ -266,8 +281,9 @@ tmp=$(which pacman > /dev/null 2>&1)
 if [ $? -eq 0 ]; then
     distro="arch"
     arch=1
-    tool=pacman
     applist+=" "$archApps
+    tool=pacman
+    toolArgs=""
 fi
 
 if [ $distro == "" ]; then
@@ -278,21 +294,35 @@ fi
 ################################################################################
 # install pacman apps
 ################################################################################
-echon "Installing on $distro ..."
+echon "Setup for $distro ..."
+echon "packages to install : < $applist >"
 
-echon "installing and updating apps with $tool ..."
-if [ $arch -eq 1 ]; then
-    sudo pacman -S $applist | tee -a $logfile
-elif [ $debian -eq 1 ]; then
-    sudo $tool update -y | tee -a $logfile
-    sudo $tool upgrade -y | tee -a $logfile
-    sudo $tool install -y $applist | tee -a $logfile
-elif [ $centos -eq 1 ]; then
-    sudo $tool update -y | tee -a $logfile
-    sudo $tool upgrade -y | tee -a $logfile
-    sudo $tool install -y --skip-broken $applist | tee -a $logfile
-else
-    exit 1
+installPacman=0
+read -r -p "Install packages with $tool? [y/n] : " response
+case "$response" in
+    [yY][eE][sS]|[yY])
+        echon "installing and updating apps with $tool ..."
+        installPacman=1
+        ;;
+    *)
+        echon "NOT installing and updating apps with $tool ..."
+        ;;
+esac
+
+if [ $installPacman -eq 1 ]; then
+    if [ $arch -eq 1 ]; then
+        sudo pacman $toolArgs -S $applist | tee -a $logfile
+    elif [ $debian -eq 1 ]; then
+        sudo $tool update -y | tee -a $logfile
+        sudo $tool upgrade -y | tee -a $logfile
+        sudo $tool install $toolArgs -y $applist | tee -a $logfile
+    elif [ $centos -eq 1 ]; then
+        sudo $tool update -y | tee -a $logfile
+        sudo $tool upgrade -y | tee -a $logfile
+        sudo $tool $toolArgs install -y $applist | tee -a $logfile
+    else
+        exit 1
+    fi
 fi
 
 ################################################################################
@@ -311,40 +341,56 @@ if [ $arch -eq 1 ]; then
             archAurInstall $archAurRepos
             ;;
         *)
+            echon "NOT Installing ARCH AUR packages"
             ;;
     esac
 fi
 
 ################################################################################
-# update dotfiles
+# update dotfiles if RCM was installed
 ################################################################################
-read -r -p "Replace local dotfiles? (current versions will be backed up) [y/n] : " response
-case "$response" in
-    [yY][eE][sS]|[yY])
-        backup
-        echon "updating dotfiles ..."
-        rcup -v -d $here/files | tee -a $logfile
-        source ~/.bashrc
-        ###################################
-        # install vim dotfiles and packages
-        ###################################
-        echon "installing vim settings ... "
-        vim -c 'PlugClean' +qa
-        vim -c 'PlugInstall' +qa
-        vim ~/.vim/vbas/Align.vba 'source %' +qa
-        ;;
-    *)
-        echon "NOT replacing dotfiles"
-        ;;
-esac
+source ~/.bashrc
+tmp=$(which rcm > /dev/null 2>&1)
+if [ $? -eq 1 ]; then
+    read -r -p "Replace local dotfiles? (current versions will be backed up) [y/n] : " response
+    case "$response" in
+        [yY][eE][sS]|[yY])
+            backup
+            echon "updating dotfiles ..."
+            rcup -v -d $here/files | tee -a $logfile
+            source ~/.bashrc
+            ###################################
+            # install vim dotfiles and packages
+            ###################################
+            echon "installing vim settings ... "
+            vim -c 'PlugClean' +qa
+            vim -c 'PlugInstall' +qa
+            vim ~/.vim/vbas/Align.vba 'source %' +qa
+            ;;
+        *)
+            echon "NOT replacing dotfiles"
+            ;;
+    esac
+else
+    echon "RCM was not installed, not updating dotfiles"
+fi
 
 ################################################################################
 # Add user to groups
 ################################################################################
-echon "Adding user to groups..."
-for i in ${groups[@]}; do
-    addGroup $i
-done
+tmp="${groups[@]}"
+read -r -p "Add $(whoami) to groups : < $tmp > [y/n] : " response
+case "$response" in
+    [yY][eE][sS]|[yY])
+        echon "Adding $(whoami) to groups..."
+        for i in ${groups[@]}; do
+            addGroup $i
+        done
+        ;;
+    *)
+        echon "NOT adding $(whoami) to groups < $tmp >"
+        ;;
+esac
 
 ################################################################################
 # clean up
@@ -355,6 +401,6 @@ case "$response" in
         sudo $tool autoremove
         ;;
     *)
-        echon "Not cleaning packages"
+        echon "NOT cleaning packages"
         ;;
 esac
