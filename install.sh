@@ -13,6 +13,7 @@ applist="tree \
     pdftk \
     minicom \
     gcc \
+    dtc \
     meld \
     curl \
     pinta \
