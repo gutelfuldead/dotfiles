@@ -59,14 +59,20 @@ call plug#end()
 " set comment string for vhdl files to work with vim-commentary
     autocmd FileType vhdl setlocal commentstring=--\ %s
 
+" set comment string for conf files
+    autocmd FileType conf setlocal commentstring=#\ %s
+
+" set comment string for conf files
+    autocmd FileType defconfig setlocal commentstring=#\ %s
+
+" set comment string for xdc files
+    autocmd FileType xdc setlocal commentstring=#\ %s
+
 " Interpret _defconfig,config files as conf
     autocmd BufNewFile,BufRead *_defconfig,*.defconfig,*.config set syntax=conf
 
 " Interpret ITS files as device tree
     autocmd BufNewFile,BufRead *.its set syntax=dts
-
-" set comment string for conf files
-    autocmd FileType conf setlocal commentstring=#\ %s
 
 " Splits open at the bottom and right, instead of the stupid default
     set splitbelow
