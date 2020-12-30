@@ -13,11 +13,13 @@ applist="tree \
     pdftk \
     minicom \
     gcc \
+    dtc \
     meld \
     curl \
     pinta \
     git \
     wireshark \
+    wireshark-gnome \
     htop \
     bison \
     dropbear \
