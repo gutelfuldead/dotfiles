@@ -42,6 +42,7 @@ applist="tree \
 centosApps="perl-Tk-devel.x86_64 \
     perl-Thread-Queue \
     gcc-c++ \
+    rpl \
     ncurses-devel \
     openssl-devel \
     xpdf \
