@@ -16,6 +16,7 @@ applist="tree \
     python2 \
     python2-pip \
     python3 \
+    tkinter \
     python3-pip \
     dtc \
     meld \
@@ -354,8 +355,8 @@ case "$response" in
     [yY][eE][sS]|[yY])
         sudo pip2 install --upgrade pip
         sudo pip3 install --upgrade pip
-        sudo pip2 install $pipPackages
-        sudo pip3 install $pipPackages
+        sudo pip2 install -U $pipPackages
+        sudo pip3 install -U $pipPackages
         ;;
     *)
         echon "NOT Installing PIP packages"
