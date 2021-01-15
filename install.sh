@@ -13,6 +13,10 @@ applist="tree \
     pdftk \
     minicom \
     gcc \
+    python2 \
+    python2-pip \
+    python3 \
+    python3-pip \
     dtc \
     meld \
     curl \
@@ -36,6 +40,12 @@ applist="tree \
     terminator \
     tmux \
     lynx
+    "
+
+pipPackages="numpy \
+    pyvisa \
+    pyvisa-py \
+    pyusb
     "
 
 # apps to install if using centos
@@ -332,6 +342,22 @@ fi
 # Install non package manager apps
 ################################################################################
 non_pacman_apps
+
+################################################################################
+# Install python packages
+################################################################################
+read -r -p "Install python 2/3 PIP packages $pipPackages? [y/n] : " response
+case "$response" in
+    [yY][eE][sS]|[yY])
+        sudo pip2 install --upgrade pip
+        sudo pip3 install --upgrade pip
+        sudo pip2 install $pipPackages
+        sudo pip3 install $pipPackages
+        ;;
+    *)
+        echon "NOT Installing PIP packages"
+        ;;
+esac
 
 ################################################################################
 # install all arch AUR apps
