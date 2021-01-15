@@ -44,6 +44,9 @@ applist="tree \
 
 pipPackages="numpy \
     pyvisa \
+    matplotlib \
+    scipy \
+    pandas \
     pyvisa-py \
     pyusb
     "
