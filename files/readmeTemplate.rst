@@ -1,6 +1,6 @@
-=====
+xxx
 Title
-=====
+xxx
 
 .. .. image:: ../img/smi-logo.png
 ..         :width: 4in
