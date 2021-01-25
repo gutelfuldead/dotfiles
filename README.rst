@@ -101,7 +101,7 @@ Update all symlinks ::
 
         rcup
 
-XPS13
-=====
+XPS 13
+======
 
 Notes specific to `XPS13 laptop setup with ARCH <./xps13.rst>`_.
