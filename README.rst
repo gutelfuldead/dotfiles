@@ -2,18 +2,15 @@
 Gutelfuldead Dot Files
 ======================
 
-Manage dotfiles for the following packages,
+.. contents:: Table of Contents
+.. section-numbering::
 
-- fzf
-- rcm
-- vim
-- ctags
-- terminator
-- rst2pdf
-- rst2html (docutils)
-- tmux
-- lynx
-- clang
+About
+=====
+
+More of a new system setup. Installs applications and updates dotfiles.
+
+See the list of programs at the top of ``install.sh``,
 
 Any existing dotfiles for these programs will be backed up before being
 overwritten.
@@ -26,7 +23,7 @@ Anything machine specific should be placed in `~/.bash_aliases`. The default
 Installation
 ============
 
-The installation script works on Ubuntu and Centos ::
+The installation script works on Arch, Ubuntu, and Centos ::
 
         ./install.sh
 

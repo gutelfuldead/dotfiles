@@ -13,6 +13,11 @@ applist="tree \
     pdftk \
     minicom \
     gcc \
+    python2 \
+    python2-pip \
+    python3 \
+    tkinter \
+    python3-pip \
     dtc \
     meld \
     curl \
@@ -38,10 +43,20 @@ applist="tree \
     lynx
     "
 
+pipPackages="numpy \
+    pyvisa \
+    matplotlib \
+    scipy \
+    pandas \
+    pyvisa-py \
+    pyusb
+    "
+
 # apps to install if using centos
 centosApps="perl-Tk-devel.x86_64 \
     perl-Thread-Queue \
     gcc-c++ \
+    rpl \
     ncurses-devel \
     openssl-devel \
     xpdf \
@@ -245,6 +260,28 @@ non_pacman_apps () {
      fi
 }
 
+install_cinnamon() {
+    read -r -p "Install Cinnamon Desktop? [y/n] : " response
+    case "$response" in
+        [yY][eE][sS]|[yY])
+            echon "Installing Cinnamon Desktop"
+            ;;
+        *)
+            echon "NOT Installing Cinnamon Desktop"
+            return 0
+            ;;
+    esac
+
+    if [ $tool == "yum" ]; then
+        sudo $tool groupinstall "Server with GUI" -y
+        sudo $tool install -y cinnamon
+    elif [ $tool == "apt" ]; then
+        sudo $tool install -y cinnamon
+    elif [ $tool == "pacman" ]; then
+        sudo $tool -Syu cinnamon
+    fi
+}
+
 ################################################################################
 # start main
 ################################################################################
@@ -266,7 +303,7 @@ if [ $? -eq 0 ]; then
     distro="debian"
     debian=1
     applist+=" "$ubuntuApps
-    tool=apt
+    tool="apt"
     toolArgs=""
 fi
 
@@ -284,7 +321,7 @@ if [ $? -eq 0 ]; then
     distro="arch"
     arch=1
     applist+=" "$archApps
-    tool=pacman
+    tool="pacman"
     toolArgs=""
 fi
 
@@ -319,6 +356,7 @@ if [ $installPacman -eq 1 ]; then
         sudo $tool upgrade -y | tee -a $logfile
         sudo $tool install $toolArgs -y $applist | tee -a $logfile
     elif [ $centos -eq 1 ]; then
+        sudo $tool install epel-release -y | tee -a $logfile
         sudo $tool update -y | tee -a $logfile
         sudo $tool upgrade -y | tee -a $logfile
         sudo $tool $toolArgs install -y $applist | tee -a $logfile
@@ -327,10 +365,28 @@ if [ $installPacman -eq 1 ]; then
     fi
 fi
 
+install_cinnamon
+
 ################################################################################
 # Install non package manager apps
 ################################################################################
 non_pacman_apps
+
+################################################################################
+# Install python packages
+################################################################################
+read -r -p "Install python 2/3 PIP packages $pipPackages? [y/n] : " response
+case "$response" in
+    [yY][eE][sS]|[yY])
+        sudo pip2 install --upgrade pip
+        sudo pip3 install --upgrade pip
+        sudo pip2 install -U $pipPackages
+        sudo pip3 install -U $pipPackages
+        ;;
+    *)
+        echon "NOT Installing PIP packages"
+        ;;
+esac
 
 ################################################################################
 # install all arch AUR apps
