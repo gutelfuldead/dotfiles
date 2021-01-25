@@ -260,6 +260,28 @@ non_pacman_apps () {
      fi
 }
 
+install_cinnamon() {
+    read -r -p "Install Cinnamon Desktop? [y/n] : " response
+    case "$response" in
+        [yY][eE][sS]|[yY])
+            echon "Installing Cinnamon Desktop"
+            ;;
+        *)
+            echon "NOT Installing Cinnamon Desktop"
+            return 0
+            ;;
+    esac
+
+    if [ $tool == "yum" ]; then
+        sudo $tool groupinstall "Server with GUI" -y
+        sudo $tool install -y cinnamon
+    elif [ $tool == "apt" ]; then
+        sudo $tool install -y cinnamon
+    elif [ $tool == "pacman" ]; then
+        sudo $tool -Syu cinnamon
+    fi
+}
+
 ################################################################################
 # start main
 ################################################################################
@@ -281,7 +303,7 @@ if [ $? -eq 0 ]; then
     distro="debian"
     debian=1
     applist+=" "$ubuntuApps
-    tool=apt
+    tool="apt"
     toolArgs=""
 fi
 
@@ -299,7 +321,7 @@ if [ $? -eq 0 ]; then
     distro="arch"
     arch=1
     applist+=" "$archApps
-    tool=pacman
+    tool="pacman"
     toolArgs=""
 fi
 
@@ -334,6 +356,7 @@ if [ $installPacman -eq 1 ]; then
         sudo $tool upgrade -y | tee -a $logfile
         sudo $tool install $toolArgs -y $applist | tee -a $logfile
     elif [ $centos -eq 1 ]; then
+        sudo $tool install epel-release -y | tee -a $logfile
         sudo $tool update -y | tee -a $logfile
         sudo $tool upgrade -y | tee -a $logfile
         sudo $tool $toolArgs install -y $applist | tee -a $logfile
@@ -341,6 +364,8 @@ if [ $installPacman -eq 1 ]; then
         exit 1
     fi
 fi
+
+install_cinnamon
 
 ################################################################################
 # Install non package manager apps
