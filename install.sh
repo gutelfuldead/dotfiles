@@ -21,11 +21,11 @@ getApps () {
     d=$1
     tmpApplist=""
     n=0
-    while IFS=, read -r dist prog comment repo; do
+    while IFS=, read -r dist prog manDot description gitRepo wgetRepo; do
         if [ $n -gt 0 ]; then
             if [ $d == "$dist" ]; then
                 if [ $d == "AUR" ]; then
-                    archAurRepos[${#archAurRepos[@]}]=$repo
+                    archAurRepos[${#archAurRepos[@]}]=$gitRepo
                 else
                     tmpApplist+=" "$prog
                 fi
@@ -110,6 +110,7 @@ archAurInstall() {
     cd $here
 }
 
+# TODO need to automate this with progs.csv
 non_pacman_apps () {
     use_git=0
     nonpacmanapps="fzf rcm ranger"

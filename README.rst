@@ -21,12 +21,14 @@ prompt first,
 
 * Updates all dotfiles
 
-  * Anything that would be replaced is first backed up in ${pwd}/backup
+  * Anything that would be replaced is first backed up in ``$(pwd)/backup``
+    maintaining folder hierarchy
 
   * ``~/.bashrc`` sources a user generated local ``~/.bash_aliases`` file for anything
-    that doesn't belong in a common ``~/.bashrc``
+    machine specific that doesn't belong in a common ``~/.bashrc`` like ``cd``
+    aliases, license server environment variables, etc.
 
-* Updates vim environment
+* Updates VIM environment
 
 * Adds user to groups required by apps
 
@@ -53,6 +55,7 @@ First column (Distro) uses key,
         "X","Arch only package (uses pacman)"
         "AUR","Arch User Repository Package"
         "P","Python package uses pip2/pip3"
+        "G","Git build with make/configure"
 
 Installation
 ============
