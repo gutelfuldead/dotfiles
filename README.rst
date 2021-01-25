@@ -18,6 +18,10 @@ prompt first,
   * CentOS
 
   * Arch
+  
+  * Common Python-Pip packages
+  
+  * Common applications from Github
 
 * Updates all dotfiles
 
