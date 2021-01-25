@@ -26,7 +26,7 @@ Anything machine specific should be placed in `~/.bash_aliases`. The default
 Installation
 ============
 
-The installation script works on Ubuntu and Centos ::
+The installation script works on Arch, Ubuntu, and Centos ::
 
         ./install.sh
 

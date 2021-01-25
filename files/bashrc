@@ -84,6 +84,16 @@ alias ll='ls -lahN --color=auto --group-directories-first'
 alias pac='sudo pacman -S'
 alias aur='makepkg -si --skippgpcheck'
 
+# create quick rst readmes from template
+readme () {
+    name=$1
+    len=${#name}
+    sep=$(printf '=%.0s' $(seq $len))
+    cp ~/.readmeTemplate.rst $(pwd)/${name}.rst
+    sed -i 's/Title/'$name'/g' $(pwd)/${name}.rst
+    sed -i 's/xxx/'$sep'/g' $(pwd)/${name}.rst
+}
+
 # smart extract
 extract () {
     if [ -f $1 ] ; then
@@ -145,5 +155,8 @@ if [ -n "$PATH" ]; then
     PATH=${PATH#:}
     unset old_PATH x
 fi
-export PATH="$HOME/.rbenv/bin:$PATH"
-eval "$(rbenv init -)"
+
+if [ -d $HOME/.rbenv ]; then
+    export PATH="$HOME/.rbenv/bin:$PATH"
+    eval "$(rbenv init -)"
+fi
