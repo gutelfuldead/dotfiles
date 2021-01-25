@@ -1,4 +1,4 @@
-Distro,Application,Managed Dotfile,Description,Repository,Wget
+AppType,Application,Managed Dotfile,Description,Repository,Wget
 A,tree,N,Recursive Directory listing,,
 A,make,N,GNU Make,,
 A,cmake,N,GNU Cmake,,

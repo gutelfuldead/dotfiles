@@ -42,9 +42,9 @@ Notes specific to `XPS13 laptop setup with ARCH <./xps13.rst>`_...
 Packages
 ========
 
-Full list of packages by distribution `progs.csv <./progs.csv>`_.
+Full list of packages by distribution `apps.csv <./apps.csv>`_.
 
-First column (Distro) uses key,
+First column (AppType) uses key,
 
 .. csv-table::
         :header: "Key","Descrption"
