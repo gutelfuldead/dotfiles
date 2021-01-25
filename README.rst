@@ -2,26 +2,45 @@
 Gutelfuldead Dot Files
 ======================
 
-Manage dotfiles for the following packages,
+.. contents:: Table of Contents
+.. section-numbering::
 
-- fzf
-- rcm
-- vim
-- ctags
-- terminator
-- rst2pdf
-- rst2html (docutils)
-- tmux
-- lynx
-- clang
+About
+=====
 
-Any existing dotfiles for these programs will be backed up before being
-overwritten.
+More of a new system setup. Will do the following with a confirmation [y/n]
+prompt first,
 
-Also manages bashrc
+* Installs applications
 
-Anything machine specific should be placed in `~/.bash_aliases`. The default
-`~/.bashrc` will source this file.
+  * Ubuntu
+
+  * CentOS
+
+  * Arch
+
+* Updates all dotfiles
+
+  * Anything that would be replaced is first backed up in ${pwd}/backup
+
+  * ``~/.bashrc`` sources a user generated local ``~/.bash_aliases`` file for anything
+    that doesn't belong in a common ``~/.bashrc``
+
+* Updates vim environment
+
+* Adds user to groups required by apps
+
+* Installs Cinnamon Desktop
+
+XPS13
+=====
+
+Notes specific to `XPS13 laptop setup with ARCH <./xps13.rst>`_...
+
+Packages
+========
+
+Full list of packages by distribution `progs.csv <./progs.csv>`_.
 
 Installation
 ============
@@ -29,43 +48,6 @@ Installation
 The installation script works on Arch, Ubuntu, and Centos ::
 
         ./install.sh
-
-If using this installs script then the following packages will be installed,
-
-- tree
-- make
-- cmake
-- clang
-- pdftk
-- gcc
-- gcc-c++
-- meld
-- xpdf
-- curl
-- pinta
-- git
-- wireshark
-- htop
-- bison
-- dropbear
-- neofetch
-- flex
-- ncurses-devel
-- sshfs
-- wine
-- feh
-- openssl-devel
-- ccrypt
-- vim
-- rst2pdf
-- patch
-- ctags
-- terminator
-- kakuake
-- tmux
-- lynx
-
-+ more... see the $applist variable in `install.sh`.
 
 Otherwise just install rcm ::
 
