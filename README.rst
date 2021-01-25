@@ -42,6 +42,18 @@ Packages
 
 Full list of packages by distribution `progs.csv <./progs.csv>`_.
 
+First column (Distro) uses key,
+
+.. csv-table::
+        :header: "Key","Descrption"
+
+        "A","Common package for All distributions"
+        "C","CentOS only package (uses yum)"
+        "U","Ubuntu/Debian only package (uses apt)"
+        "X","Arch only package (uses pacman)"
+        "AUR","Arch User Repository Package"
+        "P","Python package uses pip2/pip3"
+
 Installation
 ============
 
