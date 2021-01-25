@@ -1,4 +1,4 @@
-Distro (A=all, C=Centos, U=Ubuntu, X=Arch, AUR=Arch User Repos, P=python-pip),Application,Description,Repository
+Distro (A=all; C=Centos; U=Ubuntu; X=Arch; AUR=Arch User Repos; P=python-pip),Application,Description,Repository
 A,tree,Recursive Directory listing
 A,make,GNU Make
 A,cmake,GNU Cmake
