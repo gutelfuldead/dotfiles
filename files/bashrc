@@ -83,7 +83,6 @@ alias ll='ls -lahN --color=auto --group-directories-first'
 # arch aliases
 alias pac='sudo pacman -S'
 alias aur='makepkg -si --skippgpcheck'
-alias spot='spotify --force-device-scale-factor=2' # bad scale on xps13
 
 # create quick rst readmes from template
 readme () {
