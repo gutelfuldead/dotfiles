@@ -104,4 +104,4 @@ Update all symlinks ::
 XPS 13
 ======
 
-Notes specific to `XPS13 laptop setup with ARCH <./xps13.rst>`_.
+Notes specific to `XPS13 laptop setup with Arch <./xps13.rst>`_.
