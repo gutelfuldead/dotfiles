@@ -20,6 +20,11 @@ Also manages bashrc
 Anything machine specific should be placed in `~/.bash_aliases`. The default
 `~/.bashrc` will source this file.
 
+Packages
+========
+
+Full list of packages by distribution `progs.csv <./progs.csv>`_.
+
 Installation
 ============
 

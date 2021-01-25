@@ -1,84 +1,12 @@
 #!/bin/bash
 here=$(pwd)
+progsFile=$here/progs.csv
 logfile=$here/install.log
+tmpApplist=
+archAurRepos=()
 
 # groups to add the user to
 groups=(wheel dialout libvirt vboxusers wireshark)
-
-# apps to install in all distributions
-applist="tree \
-    make \
-    cmake \
-    clang \
-    pdftk \
-    minicom \
-    gcc \
-    python2 \
-    python2-pip \
-    python3 \
-    tkinter \
-    python3-pip \
-    dtc \
-    meld \
-    curl \
-    pinta \
-    git \
-    wireshark \
-    wireshark-gnome \
-    htop \
-    bison \
-    dropbear \
-    neofetch \
-    flex \
-    sshfs \
-    wine \
-    feh \
-    ccrypt \
-    vim \
-    rst2pdf \
-    patch \
-    ctags \
-    terminator \
-    tmux \
-    lynx
-    "
-
-pipPackages="numpy \
-    pyvisa \
-    matplotlib \
-    scipy \
-    pandas \
-    pyvisa-py \
-    pyusb
-    "
-
-# apps to install if using centos
-centosApps="perl-Tk-devel.x86_64 \
-    perl-Thread-Queue \
-    gcc-c++ \
-    rpl \
-    ncurses-devel \
-    openssl-devel \
-    xpdf \
-    geany-plugins-geanygendoc \
-    perl-ExtUtils-MakeMaker
-    "
-
-# apps to install if using ubuntu
-ubuntuApps="docutils-common \
-    g++ \
-    yakuake
-    "
-
-# apps to install if using arch
-archApps="kakuake"
-
-# arch AUR apps to install
-archAurRepos=(https://aur.archlinux.org/xrdp.git \
-    https://aur.archlinux.org/rst2pdf.git \
-    https://aur.archlinux.org/spotify.git \
-    https://aur.archlinux.org/ncurses5-compat-libs.git
-)
 
 echon ()
 {
@@ -86,6 +14,25 @@ echon ()
     echo -e "$1" | tee -a $logfile
     echo -e "################################################################################\n" | tee -a $logfile
     sleep 1
+}
+
+getApps () {
+    total=$(wc -l < $progsFile)
+    d=$1
+    tmpApplist=""
+    n=0
+    while IFS=, read -r dist prog comment repo; do
+        if [ $n -gt 0 ]; then
+            if [ $d == "$dist" ]; then
+                if [ $d == "AUR" ]; then
+                    archAurRepos[${#archAurRepos[@]}]=$repo
+                else
+                    tmpApplist+=" "$prog
+                fi
+            fi
+        fi
+        n=$((n+1))
+    done < $progsFile
 }
 
 backup ()
@@ -298,11 +245,13 @@ tool=""
 debian=0
 centos=0
 arch=0
+getApps A
+applist=$tmpApplist
 tmp=$(which apt > /dev/null 2>&1)
 if [ $? -eq 0 ]; then
     distro="debian"
+    getApps U
     debian=1
-    applist+=" "$ubuntuApps
     tool="apt"
     toolArgs=""
 fi
@@ -310,20 +259,21 @@ fi
 tmp=$(which yum > /dev/null 2>&1)
 if [ $? -eq 0 ]; then
     distro="centos"
+    getApps C
     centos=1
     tool="yum"
     toolArgs="--nogpgcheck --skip-broken"
-    applist+=" "$centosApps
 fi
 
 tmp=$(which pacman > /dev/null 2>&1)
 if [ $? -eq 0 ]; then
     distro="arch"
+    getApps X
     arch=1
-    applist+=" "$archApps
     tool="pacman"
     toolArgs=""
 fi
+applist+=$tmpApplist
 
 if [ $distro == "" ]; then
     echon "unknown distro"
@@ -375,6 +325,8 @@ non_pacman_apps
 ################################################################################
 # Install python packages
 ################################################################################
+getApps P
+pipPackages=$tmpApplist
 read -r -p "Install python 2/3 PIP packages $pipPackages? [y/n] : " response
 case "$response" in
     [yY][eE][sS]|[yY])
@@ -391,6 +343,7 @@ esac
 ################################################################################
 # install all arch AUR apps
 ################################################################################
+getApps AUR
 if [ $arch -eq 1 ]; then
     read -r -p "Install AUR packages $archAurRepos ? [y/n] : " response
     case "$response" in
