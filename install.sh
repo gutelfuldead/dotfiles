@@ -343,8 +343,8 @@ esac
 ################################################################################
 # install all arch AUR apps
 ################################################################################
-getApps AUR
 if [ $arch -eq 1 ]; then
+    getApps AUR
     read -r -p "Install AUR packages $archAurRepos ? [y/n] : " response
     case "$response" in
         [yY][eE][sS]|[yY])

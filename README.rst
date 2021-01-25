@@ -8,17 +8,29 @@ Gutelfuldead Dot Files
 About
 =====
 
-More of a new system setup. Installs applications and updates dotfiles.
+More of a new system setup. Will do the following with a confirmation [y/n]
+prompt first,
 
-See the list of programs at the top of ``install.sh``,
+* Installs applications
 
-Any existing dotfiles for these programs will be backed up before being
-overwritten.
+  * Ubuntu
 
-Also manages bashrc
+  * CentOS
 
-Anything machine specific should be placed in `~/.bash_aliases`. The default
-`~/.bashrc` will source this file.
+  * Arch
+
+* Updates all dotfiles
+
+  * Anything that would be replaced is first backed up in ${pwd}/backup
+
+  * ``~/.bashrc`` sources a user generated local ``~/.bash_aliases`` file for anything
+    that doesn't belong in a common ``~/.bashrc``
+
+* Updates vim environment
+
+* Adds user to groups required by apps
+
+* Installs Cinnamon Desktop
 
 Packages
 ========
@@ -31,43 +43,6 @@ Installation
 The installation script works on Arch, Ubuntu, and Centos ::
 
         ./install.sh
-
-If using this installs script then the following packages will be installed,
-
-- tree
-- make
-- cmake
-- clang
-- pdftk
-- gcc
-- gcc-c++
-- meld
-- xpdf
-- curl
-- pinta
-- git
-- wireshark
-- htop
-- bison
-- dropbear
-- neofetch
-- flex
-- ncurses-devel
-- sshfs
-- wine
-- feh
-- openssl-devel
-- ccrypt
-- vim
-- rst2pdf
-- patch
-- ctags
-- terminator
-- kakuake
-- tmux
-- lynx
-
-+ more... see the $applist variable in `install.sh`.
 
 Otherwise just install rcm ::
 
