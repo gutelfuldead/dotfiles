@@ -1,59 +1,59 @@
 Distro (A=all; C=Centos; U=Ubuntu; X=Arch; AUR=Arch User Repos; P=python-pip),Application,Description,Repository
-A,tree,Recursive Directory listing
-A,make,GNU Make
-A,cmake,GNU Cmake
-A,clang,C Language Formatter
-A,pdftk,PDF Tool Kit
-A,minicom,Serial communication
-A,gcc,GNU C Compiler
-A,python2,Python 2
-A,python2-pip,Python2 Package Installer
-A,python3,Python 3
-A,tkinter,Python interface for Tcl/Tk
-A,python3-pip,Python3 Package Installer
-A,dtc,Device Tree Creator
-A,meld,File Comparison tool
-A,curl,Web data transfer tool
-A,pinta,MSPAINT like application
-A,git,GIT version control
-A,svn,SVN version control
-A,wireshark-gnome,Network protocol analyzer
-A,octave,Numerical Computation Engine (opensource matlab)
-A,htop,Improved top system performance monitor
-A,bison,GNU Bison parser generator
-A,dropbear,Small SSH server/client
-A,neofetch,CLI System Info
-A,flex,Fast Lexical Analyser Generator
-A,sshfs,Mount remote filesystems with sftp
-A,wine,Wine Is Not an Emulator
-A,feh,Image viewer
-A,ccrypt,Encryption/decryption utility
-A,vim,Vi IMproved text editor
-A,rst2pdf,reStructuredText to PDF
-A,patch,Apply a diff file
-A,ctags,Generate tag files for source code
-A,terminator,Multiple GNOME terminals in one window
-A,tmux,Terminal multiplexer
-P,numpy,Scientific Computing
-P,pyvisa,Wrapper for VISA shared libraries
-P,matplotlib,Visualization with python
-P,scipy,Scientific computing tools for python
-P,pandas,Data analysis and manipulation tool
-P,pyvisa-py,Pure python backend for pyVISA
-P,pyusb,USB access for Python
-C,perl-Tk-devel.x86_64,Modules and Tk code for Perl/Tk (for buildroot)
-C,perl-Thread-Queue,Thread safe Queues (for buildroot)
-C,gcc-c++,GNU C++ Compiler
-C,rpl,Replace Strings in Files
-C,ncurses-devel,ncurses library
-C,openssl-devel,openssl library
-C,xpdf,PDF viewer
-C,geany-plugins-geanygendoc,Used for rst2html
-C,perl-ExtUtils-MakeMaker,Used for buildroot
-U,docutils-common,Used for rst2html
-U,g++,GNU C++ Compiler
-U,yakuake,Drop down terminal emulator
-X,kakuake,Drop down terminal emulator
+A,tree,Recursive Directory listing,
+A,make,GNU Make,
+A,cmake,GNU Cmake,
+A,clang,C Language Formatter,
+A,pdftk,PDF Tool Kit,
+A,minicom,Serial communication,
+A,gcc,GNU C Compiler,
+A,python2,Python 2,
+A,python2-pip,Python2 Package Installer,
+A,python3,Python 3,
+A,tkinter,Python interface for Tcl/Tk,
+A,python3-pip,Python3 Package Installer,
+A,dtc,Device Tree Creator,
+A,meld,File Comparison tool,
+A,curl,Web data transfer tool,
+A,pinta,MSPAINT like application,
+A,git,GIT version control,
+A,svn,SVN version control,
+A,wireshark-gnome,Network protocol analyzer,
+A,octave,Numerical Computation Engine (opensource matlab),
+A,htop,Improved top system performance monitor,
+A,bison,GNU Bison parser generator,
+A,dropbear,Small SSH server/client,
+A,neofetch,CLI System Info,
+A,flex,Fast Lexical Analyser Generator,
+A,sshfs,Mount remote filesystems with sftp,
+A,wine,Wine Is Not an Emulator,
+A,feh,Image viewer,
+A,ccrypt,Encryption/decryption utility,
+A,vim,Vi IMproved text editor,
+A,rst2pdf,reStructuredText to PDF,
+A,patch,Apply a diff file,
+A,ctags,Generate tag files for source code,
+A,terminator,Multiple GNOME terminals in one window,
+A,tmux,Terminal multiplexer,
+P,numpy,Scientific Computing,
+P,pyvisa,Wrapper for VISA shared libraries,
+P,matplotlib,Visualization with python,
+P,scipy,Scientific computing tools for python,
+P,pandas,Data analysis and manipulation tool,
+P,pyvisa-py,Pure python backend for pyVISA,
+P,pyusb,USB access for Python,
+C,perl-Tk-devel.x86_64,Modules and Tk code for Perl/Tk (for buildroot),
+C,perl-Thread-Queue,Thread safe Queues (for buildroot),
+C,gcc-c++,GNU C++ Compiler,
+C,rpl,Replace Strings in Files,
+C,ncurses-devel,ncurses library,
+C,openssl-devel,openssl library,
+C,xpdf,PDF viewer,
+C,geany-plugins-geanygendoc,Used for rst2html,
+C,perl-ExtUtils-MakeMaker,Used for buildroot,
+U,docutils-common,Used for rst2html,
+U,g++,GNU C++ Compiler,
+U,yakuake,Drop down terminal emulator,
+X,kakuake,Drop down terminal emulator,
 AUR,XRDP,Graphical login for rdp,https://aur.archlinux.org/xrdp.git
 AUR,rst2pdf,Convert rst to pdfs,https://aur.archlinux.org/rst2pdf.git
 AUR,spotify,Music streaming,https://aur.archlinux.org/spotify.git
