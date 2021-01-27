@@ -43,7 +43,7 @@ installAppList() {
                     ;;
                 U ) # install all ubuntu/debian apps
                     if [ $installApps -eq 1 ] && [ $debian -eq 1 ]; then
-                        sudo $tool $toolArgs $installArgs $ $app | tee -a $logfile
+                        sudo $tool $toolArgs $installArgs $app | tee -a $logfile
                     fi
                     ;;
                 X ) # install all arch apps
