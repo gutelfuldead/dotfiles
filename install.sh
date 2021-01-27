@@ -1,6 +1,6 @@
 #!/bin/bash
 here=$(pwd)
-progsFile=$here/progs.csv
+appsFile=$here/apps.csv
 logfile=$here/install.log
 tmpApplist=
 archAurRepos=()
@@ -17,22 +17,22 @@ echon ()
 }
 
 getApps () {
-    total=$(wc -l < $progsFile)
+    total=$(wc -l < $appsFile)
     d=$1
     tmpApplist=""
     n=0
-    while IFS=, read -r dist prog comment repo; do
+    while IFS=, read -r appType app manDot description gitRepo wgetRepo; do
         if [ $n -gt 0 ]; then
-            if [ $d == "$dist" ]; then
+            if [ $d == "$appType" ]; then
                 if [ $d == "AUR" ]; then
-                    archAurRepos[${#archAurRepos[@]}]=$repo
+                    archAurRepos[${#archAurRepos[@]}]=$gitRepo
                 else
-                    tmpApplist+=" "$prog
+                    tmpApplist+=" "$app
                 fi
             fi
         fi
         n=$((n+1))
-    done < $progsFile
+    done < $appsFile
 }
 
 backup ()
@@ -110,6 +110,7 @@ archAurInstall() {
     cd $here
 }
 
+# TODO need to automate this with progs.csv
 non_pacman_apps () {
     use_git=0
     nonpacmanapps="fzf rcm ranger"

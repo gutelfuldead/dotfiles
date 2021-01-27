@@ -18,29 +18,43 @@ prompt first,
   * CentOS
 
   * Arch
+  
+  * Common Python-Pip packages
+  
+  * Common applications from Github
 
 * Updates all dotfiles
 
-  * Anything that would be replaced is first backed up in ${pwd}/backup
+  * Anything that would be replaced is first backed up in ``$(pwd)/backup``
+    maintaining folder hierarchy
 
   * ``~/.bashrc`` sources a user generated local ``~/.bash_aliases`` file for anything
-    that doesn't belong in a common ``~/.bashrc``
+    machine specific that doesn't belong in a common ``~/.bashrc`` like ``cd``
+    aliases, license server environment variables, etc.
 
-* Updates vim environment
+* Updates VIM environment
 
 * Adds user to groups required by apps
 
 * Installs Cinnamon Desktop
 
-XPS13
-=====
-
-Notes specific to `XPS13 laptop setup with ARCH <./xps13.rst>`_...
-
 Packages
 ========
 
-Full list of packages by distribution `progs.csv <./progs.csv>`_.
+Full list of packages by distribution `apps.csv <./apps.csv>`_.
+
+First column (AppType) uses key,
+
+.. csv-table::
+        :header: "Key","Descrption"
+
+        "A","Common package for All distributions"
+        "C","CentOS only package (uses yum)"
+        "U","Ubuntu/Debian only package (uses apt)"
+        "X","Arch only package (uses pacman)"
+        "AUR","Arch User Repository Package"
+        "P","Python package uses pip2/pip3"
+        "G","Git build with make/configure"
 
 Installation
 ============
@@ -86,3 +100,8 @@ View all symlinks ::
 Update all symlinks ::
 
         rcup
+
+XPS 13
+======
+
+Notes specific to `XPS13 laptop setup with Arch <./xps13.rst>`_.
