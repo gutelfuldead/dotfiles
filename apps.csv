@@ -61,3 +61,8 @@ AUR,ncurses5-compat-libs,N,ncurses5 development libs,https://aur.archlinux.org/n
 G,rcm,Y,RCM Management Suite for Dotfiles,https://github.com/thoughtbot/rcm.git,https://thoughtbot.github.io/rcm/dist/rcm-1.3.3.tar.gz
 G,fzf,Y,Fuzzy Finder,https://github.com/junegunn/fzf.git,https://github.com/junegunn/fzf/archive/0.21.1.zip
 G,ranger,Y,Ranger CLI File Browser,https://github.com/ranger/ranger.git,https://github.com/ranger/ranger/archive/v1.9.3.zip
+GP,wheel,sudoers group for debian,,
+GP,dialout,group for serial programs like minicom,,
+GP,libvirt,group for kvm,,
+GP,vboxusers,group for virtual box,,
+GP,wireshark,group for wireshark,,

@@ -18,9 +18,9 @@ prompt first,
   * CentOS
 
   * Arch
-  
+
   * Common Python-Pip packages
-  
+
   * Common applications from Github
 
 * Updates all dotfiles
@@ -38,11 +38,6 @@ prompt first,
 
 * Installs Cinnamon Desktop
 
-XPS13
-=====
-
-Notes specific to `XPS13 laptop setup with ARCH <./xps13.rst>`_...
-
 Packages
 ========
 
@@ -58,8 +53,10 @@ First column (AppType) uses key,
         "U","Ubuntu/Debian only package (uses apt)"
         "X","Arch only package (uses pacman)"
         "AUR","Arch User Repository Package"
-        "P","Python package uses pip2/pip3"
+        "P","Python package uses pip2/pip3, ensure these occur AFTER the local
+        python-pip installations using the package manager"
         "G","Git build with make/configure"
+        "GP","Group to add user to (if it exists on the system)"
 
 Installation
 ============
@@ -105,3 +102,8 @@ View all symlinks ::
 Update all symlinks ::
 
         rcup
+
+XPS 13
+======
+
+Notes specific to `XPS13 laptop setup with Arch <./xps13.rst>`_.

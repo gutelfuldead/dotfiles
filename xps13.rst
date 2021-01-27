@@ -1,6 +1,6 @@
-=====
-xps13
-=====
+======
+XPS 13
+======
 
 .. contents:: Table of Contents
 .. section-numbering::
