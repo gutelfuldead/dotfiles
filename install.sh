@@ -1,12 +1,20 @@
 #!/bin/bash
 here=$(pwd)
+archAurRepo=$here/archAurPkgs
 appsFile=$here/apps.csv
 logfile=$here/install.log
-tmpApplist=
-archAurRepos=()
-
-# groups to add the user to
-groups=(wheel dialout libvirt vboxusers wireshark)
+installPip=0
+debian=0
+centos=0
+arch=0
+pipInit=0
+installApps=0
+installAUR=0
+distro=""
+tool=""
+toolArgs=""
+installArgs=""
+groups=()
 
 echon ()
 {
@@ -16,20 +24,59 @@ echon ()
     sleep 1
 }
 
-getApps () {
+installAppList() {
     total=$(wc -l < $appsFile)
-    d=$1
-    tmpApplist=""
     n=0
     while IFS=, read -r appType app manDot description gitRepo wgetRepo; do
-        if [ $n -gt 0 ]; then
-            if [ $d == "$appType" ]; then
-                if [ $d == "AUR" ]; then
-                    archAurRepos[${#archAurRepos[@]}]=$gitRepo
-                else
-                    tmpApplist+=" "$app
-                fi
-            fi
+        if [ $n -gt 0 ]; then # ignore top row of csv
+            case $appType in
+                A ) # install all distros
+                    if [ $installApps -eq 1 ]; then
+                        echo "sudo $tool $toolArgs $installArgs $app"
+                        sudo $tool $toolArgs $installArgs $app | tee -a $logfile
+                    fi
+                    ;;
+                C ) # install all centos apps
+                    if [ $installApps -eq 1 ] && [ $centos -eq 1 ]; then
+                        sudo $tool $toolArgs $installArgs $app | tee -a $logfile
+                    fi
+                    ;;
+                U ) # install all ubuntu/debian apps
+                    if [ $installApps -eq 1 ] && [ $debian -eq 1 ]; then
+                        sudo $tool $toolArgs $installArgs $ $app | tee -a $logfile
+                    fi
+                    ;;
+                X ) # install all arch apps
+                    if [ $installApps -eq 1 ] && [ $arch -eq 1 ]; then
+                        sudo $tool $toolArgs $installArgs $app | tee -a $logfile
+                    fi
+                    ;;
+                AUR ) # install arch aur apps
+                    if [ $installAUR -eq 1 ] && [ $arch -eq 1 ]; then
+                        cloneArchAurRepos $gitRepo
+                    fi
+                    ;;
+                P ) # python pip
+                    if [ $installPip -eq 1 ]; then
+                        if [ $pipInit -eq 0 ]; then
+                            echon "Updating PIP"
+                            sudo pip2 install --upgrade pip
+                            sudo pip3 install --upgrade pip
+                            pipInit=1
+                        fi
+                        sudo pip2 install -U $app | tee -a $logfile
+                        sudo pip3 install -U $app | tee -a $logfile
+                    fi
+                    ;;
+                GP ) # append group list, dont add now wait for everything to be installed, just aggregate
+                    groups[${#groups[@]}]=$app
+                    ;;
+                G ) # git repo
+                    ;;
+                * )
+                    echo "Unknown tag $appType for application $app"
+                    ;;
+            esac
         fi
         n=$((n+1))
     done < $appsFile
@@ -76,25 +123,27 @@ addGroup() {
     fi
 }
 
-archAurInstall() {
-    here=$(pwd)
-    gr=$here/archAurPkgs
-    repos=$1
-
-    echon "Installing ARCH AUR Repos..."
-
+cloneArchAurRepos() {
+    repo=$1
     # create directory for repos
-    if [ ! -d $gr ]; then
-        mkdir $gr
+    if [ ! -d $archAurRepo ]; then
+        mkdir $archAurRepo
     fi
-    cd $gr
+    cd $archAurRepo
 
     # clone all the repos
-    for i in ${repos[@]}; do
-        git clone $i | tee -a $logfile
-    done
+    git clone $repo | tee -a $logfile
 
-    # go in each one and install it
+    cd $here
+}
+
+archAurInstall() {
+    if [ ! -d $archAurRepo ]; then
+        return
+    fi
+    cd $archAurRepo
+
+    # go in each repo and install it
     d=$(find . -maxdepth 1 -type d)
     echo $d
     init=0 # ignore the first entry which is ./
@@ -110,7 +159,7 @@ archAurInstall() {
     cd $here
 }
 
-# TODO need to automate this with progs.csv
+# TODO need to automate this with apps.csv
 non_pacman_apps () {
     use_git=0
     nonpacmanapps="fzf rcm ranger"
@@ -220,12 +269,12 @@ install_cinnamon() {
             ;;
     esac
 
-    if [ $tool == "yum" ]; then
+    if [ $centos -eq 1 ]; then
         sudo $tool groupinstall "Server with GUI" -y
         sudo $tool install -y cinnamon
-    elif [ $tool == "apt" ]; then
+    elif [ $debian -eq 1 ]; then
         sudo $tool install -y cinnamon
-    elif [ $tool == "pacman" ]; then
+    elif [ $arch -eq 1 ]; then
         sudo $tool -Syu cinnamon
     fi
 }
@@ -241,40 +290,32 @@ echon "$0 ran @ $(date)..."
 ################################################################################
 # get linux distro
 ################################################################################
-distro=""
-tool=""
-debian=0
-centos=0
-arch=0
-getApps A
-applist=$tmpApplist
-tmp=$(which apt > /dev/null 2>&1)
+tmp=$(which apt-get > /dev/null 2>&1)
 if [ $? -eq 0 ]; then
     distro="debian"
-    getApps U
     debian=1
-    tool="apt"
+    tool="apt-get"
     toolArgs=""
+    installArgs="install -y"
 fi
 
 tmp=$(which yum > /dev/null 2>&1)
 if [ $? -eq 0 ]; then
     distro="centos"
-    getApps C
     centos=1
     tool="yum"
     toolArgs="--nogpgcheck --skip-broken"
+    installArgs="install -y"
 fi
 
 tmp=$(which pacman > /dev/null 2>&1)
 if [ $? -eq 0 ]; then
     distro="arch"
-    getApps X
     arch=1
     tool="pacman"
     toolArgs=""
+    installArgs="-Sy"
 fi
-applist+=$tmpApplist
 
 if [ $distro == "" ]; then
     echon "unknown distro"
@@ -285,56 +326,30 @@ fi
 # install pacman apps
 ################################################################################
 echon "Setup for $distro ..."
-echon "packages to install : < $applist >"
 
-installPacman=0
-read -r -p "Install packages with $tool? [y/n] : " response
+read -r -p "Install packages from $appsFile with $tool? [y/n] : " response
 case "$response" in
     [yY][eE][sS]|[yY])
         echon "installing and updating apps with $tool ..."
-        installPacman=1
+        installApps=1
+        if [ $centos -eq 1 ] || [ $debian -eq 1 ]; then
+            sudo $tool update -y | tee -a $logfile
+            sudo $tool upgrade -y | tee -a $logfile
+        fi
         ;;
     *)
         echon "NOT installing and updating apps with $tool ..."
         ;;
 esac
 
-if [ $installPacman -eq 1 ]; then
-    if [ $arch -eq 1 ]; then
-        sudo pacman $toolArgs -S $applist | tee -a $logfile
-    elif [ $debian -eq 1 ]; then
-        sudo $tool update -y | tee -a $logfile
-        sudo $tool upgrade -y | tee -a $logfile
-        sudo $tool install $toolArgs -y $applist | tee -a $logfile
-    elif [ $centos -eq 1 ]; then
-        sudo $tool install epel-release -y | tee -a $logfile
-        sudo $tool update -y | tee -a $logfile
-        sudo $tool upgrade -y | tee -a $logfile
-        sudo $tool $toolArgs install -y $applist | tee -a $logfile
-    else
-        exit 1
-    fi
-fi
-
-install_cinnamon
-
-################################################################################
-# Install non package manager apps
-################################################################################
-non_pacman_apps
 
 ################################################################################
 # Install python packages
 ################################################################################
-getApps P
-pipPackages=$tmpApplist
-read -r -p "Install python 2/3 PIP packages $pipPackages? [y/n] : " response
+read -r -p "Install python 2/3 PIP packages? [y/n] : " response
 case "$response" in
     [yY][eE][sS]|[yY])
-        sudo pip2 install --upgrade pip
-        sudo pip3 install --upgrade pip
-        sudo pip2 install -U $pipPackages
-        sudo pip3 install -U $pipPackages
+        installPip=1
         ;;
     *)
         echon "NOT Installing PIP packages"
@@ -345,17 +360,26 @@ esac
 # install all arch AUR apps
 ################################################################################
 if [ $arch -eq 1 ]; then
-    getApps AUR
-    read -r -p "Install AUR packages $archAurRepos ? [y/n] : " response
+    read -r -p "Install AUR packages ? [y/n] : " response
     case "$response" in
         [yY][eE][sS]|[yY])
             echon "Installing ARCH AUR packages"
-            archAurInstall $archAurRepos
+            installAUR=1
             ;;
         *)
             echon "NOT Installing ARCH AUR packages"
             ;;
     esac
+fi
+
+################################################################################
+# Actually install everything
+################################################################################
+installAppList
+install_cinnamon
+non_pacman_apps
+if [ $installAUR -eq 1 ] && [ $arch -eq 1 ]; then
+    archAurInstall
 fi
 
 ################################################################################
@@ -374,10 +398,13 @@ if [ $? -eq 1 ]; then
             ###################################
             # install vim dotfiles and packages
             ###################################
-            echon "installing vim settings ... "
-            vim -c 'PlugClean' +qa
-            vim -c 'PlugInstall' +qa
-            vim ~/.vim/vbas/Align.vba 'source %' +qa
+            tmp=$(which vim > /dev/null 2>&1)
+            if [ $? -eq 1 ]; then
+                echon "installing vim settings ... "
+                vim -c 'PlugClean' +qa
+                vim -c 'PlugInstall' +qa
+                vim ~/.vim/vbas/Align.vba 'source %' +qa
+            fi
             ;;
         *)
             echon "NOT replacing dotfiles"
