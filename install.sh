@@ -10,6 +10,8 @@ arch=0
 pipInit=0
 installApps=0
 installAUR=0
+gitinstall=0
+wgetinstall=0
 distro=""
 tool=""
 toolArgs=""
@@ -22,6 +24,28 @@ echon ()
     echo -e "$1" | tee -a $logfile
     echo -e "################################################################################\n" | tee -a $logfile
     sleep 1
+}
+
+gitInstall() {
+    app=$1
+    repo=$2
+    tmp=$(which $app > /dev/null 2>&1)
+    echo "~/.$app"
+    if [ $? -ne 0 ] && [ ! -d ~/.$app ]; then
+        echo "here"
+        git clone --depth 1 $repo ~/.$app | tee -a $logfile
+        cd ~/.$app
+        if [ -f configure ]; then
+            ./configure | tee -a $logfile
+        fi
+        if [ -f install ]; then
+            ./install | tee -a $logfile
+        elif [ -f makefile ] || [ -f Makefile ]; then
+            make | tee -a $logfile
+            sudo make install | tee -a $logfile
+        fi
+        cd $here
+    fi
 }
 
 installAppList() {
@@ -71,7 +95,13 @@ installAppList() {
                 GP ) # append group list, dont add now wait for everything to be installed, just aggregate
                     groups[${#groups[@]}]=$app
                     ;;
-                G ) # git repo
+                G ) # TODO git repo
+                    # if [ $gitinstall -eq 1 ]; then
+                    #     gitInstall $app $gitRepo
+                    # fi
+                    # if [ $wgetinstall -eq 1 ]; then
+                    #     echo "todo"
+                    # fi
                     ;;
                 * )
                     echo "Unknown tag $appType for application $app"
@@ -205,6 +235,7 @@ non_pacman_apps () {
                 mkdir -pv ~/.fzf
                 cd ~/.fzf
                 curl -LO https://github.com/junegunn/fzf/archive/0.21.1.zip | tee -a $logfile
+
                 unzip 0.21.1.zip | tee -a $logfile
                 ./fzf-0.21.1/install | tee -a $logfile
             fi
@@ -341,6 +372,30 @@ case "$response" in
         echon "NOT installing and updating apps with $tool ..."
         ;;
 esac
+
+################################################################################
+# TODO install git apps
+################################################################################
+# read -r -p "Install GIT based Applications [tag G in apps.csv] from $appsFile [y/n] : " response
+# case "$response" in
+#     [yY][eE][sS]|[yY])
+#         read -r -p "Source build files from Git [g] or Wget [w] [g/w] : " response
+#         case "$response" in
+#             [gG])
+#                 gitinstall=1
+#                 ;;
+#             [wW])
+#                 wgetinstall=1
+#                 ;;
+#             *)
+#                 echo "Invalid response $response not installing these applications"
+#                 ;;
+#         esac
+#         ;;
+#     *)
+#         echon "NOT installing git applications ..."
+#         ;;
+# esac
 
 
 ################################################################################
