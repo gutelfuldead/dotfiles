@@ -30,7 +30,6 @@ gitInstall() {
     app=$1
     repo=$2
     tmp=$(which $app > /dev/null 2>&1)
-    echo "~/.$app"
     if [ $? -ne 0 ] && [ ! -d ~/.$app ]; then
         echo "here"
         git clone --depth 1 $repo ~/.$app | tee -a $logfile

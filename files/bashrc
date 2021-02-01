@@ -13,6 +13,9 @@
 # source global definitions
 [ -f /etc/bashrc ] && source /etc/bashrc
 
+# http://bashrcgenerator.com/
+PS1="[\[$(tput sgr0)\]\[\033[38;5;10m\]\W\[$(tput sgr0)\]\[\033[38;5;11m\]:\[$(tput sgr0)\]\[\033[38;5;10m\]\h\[$(tput sgr0)\] ] \[$(tput sgr0)\]\[\033[38;5;10m\]\\$\[$(tput sgr0)\] \[$(tput sgr0)\]"
+
 # adding /bin causes issues with buildroot
 def_path=/usr/bin:/usr/sbin:/usr/local/bin
 PATH=$def_path
@@ -42,13 +45,6 @@ export LESS_TERMCAP_se=$'\E[0m'
 export LESS_TERMCAP_so=$'\E[01;44;33m'
 export LESS_TERMCAP_ue=$'\E[0m'
 export LESS_TERMCAP_us=$'\E[01;32m'
-
-# change color when running as su
-if [ "`id -u`" -eq 0 ]; then
-    PS1="[ \[\e[1;31m\]λ\[\e[1;32m\]\[\e[49m\]:\h \W \[\e[0m\]] "
-else
-    PS1="[ \[\e[1;32m\]λ:\h \W \[\e[0m\]] "
-fi
 
 # duh
 export EDITOR='vim'
@@ -160,3 +156,4 @@ if [ -d $HOME/.rbenv ]; then
     export PATH="$HOME/.rbenv/bin:$PATH"
     eval "$(rbenv init -)"
 fi
+
