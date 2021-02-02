@@ -26,12 +26,31 @@ echon ()
     sleep 1
 }
 
+# https://github.com/thoughtbot/rcm
+installRcm () {
+    ver=1.3.4
+    echon "Installing RCM"
+    if [ ! -d ~/.rcm ]; then
+        echo $here
+        curl -LO https://thoughtbot.github.io/rcm/dist/rcm-${ver}.tar.gz
+        mkdir ~/.rcm
+        tar -xvf rcm-${ver}.tar.gz --directory ~/.rcm
+        mv ~/.rcm/rcm-${ver}/* ~/.rcm
+        rm -rf ~/.rcm/rcm-${ver}
+        rm -f rcm-${ver}.tar.gz
+    fi
+    cd ~/.rcm
+    ./configure
+    make
+    sudo make install
+    cd $here
+}
+
 gitInstall() {
     app=$1
     repo=$2
     tmp=$(which $app > /dev/null 2>&1)
     if [ $? -ne 0 ] && [ ! -d ~/.$app ]; then
-        echo "here"
         git clone --depth 1 $repo ~/.$app | tee -a $logfile
         cd ~/.$app
         if [ -f configure ]; then
@@ -44,6 +63,8 @@ gitInstall() {
             sudo make install | tee -a $logfile
         fi
         cd $here
+    else
+        echo "$app already installed, skipping"
     fi
 }
 
@@ -95,12 +116,12 @@ installAppList() {
                     groups[${#groups[@]}]=$app
                     ;;
                 G ) # TODO git repo
-                    # if [ $gitinstall -eq 1 ]; then
-                    #     gitInstall $app $gitRepo
-                    # fi
-                    # if [ $wgetinstall -eq 1 ]; then
-                    #     echo "todo"
-                    # fi
+                    if [ $gitinstall -eq 1 ]; then
+                        gitInstall $app $gitRepo
+                    fi
+                    if [ $wgetinstall -eq 1 ]; then
+                        echo "todo"
+                    fi
                     ;;
                 * )
                     echo "Unknown tag $appType for application $app"
@@ -124,6 +145,7 @@ backup ()
                 overwrite=1
                 ;;
             *)
+                return
                 overwrite=0
                 ;;
         esac
@@ -186,105 +208,6 @@ archAurInstall() {
         fi
     done
     cd $here
-}
-
-# TODO need to automate this with apps.csv
-non_pacman_apps () {
-    use_git=0
-    nonpacmanapps="fzf rcm ranger"
-    read -r -p "Install non-pacman < $nonpacmanapps > apps from git/wget tars? [y/n] : " response
-    case "$response" in
-        [yY][eE][sS]|[yY])
-            echon "Installing non package manager apps"
-            ;;
-        *)
-            echon "NOT Installing non package manager apps"
-            return 0
-            ;;
-    esac
-
-    ################################################################################
-    # install non-pacman apps option
-    ################################################################################
-    read -r -p "use git to source latest builds? If not tarballs will be used [y/n] : " response
-    case "$response" in
-        [yY][eE][sS]|[yY])
-            echon "Using GIT to source non package manager apps"
-            use_git=1
-            ;;
-        *)
-            echon "Using wget and tarballs to source non package manager apps"
-            use_git=0
-            ;;
-    esac
-
-    ################################################################################
-    # fzf
-    ################################################################################
-    tmp=$(which fzf > /dev/null 2>&1)
-    if [ $? -ne 0 ]; then
-        if [ $arch -eq 1 ]; then
-            sudo pacman -S fzf
-        else
-            echon "installing fzf ..."
-            if [ $use_git -eq 1 ]; then
-                git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf | tee -a $logfile
-                ~/.fzf/install | tee -a $logfile
-            else
-                mkdir -pv ~/.fzf
-                cd ~/.fzf
-                curl -LO https://github.com/junegunn/fzf/archive/0.21.1.zip | tee -a $logfile
-
-                unzip 0.21.1.zip | tee -a $logfile
-                ./fzf-0.21.1/install | tee -a $logfile
-            fi
-            cd $here
-        fi
-    fi
-
-    ################################################################################
-    # rcm
-    ################################################################################
-    tmp=$(which rcup > /dev/null 2>&1)
-    if [ $? -ne 0 ]; then
-        echon "installing rcm ..."
-        if [ $debian -eq 1 ]; then
-            wget -qO - https://apt.thoughtbot.com/thoughtbot.gpg.key | sudo apt-key add - | tee -a $logfile
-            echo "deb https://apt.thoughtbot.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/thoughtbot.list | tee -a $logfile
-            sudo apt-get update | tee -a $logfile
-            sudo apt-get install rcm | tee -a $logfile
-        else
-            mkdir -p ~/.rcm
-            cd ~/.rcm
-            curl -LO https://thoughtbot.github.io/rcm/dist/rcm-1.3.3.tar.gz | tee -a $logfile
-            tar -xvf rcm-1.3.3.tar.gz | tee -a $logfile
-            cd rcm-1.3.3
-            ./configure | tee -a $logfile
-            make | tee -a $logfile
-            sudo make install | tee -a $logfile
-            cd $here
-        fi
-    fi
-
-    ################################################################################
-    # ranger
-    ################################################################################
-     tmp=$(which ranger > /dev/null 2>&1)
-     if [ $? -ne 0 ]; then
-        echon "installing ranger ..."
-        if [ $use_git -eq 1 ]; then
-            git clone git@github.com:ranger/ranger.git ~/.ranger | tee -a $logfile
-            sudo make -C ~/.ranger install | tee -a $logfile
-        else
-            mkdir -p ~/.ranger
-            cd ~/.ranger
-            curl -LO https://github.com/ranger/ranger/archive/v1.9.3.zip | tee -a $logfile
-            unzip v1.9.3.zip | tee -a $logfile
-            cd ranger-1.9.3
-        fi
-        sudo make install | tee -a $logfile
-        cd $here
-     fi
 }
 
 install_cinnamon() {
@@ -373,28 +296,28 @@ case "$response" in
 esac
 
 ################################################################################
-# TODO install git apps
+# Install git apps
 ################################################################################
-# read -r -p "Install GIT based Applications [tag G in apps.csv] from $appsFile [y/n] : " response
-# case "$response" in
-#     [yY][eE][sS]|[yY])
-#         read -r -p "Source build files from Git [g] or Wget [w] [g/w] : " response
-#         case "$response" in
-#             [gG])
-#                 gitinstall=1
-#                 ;;
-#             [wW])
-#                 wgetinstall=1
-#                 ;;
-#             *)
-#                 echo "Invalid response $response not installing these applications"
-#                 ;;
-#         esac
-#         ;;
-#     *)
-#         echon "NOT installing git applications ..."
-#         ;;
-# esac
+read -r -p "Install GIT based Applications [tag G in apps.csv] from $appsFile [y/n] : " response
+case "$response" in
+    [yY][eE][sS]|[yY])
+        read -r -p "Source build files from Git [g] or Wget [w] [g/w] : " response
+        case "$response" in
+            [gG])
+                gitinstall=1
+                ;;
+            [wW])
+                wgetinstall=1
+                ;;
+            *)
+                echo "Invalid response $response not installing these applications"
+                ;;
+        esac
+        ;;
+    *)
+        echon "NOT installing git applications ..."
+        ;;
+esac
 
 
 ################################################################################
@@ -431,7 +354,6 @@ fi
 ################################################################################
 installAppList
 install_cinnamon
-non_pacman_apps
 if [ $installAUR -eq 1 ] && [ $arch -eq 1 ]; then
     archAurInstall
 fi
@@ -439,34 +361,32 @@ fi
 ################################################################################
 # update dotfiles if RCM was installed
 ################################################################################
-source ~/.bashrc
-tmp=$(which rcm > /dev/null 2>&1)
-if [ $? -eq 1 ]; then
-    read -r -p "Replace local dotfiles? (current versions will be backed up) [y/n] : " response
-    case "$response" in
-        [yY][eE][sS]|[yY])
-            backup
-            echon "updating dotfiles ..."
-            rcup -v -d $here/files | tee -a $logfile
-            source ~/.bashrc
-            ###################################
-            # install vim dotfiles and packages
-            ###################################
-            tmp=$(which vim > /dev/null 2>&1)
-            if [ $? -eq 1 ]; then
-                echon "installing vim settings ... "
-                vim -c 'PlugClean' +qa
-                vim -c 'PlugInstall' +qa
-                vim ~/.vim/vbas/Align.vba 'source %' +qa
-            fi
-            ;;
-        *)
-            echon "NOT replacing dotfiles"
-            ;;
-    esac
-else
-    echon "RCM was not installed, not updating dotfiles"
-fi
+read -r -p "Replace local dotfiles? (current versions will be backed up) [y/n] : " response
+case "$response" in
+[yY][eE][sS]|[yY])
+    backup
+    echon "updating dotfiles ..."
+    tmp=$(which rcup > /dev/null 2>&1)
+    if [ $? -eq 1 ]; then
+        installRcm
+    fi
+    rcup -v -d $here/files | tee -a $logfile
+    source ~/.bashrc
+    ###################################
+    # install vim dotfiles and packages
+    ###################################
+    tmp=$(which vim > /dev/null 2>&1)
+    if [ $? -eq 0 ]; then
+        echon "installing vim settings ... "
+        vim -c 'PlugClean' +qa
+        vim -c 'PlugInstall' +qa
+        vim ~/.vim/vbas/Align.vba 'source %' +qa
+    fi
+    ;;
+*)
+    echon "NOT replacing dotfiles"
+    ;;
+esac
 
 ################################################################################
 # Add user to groups

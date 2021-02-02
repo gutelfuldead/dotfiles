@@ -51,7 +51,7 @@ C,xpdf,N,PDF viewer,,
 C,geany-plugins-geanygendoc,N,Used for rst2html,,
 C,perl-ExtUtils-MakeMaker,N,Used for buildroot,,
 C,libusb,N,usb library for ti code composer req,,
-C,glibc-devel.i686,installing for ti code composer req,,
+C,glibc-devel.i686,N,installing for ti code composer req,,
 U,docutils-common,N,Used for rst2html,,
 U,g++,N,GNU C++ Compiler,,
 U,yakuake,N,Drop down terminal emulator,,
@@ -61,7 +61,6 @@ AUR,XRDP,N,Graphical login for rdp,https://aur.archlinux.org/xrdp.git,
 AUR,rst2pdf,Y,Convert rst to pdfs,https://aur.archlinux.org/rst2pdf.git,
 AUR,spotify,N,Music streaming,https://aur.archlinux.org/spotify.git,
 AUR,ncurses5-compat-libs,N,ncurses5 development libs,https://aur.archlinux.org/ncurses5-compat-libs.git,
-G,rcm,Y,RCM Management Suite for Dotfiles,https://github.com/thoughtbot/rcm.git,https://thoughtbot.github.io/rcm/dist/rcm-1.3.3.tar.gz
 G,fzf,Y,Fuzzy Finder,https://github.com/junegunn/fzf.git,https://github.com/junegunn/fzf/archive/0.21.1.zip
 G,ranger,Y,Ranger CLI File Browser,https://github.com/ranger/ranger.git,https://github.com/ranger/ranger/archive/v1.9.3.zip
 GP,wheel,N/A,sudoers group for debian,,
