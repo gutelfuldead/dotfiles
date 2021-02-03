@@ -13,8 +13,12 @@
 # source global definitions
 [ -f /etc/bashrc ] && source /etc/bashrc
 
-# http://bashrcgenerator.com/
-PS1="[ \[$(tput sgr0)\]\[\033[38;5;208m\]\W\[$(tput sgr0)\] : \[$(tput sgr0)\]\[\033[38;5;10m\]\h\[$(tput sgr0)\] ] \[$(tput sgr0)\]\[\033[38;5;10m\]\\$\[$(tput sgr0)\] \[$(tput sgr0)\]"
+# change color when running as su
+if [ "`id -u`" -eq 0 ]; then
+    PS1="[ \[\e[1;31m\]λ\[\e[1;32m\]\[\e[49m\]:\h \W \[\e[0m\]] "
+else
+    PS1="[ \[\e[1;32m\]λ:\h \W \[\e[0m\]] "
+fi
 
 # adding /bin causes issues with buildroot
 def_path=/usr/bin:/usr/sbin:/usr/local/bin
@@ -137,6 +141,11 @@ dirsize ()
 # all system indepedent aliases, path modifications, etc should be in ~/.bash_aliases
 [ -f ~/.bash_aliases ] && source ~/.bash_aliases
 
+if [ -d $HOME/.rbenv ]; then
+    export PATH="$HOME/.rbenv/bin:$PATH"
+    eval "$(rbenv init -)"
+fi
+
 # remove duplicate entries in path
 if [ -n "$PATH" ]; then
     old_PATH=$PATH:; PATH=
@@ -151,9 +160,3 @@ if [ -n "$PATH" ]; then
     PATH=${PATH#:}
     unset old_PATH x
 fi
-
-if [ -d $HOME/.rbenv ]; then
-    export PATH="$HOME/.rbenv/bin:$PATH"
-    eval "$(rbenv init -)"
-fi
-
