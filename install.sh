@@ -103,12 +103,14 @@ installAppList() {
                 P ) # python pip
                     if [ $installPip -eq 1 ]; then
                         if [ $pipInit -eq 0 ]; then
+                            tmp=$(which pip > /dev/null 2>&1)
+                            if [ $? -ne 0 ]; then
+                                sudo $tool $toolArgs $installArgs pip | tee -a $logfile
+                            fi
                             echon "Updating PIP"
-                            sudo pip2 install --upgrade pip
-                            sudo pip3 install --upgrade pip
+                            sudo pip install --upgrade pip
                             pipInit=1
                         fi
-                        sudo pip2 install -U $app | tee -a $logfile
                         sudo pip3 install -U $app | tee -a $logfile
                     fi
                     ;;
@@ -323,7 +325,7 @@ esac
 ################################################################################
 # Install python packages
 ################################################################################
-read -r -p "Install python 2/3 PIP packages? [y/n] : " response
+read -r -p "Install python 3 PIP packages? [y/n] : " response
 case "$response" in
     [yY][eE][sS]|[yY])
         installPip=1
