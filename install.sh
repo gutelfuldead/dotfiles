@@ -306,7 +306,6 @@ case "$response" in
             sudo $tool upgrade -y | tee -a $logfile
         fi
         if [ $arch -eq 1 ]; then
-            sudo pacman $installArgs base-devel
             sudo pacman -Syu --noconfirm --needed --noprogressbar | tee -a $logfile
         fi
         ;;
