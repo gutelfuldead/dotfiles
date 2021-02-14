@@ -283,6 +283,11 @@ if [ $arch -eq 0 ] && [ $centos -eq 0 ] && [ $debian -eq 0 ]; then
     if [ $? -ne 0 ]; then
         echon "unknown distro"
         exit 1
+    else
+        distro="arch"
+        arch=1
+        tool="pacman"
+        installArgs="-Sy --noconfirm --needed --noprogressbar"
     fi
 fi
 
