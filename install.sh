@@ -278,8 +278,12 @@ if [ $? -eq 0 ]; then
 fi
 
 if [ $arch -eq 0 ] && [ $centos -eq 0 ] && [ $debian -eq 0]; then
-    echon "unknown distro"
-    exit 1
+    # arch is so OP it doesnt come with which
+    sudo pacman -Sy which
+    if [ $? -ne 0 ]; then
+        echon "unknown distro"
+        exit 1
+    fi
 fi
 
 ################################################################################
