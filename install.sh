@@ -429,8 +429,8 @@ if [ $arch -eq 1 ]; then
     case "$response" in
         [yY][eE][sS]|[yY])
             echon "Disabling system beeps"
-            sudo rmmod pcspkr
-            echo "blacklist pcspkr" > /etc/modprobe.d/nobeep.conf
+            lsmod | grep pcspkr && sudo rmmod pcspkr
+            sudo echo "blacklist pcspkr" | sudo tee /etc/modprobe.d/nobeep.conf
             ;;
         *)
             echon "NOT Disabling system beeps"
