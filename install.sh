@@ -211,7 +211,7 @@ archAurInstall() {
     for i in $d; do
         if [ $init -ne 0 ]; then
             cd $i
-            makepkg -si --skippgpcheck | tee -a $logfile
+            makepkg -si --skippgpcheck --needed --noconfirm --noprogressbar | tee -a $logfile
             cd ..
         else
             let init=1
@@ -274,7 +274,7 @@ if [ $? -eq 0 ]; then
     distro="arch"
     arch=1
     tool="pacman"
-    installArgs="-Sy --noconfirm --needed"
+    installArgs="-Sy --noconfirm --needed --noprogressbar"
 fi
 
 if [ $arch -eq 0 ] && [ $centos -eq 0 ] && [ $debian -eq 0]; then

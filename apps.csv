@@ -1,5 +1,6 @@
 AppType,Application,Managed Dotfile,Description,Repository,Wget
 A,tree,N,Recursive Directory listing,,
+A,man,N,manuals,,
 A,make,N,GNU Make,,
 A,cmake,N,GNU Cmake,,
 A,clang,Y,C Language Formatter,,
