@@ -277,7 +277,7 @@ if [ $? -eq 0 ]; then
     installArgs="-Sy --noconfirm --needed"
 fi
 
-if [ $distro == "" ]; then
+if [ $arch -eq 0 ] && [ $centos -eq 0 ] && [ $debian -eq 0]; then
     echon "unknown distro"
     exit 1
 fi
