@@ -277,7 +277,7 @@ if [ $? -eq 0 ]; then
     installArgs="-Sy --noconfirm --needed --noprogressbar"
 fi
 
-if [ $arch -eq 0 ] && [ $centos -eq 0 ] && [ $debian -eq 0]; then
+if [ $arch -eq 0 ] && [ $centos -eq 0 ] && [ $debian -eq 0 ]; then
     # arch is so OP it doesnt come with which
     sudo pacman -Sy which
     if [ $? -ne 0 ]; then
