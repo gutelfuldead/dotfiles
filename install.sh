@@ -457,6 +457,17 @@ if [ $installDotfiles -eq 1 ]; then
 fi
 
 ################################################################################
+# Enable GNOME Display Manager for Arch if it isnt already
+################################################################################
+if [ $arch -eq 1 ]; then
+    systemctl is-enabled gdm > /dev/null 2>&1
+    if [ $? -ne 0 ]; then
+        systemctl enable gdm
+        echon "GNOME Display Manager Enabled, reboot to load into GNOME/Cinnamon"
+    fi
+fi
+
+################################################################################
 # clean up
 ################################################################################
 read -r -p "Clean unused packages ($tool autoremove)? [y/n] : " response
