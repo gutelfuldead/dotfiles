@@ -306,6 +306,7 @@ case "$response" in
             sudo $tool upgrade -y | tee -a $logfile
         fi
         if [ $arch -eq 1 ]; then
+            sudo pacman $installArgs base-devel
             sudo pacman -Syu --noconfirm --needed --noprogressbar | tee -a $logfile
         fi
         ;;
@@ -359,7 +360,6 @@ if [ $arch -eq 1 ]; then
     read -r -p "Install AUR packages ? [y/n] : " response
     case "$response" in
         [yY][eE][sS]|[yY])
-            echon "Installing ARCH AUR packages"
             installAUR=1
             ;;
         *)
@@ -371,6 +371,7 @@ fi
 ################################################################################
 # Actually install everything
 ################################################################################
+echon "Installing ARCH AUR packages"
 installAppList
 if [ $installAUR -eq 1 ] ; then
     archAurInstall
