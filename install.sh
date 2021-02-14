@@ -277,12 +277,17 @@ if [ $? -eq 0 ]; then
     installArgs="-Sy --noconfirm --needed --noprogressbar"
 fi
 
-if [ $arch -eq 0 ] && [ $centos -eq 0 ] && [ $debian -eq 0]; then
+if [ $arch -eq 0 ] && [ $centos -eq 0 ] && [ $debian -eq 0 ]; then
     # arch is so OP it doesnt come with which
     sudo pacman -Sy which
     if [ $? -ne 0 ]; then
         echon "unknown distro"
         exit 1
+    else
+        distro="arch"
+        arch=1
+        tool="pacman"
+        installArgs="-Sy --noconfirm --needed --noprogressbar"
     fi
 fi
 
@@ -301,7 +306,7 @@ case "$response" in
             sudo $tool upgrade -y | tee -a $logfile
         fi
         if [ $arch -eq 1 ]; then
-            sudo pacman -Syu | tee -a $logfile
+            sudo pacman -Syu --noconfirm --needed --noprogressbar | tee -a $logfile
         fi
         ;;
     *)
