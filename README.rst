@@ -8,7 +8,7 @@ Gutelfuldead Dot Files
 About
 =====
 
-More of a new system setup. Will do the following with a confirmation [y/n]
+More of a new system setup. ``install.sh`` Will do the following with a confirmation [y/n]
 prompt first,
 
 * Installs applications
@@ -58,14 +58,10 @@ First column (AppType) uses key,
         "G","Git build with make/configure"
         "GP","Group to add user to (if it exists on the system)"
 
-Installation
-============
+Just install dotfiles
+=====================
 
-The installation script works on Arch, Ubuntu, and Centos ::
-
-        ./install.sh
-
-Otherwise just install rcm ::
+Install rcm ::
 
         here=$(pwd) &&
         mkdir ~/.rcm &&
