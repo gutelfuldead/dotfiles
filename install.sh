@@ -234,12 +234,8 @@ install_cinnamon() {
 
     if [ $centos -eq 1 ]; then
         sudo $tool groupinstall "Server with GUI" -y
-        sudo $tool install -y cinnamon
-    elif [ $debian -eq 1 ]; then
-        sudo $tool install -y cinnamon
-    elif [ $arch -eq 1 ]; then
-        sudo $tool -Syu cinnamon
     fi
+    sudo $tool $installArgs cinnamon
 }
 
 ################################################################################
