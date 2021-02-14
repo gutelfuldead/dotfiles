@@ -81,8 +81,8 @@ alias l='ls -hN --color=auto --group-directories-first'
 alias ll='ls -lahN --color=auto --group-directories-first'
 
 # arch aliases
-alias pac='sudo pacman -S'
-alias aur='makepkg -si --skippgpcheck'
+alias pac='sudo pacman -Sy --noconfirm --needed'
+alias aur='makepkg -si --skippgpcheck --noconfirm --needed'
 
 # create quick rst readmes from template
 readme () {
