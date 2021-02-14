@@ -371,7 +371,7 @@ fi
 ################################################################################
 # Actually install everything
 ################################################################################
-echon "Installing ARCH AUR packages"
+echon "Installing Applications"
 installAppList
 if [ $installAUR -eq 1 ] ; then
     archAurInstall
