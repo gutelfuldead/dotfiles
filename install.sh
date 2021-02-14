@@ -269,7 +269,7 @@ if [ $? -eq 0 ]; then
     arch=1
     tool="pacman"
     toolArgs=""
-    installArgs="-Sy"
+    installArgs="-Sy --noconfirm"
 fi
 
 if [ $distro == "" ]; then
@@ -290,6 +290,9 @@ case "$response" in
         if [ $centos -eq 1 ] || [ $debian -eq 1 ]; then
             sudo $tool update -y | tee -a $logfile
             sudo $tool upgrade -y | tee -a $logfile
+        fi
+        if [ $arch -eq 1 ]; then
+            sudo pacman -Syu
         fi
         ;;
     *)
