@@ -13,6 +13,13 @@
 # source global definitions
 [ -f /etc/bashrc ] && source /etc/bashrc
 
+# change color when running as su
+if [ "`id -u`" -eq 0 ]; then
+    PS1="[ \[\e[1;31m\]λ\[\e[1;32m\]\[\e[49m\]:\h \W \[\e[0m\]] "
+else
+    PS1="[ \[\e[1;32m\]λ:\h \W \[\e[0m\]] "
+fi
+
 # adding /bin causes issues with buildroot
 def_path=/usr/bin:/usr/sbin:/usr/local/bin
 PATH=$def_path
@@ -42,13 +49,6 @@ export LESS_TERMCAP_se=$'\E[0m'
 export LESS_TERMCAP_so=$'\E[01;44;33m'
 export LESS_TERMCAP_ue=$'\E[0m'
 export LESS_TERMCAP_us=$'\E[01;32m'
-
-# change color when running as su
-if [ "`id -u`" -eq 0 ]; then
-    PS1="[ \[\e[1;31m\]λ\[\e[1;32m\]\[\e[49m\]:\h \W \[\e[0m\]] "
-else
-    PS1="[ \[\e[1;32m\]λ:\h \W \[\e[0m\]] "
-fi
 
 # duh
 export EDITOR='vim'
@@ -141,6 +141,11 @@ dirsize ()
 # all system indepedent aliases, path modifications, etc should be in ~/.bash_aliases
 [ -f ~/.bash_aliases ] && source ~/.bash_aliases
 
+if [ -d $HOME/.rbenv ]; then
+    export PATH="$HOME/.rbenv/bin:$PATH"
+    eval "$(rbenv init -)"
+fi
+
 # remove duplicate entries in path
 if [ -n "$PATH" ]; then
     old_PATH=$PATH:; PATH=
@@ -154,9 +159,4 @@ if [ -n "$PATH" ]; then
     done
     PATH=${PATH#:}
     unset old_PATH x
-fi
-
-if [ -d $HOME/.rbenv ]; then
-    export PATH="$HOME/.rbenv/bin:$PATH"
-    eval "$(rbenv init -)"
 fi

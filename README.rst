@@ -8,17 +8,55 @@ Gutelfuldead Dot Files
 About
 =====
 
-More of a new system setup. Installs applications and updates dotfiles.
+More of a new system setup. Will do the following with a confirmation [y/n]
+prompt first,
 
-See the list of programs at the top of ``install.sh``,
+* Installs applications
 
-Any existing dotfiles for these programs will be backed up before being
-overwritten.
+  * Ubuntu
 
-Also manages bashrc
+  * CentOS
 
-Anything machine specific should be placed in `~/.bash_aliases`. The default
-`~/.bashrc` will source this file.
+  * Arch
+
+  * Common Python-Pip packages
+
+  * Common applications from Github
+
+* Updates all dotfiles
+
+  * Anything that would be replaced is first backed up in ``$(pwd)/backup``
+    maintaining folder hierarchy
+
+  * ``~/.bashrc`` sources a user generated local ``~/.bash_aliases`` file for anything
+    machine specific that doesn't belong in a common ``~/.bashrc`` like ``cd``
+    aliases, license server environment variables, etc.
+
+* Updates VIM environment
+
+* Adds user to groups required by apps
+
+* Installs Cinnamon Desktop
+
+Packages
+========
+
+Full list of packages by distribution `apps.csv <./apps.csv>`_.
+
+First column (AppType) uses key,
+
+.. csv-table::
+        :header: "Key","Descrption"
+
+        "A","Common package for All distributions"
+        "C","CentOS only package (uses yum)"
+        "U","Ubuntu/Debian only package (uses apt)"
+        "X","Arch only package (uses pacman)"
+        "AUR","Arch User Repository Package"
+        "P","Python package uses pip2/pip3, ensure these occur AFTER the local
+        python-pip installations using the package manager"
+        "G","Git build with make/configure"
+        "GP","Group to add user to (if it exists on the system)"
 
 Installation
 ============
@@ -26,43 +64,6 @@ Installation
 The installation script works on Arch, Ubuntu, and Centos ::
 
         ./install.sh
-
-If using this installs script then the following packages will be installed,
-
-- tree
-- make
-- cmake
-- clang
-- pdftk
-- gcc
-- gcc-c++
-- meld
-- xpdf
-- curl
-- pinta
-- git
-- wireshark
-- htop
-- bison
-- dropbear
-- neofetch
-- flex
-- ncurses-devel
-- sshfs
-- wine
-- feh
-- openssl-devel
-- ccrypt
-- vim
-- rst2pdf
-- patch
-- ctags
-- terminator
-- kakuake
-- tmux
-- lynx
-
-+ more... see the $applist variable in `install.sh`.
 
 Otherwise just install rcm ::
 
@@ -101,3 +102,8 @@ View all symlinks ::
 Update all symlinks ::
 
         rcup
+
+XPS 13
+======
+
+Notes specific to `XPS13 laptop setup with Arch <./xps13.rst>`_.

@@ -1,84 +1,22 @@
 #!/bin/bash
 here=$(pwd)
+archAurRepo=$here/archAurPkgs
+appsFile=$here/apps.csv
 logfile=$here/install.log
-
-# groups to add the user to
-groups=(wheel dialout libvirt vboxusers wireshark)
-
-# apps to install in all distributions
-applist="tree \
-    make \
-    cmake \
-    clang \
-    pdftk \
-    minicom \
-    gcc \
-    python2 \
-    python2-pip \
-    python3 \
-    tkinter \
-    python3-pip \
-    dtc \
-    meld \
-    curl \
-    pinta \
-    git \
-    wireshark \
-    wireshark-gnome \
-    htop \
-    bison \
-    dropbear \
-    neofetch \
-    flex \
-    sshfs \
-    wine \
-    feh \
-    ccrypt \
-    vim \
-    rst2pdf \
-    patch \
-    ctags \
-    terminator \
-    tmux \
-    lynx
-    "
-
-pipPackages="numpy \
-    pyvisa \
-    matplotlib \
-    scipy \
-    pandas \
-    pyvisa-py \
-    pyusb
-    "
-
-# apps to install if using centos
-centosApps="perl-Tk-devel.x86_64 \
-    perl-Thread-Queue \
-    gcc-c++ \
-    rpl \
-    ncurses-devel \
-    openssl-devel \
-    xpdf \
-    geany-plugins-geanygendoc \
-    perl-ExtUtils-MakeMaker
-    "
-
-# apps to install if using ubuntu
-ubuntuApps="docutils-common \
-    g++ \
-    yakuake
-    "
-
-# apps to install if using arch
-archApps="kakuake"
-
-# arch AUR apps to install
-archAurRepos=(https://aur.archlinux.org/xrdp.git \
-    https://aur.archlinux.org/rst2pdf.git \
-    https://aur.archlinux.org/spotify.git \
-    https://aur.archlinux.org/ncurses5-compat-libs.git
-)
+installPip=0
+debian=0
+centos=0
+arch=0
+pipInit=0
+installApps=0
+installAUR=0
+gitinstall=0
+wgetinstall=0
+distro=""
+tool=""
+toolArgs=""
+installArgs=""
+groups=()
 
 echon ()
 {
@@ -86,6 +24,114 @@ echon ()
     echo -e "$1" | tee -a $logfile
     echo -e "################################################################################\n" | tee -a $logfile
     sleep 1
+}
+
+# https://github.com/thoughtbot/rcm
+installRcm () {
+    ver=1.3.4
+    echon "Installing RCM"
+    if [ ! -d ~/.rcm ]; then
+        echo $here
+        curl -LO https://thoughtbot.github.io/rcm/dist/rcm-${ver}.tar.gz
+        mkdir ~/.rcm
+        tar -xvf rcm-${ver}.tar.gz --directory ~/.rcm
+        mv ~/.rcm/rcm-${ver}/* ~/.rcm
+        rm -rf ~/.rcm/rcm-${ver}
+        rm -f rcm-${ver}.tar.gz
+    fi
+    cd ~/.rcm
+    ./configure
+    make
+    sudo make install
+    cd $here
+}
+
+gitInstall() {
+    app=$1
+    repo=$2
+    tmp=$(which $app > /dev/null 2>&1)
+    if [ $? -ne 0 ] && [ ! -d ~/.$app ]; then
+        git clone --depth 1 $repo ~/.$app | tee -a $logfile
+        cd ~/.$app
+        if [ -f configure ]; then
+            ./configure | tee -a $logfile
+        fi
+        if [ -f install ]; then
+            ./install | tee -a $logfile
+        elif [ -f makefile ] || [ -f Makefile ]; then
+            make | tee -a $logfile
+            sudo make install | tee -a $logfile
+        fi
+        cd $here
+    else
+        echo "$app already installed, skipping"
+    fi
+}
+
+installAppList() {
+    total=$(wc -l < $appsFile)
+    n=0
+    while IFS=, read -r appType app manDot description gitRepo wgetRepo; do
+        if [ $n -gt 0 ]; then # ignore top row of csv
+            case $appType in
+                A ) # install all distros
+                    if [ $installApps -eq 1 ]; then
+                        echo "sudo $tool $toolArgs $installArgs $app"
+                        sudo $tool $toolArgs $installArgs $app | tee -a $logfile
+                    fi
+                    ;;
+                C ) # install all centos apps
+                    if [ $installApps -eq 1 ] && [ $centos -eq 1 ]; then
+                        sudo $tool $toolArgs $installArgs $app | tee -a $logfile
+                    fi
+                    ;;
+                U ) # install all ubuntu/debian apps
+                    if [ $installApps -eq 1 ] && [ $debian -eq 1 ]; then
+                        sudo $tool $toolArgs $installArgs $app | tee -a $logfile
+                    fi
+                    ;;
+                X ) # install all arch apps
+                    if [ $installApps -eq 1 ] && [ $arch -eq 1 ]; then
+                        sudo $tool $toolArgs $installArgs $app | tee -a $logfile
+                    fi
+                    ;;
+                AUR ) # install arch aur apps
+                    if [ $installAUR -eq 1 ] && [ $arch -eq 1 ]; then
+                        cloneArchAurRepos $gitRepo
+                    fi
+                    ;;
+                P ) # python pip
+                    if [ $installPip -eq 1 ]; then
+                        if [ $pipInit -eq 0 ]; then
+                            tmp=$(which pip > /dev/null 2>&1)
+                            if [ $? -ne 0 ]; then
+                                sudo $tool $toolArgs $installArgs pip | tee -a $logfile
+                            fi
+                            echon "Updating PIP"
+                            sudo pip install --upgrade pip
+                            pipInit=1
+                        fi
+                        sudo pip3 install -U $app | tee -a $logfile
+                    fi
+                    ;;
+                GP ) # append group list, dont add now wait for everything to be installed, just aggregate
+                    groups[${#groups[@]}]=$app
+                    ;;
+                G ) # TODO git repo
+                    if [ $gitinstall -eq 1 ]; then
+                        gitInstall $app $gitRepo
+                    fi
+                    if [ $wgetinstall -eq 1 ]; then
+                        echo "todo"
+                    fi
+                    ;;
+                * )
+                    echo "Unknown tag $appType for application $app"
+                    ;;
+            esac
+        fi
+        n=$((n+1))
+    done < $appsFile
 }
 
 backup ()
@@ -101,6 +147,7 @@ backup ()
                 overwrite=1
                 ;;
             *)
+                return
                 overwrite=0
                 ;;
         esac
@@ -129,25 +176,27 @@ addGroup() {
     fi
 }
 
-archAurInstall() {
-    here=$(pwd)
-    gr=$here/archAurPkgs
-    repos=$1
-
-    echon "Installing ARCH AUR Repos..."
-
+cloneArchAurRepos() {
+    repo=$1
     # create directory for repos
-    if [ ! -d $gr ]; then
-        mkdir $gr
+    if [ ! -d $archAurRepo ]; then
+        mkdir $archAurRepo
     fi
-    cd $gr
+    cd $archAurRepo
 
     # clone all the repos
-    for i in ${repos[@]}; do
-        git clone $i | tee -a $logfile
-    done
+    git clone $repo | tee -a $logfile
 
-    # go in each one and install it
+    cd $here
+}
+
+archAurInstall() {
+    if [ ! -d $archAurRepo ]; then
+        return
+    fi
+    cd $archAurRepo
+
+    # go in each repo and install it
     d=$(find . -maxdepth 1 -type d)
     echo $d
     init=0 # ignore the first entry which is ./
@@ -163,103 +212,6 @@ archAurInstall() {
     cd $here
 }
 
-non_pacman_apps () {
-    use_git=0
-    nonpacmanapps="fzf rcm ranger"
-    read -r -p "Install non-pacman < $nonpacmanapps > apps from git/wget tars? [y/n] : " response
-    case "$response" in
-        [yY][eE][sS]|[yY])
-            echon "Installing non package manager apps"
-            ;;
-        *)
-            echon "NOT Installing non package manager apps"
-            return 0
-            ;;
-    esac
-
-    ################################################################################
-    # install non-pacman apps option
-    ################################################################################
-    read -r -p "use git to source latest builds? If not tarballs will be used [y/n] : " response
-    case "$response" in
-        [yY][eE][sS]|[yY])
-            echon "Using GIT to source non package manager apps"
-            use_git=1
-            ;;
-        *)
-            echon "Using wget and tarballs to source non package manager apps"
-            use_git=0
-            ;;
-    esac
-
-    ################################################################################
-    # fzf
-    ################################################################################
-    tmp=$(which fzf > /dev/null 2>&1)
-    if [ $? -ne 0 ]; then
-        if [ $arch -eq 1 ]; then
-            sudo pacman -S fzf
-        else
-            echon "installing fzf ..."
-            if [ $use_git -eq 1 ]; then
-                git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf | tee -a $logfile
-                ~/.fzf/install | tee -a $logfile
-            else
-                mkdir -pv ~/.fzf
-                cd ~/.fzf
-                curl -LO https://github.com/junegunn/fzf/archive/0.21.1.zip | tee -a $logfile
-                unzip 0.21.1.zip | tee -a $logfile
-                ./fzf-0.21.1/install | tee -a $logfile
-            fi
-            cd $here
-        fi
-    fi
-
-    ################################################################################
-    # rcm
-    ################################################################################
-    tmp=$(which rcup > /dev/null 2>&1)
-    if [ $? -ne 0 ]; then
-        echon "installing rcm ..."
-        if [ $debian -eq 1 ]; then
-            wget -qO - https://apt.thoughtbot.com/thoughtbot.gpg.key | sudo apt-key add - | tee -a $logfile
-            echo "deb https://apt.thoughtbot.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/thoughtbot.list | tee -a $logfile
-            sudo apt-get update | tee -a $logfile
-            sudo apt-get install rcm | tee -a $logfile
-        else
-            mkdir -p ~/.rcm
-            cd ~/.rcm
-            curl -LO https://thoughtbot.github.io/rcm/dist/rcm-1.3.3.tar.gz | tee -a $logfile
-            tar -xvf rcm-1.3.3.tar.gz | tee -a $logfile
-            cd rcm-1.3.3
-            ./configure | tee -a $logfile
-            make | tee -a $logfile
-            sudo make install | tee -a $logfile
-            cd $here
-        fi
-    fi
-
-    ################################################################################
-    # ranger
-    ################################################################################
-     tmp=$(which ranger > /dev/null 2>&1)
-     if [ $? -ne 0 ]; then
-        echon "installing ranger ..."
-        if [ $use_git -eq 1 ]; then
-            git clone git@github.com:ranger/ranger.git ~/.ranger | tee -a $logfile
-            sudo make -C ~/.ranger install | tee -a $logfile
-        else
-            mkdir -p ~/.ranger
-            cd ~/.ranger
-            curl -LO https://github.com/ranger/ranger/archive/v1.9.3.zip | tee -a $logfile
-            unzip v1.9.3.zip | tee -a $logfile
-            cd ranger-1.9.3
-        fi
-        sudo make install | tee -a $logfile
-        cd $here
-     fi
-}
-
 install_cinnamon() {
     read -r -p "Install Cinnamon Desktop? [y/n] : " response
     case "$response" in
@@ -272,12 +224,12 @@ install_cinnamon() {
             ;;
     esac
 
-    if [ $tool == "yum" ]; then
+    if [ $centos -eq 1 ]; then
         sudo $tool groupinstall "Server with GUI" -y
         sudo $tool install -y cinnamon
-    elif [ $tool == "apt" ]; then
+    elif [ $debian -eq 1 ]; then
         sudo $tool install -y cinnamon
-    elif [ $tool == "pacman" ]; then
+    elif [ $arch -eq 1 ]; then
         sudo $tool -Syu cinnamon
     fi
 }
@@ -293,18 +245,13 @@ echon "$0 ran @ $(date)..."
 ################################################################################
 # get linux distro
 ################################################################################
-distro=""
-tool=""
-debian=0
-centos=0
-arch=0
-tmp=$(which apt > /dev/null 2>&1)
+tmp=$(which apt-get > /dev/null 2>&1)
 if [ $? -eq 0 ]; then
     distro="debian"
     debian=1
-    applist+=" "$ubuntuApps
-    tool="apt"
+    tool="apt-get"
     toolArgs=""
+    installArgs="install -y"
 fi
 
 tmp=$(which yum > /dev/null 2>&1)
@@ -313,16 +260,16 @@ if [ $? -eq 0 ]; then
     centos=1
     tool="yum"
     toolArgs="--nogpgcheck --skip-broken"
-    applist+=" "$centosApps
+    installArgs="install -y"
 fi
 
 tmp=$(which pacman > /dev/null 2>&1)
 if [ $? -eq 0 ]; then
     distro="arch"
     arch=1
-    applist+=" "$archApps
     tool="pacman"
     toolArgs=""
+    installArgs="-Sy"
 fi
 
 if [ $distro == "" ]; then
@@ -334,54 +281,54 @@ fi
 # install pacman apps
 ################################################################################
 echon "Setup for $distro ..."
-echon "packages to install : < $applist >"
 
-installPacman=0
-read -r -p "Install packages with $tool? [y/n] : " response
+read -r -p "Install packages from $appsFile with $tool? [y/n] : " response
 case "$response" in
     [yY][eE][sS]|[yY])
         echon "installing and updating apps with $tool ..."
-        installPacman=1
+        installApps=1
+        if [ $centos -eq 1 ] || [ $debian -eq 1 ]; then
+            sudo $tool update -y | tee -a $logfile
+            sudo $tool upgrade -y | tee -a $logfile
+        fi
         ;;
     *)
         echon "NOT installing and updating apps with $tool ..."
         ;;
 esac
 
-if [ $installPacman -eq 1 ]; then
-    if [ $arch -eq 1 ]; then
-        sudo pacman $toolArgs -S $applist | tee -a $logfile
-    elif [ $debian -eq 1 ]; then
-        sudo $tool update -y | tee -a $logfile
-        sudo $tool upgrade -y | tee -a $logfile
-        sudo $tool install $toolArgs -y $applist | tee -a $logfile
-    elif [ $centos -eq 1 ]; then
-        sudo $tool install epel-release -y | tee -a $logfile
-        sudo $tool update -y | tee -a $logfile
-        sudo $tool upgrade -y | tee -a $logfile
-        sudo $tool $toolArgs install -y $applist | tee -a $logfile
-    else
-        exit 1
-    fi
-fi
-
-install_cinnamon
-
 ################################################################################
-# Install non package manager apps
+# Install git apps
 ################################################################################
-non_pacman_apps
+read -r -p "Install GIT based Applications [tag G in apps.csv] from $appsFile [y/n] : " response
+case "$response" in
+    [yY][eE][sS]|[yY])
+        read -r -p "Source build files from Git [g] or Wget [w] [g/w] : " response
+        case "$response" in
+            [gG])
+                gitinstall=1
+                ;;
+            [wW])
+                wgetinstall=1
+                ;;
+            *)
+                echo "Invalid response $response not installing these applications"
+                ;;
+        esac
+        ;;
+    *)
+        echon "NOT installing git applications ..."
+        ;;
+esac
+
 
 ################################################################################
 # Install python packages
 ################################################################################
-read -r -p "Install python 2/3 PIP packages $pipPackages? [y/n] : " response
+read -r -p "Install python 3 PIP packages? [y/n] : " response
 case "$response" in
     [yY][eE][sS]|[yY])
-        sudo pip2 install --upgrade pip
-        sudo pip3 install --upgrade pip
-        sudo pip2 install -U $pipPackages
-        sudo pip3 install -U $pipPackages
+        installPip=1
         ;;
     *)
         echon "NOT Installing PIP packages"
@@ -392,11 +339,11 @@ esac
 # install all arch AUR apps
 ################################################################################
 if [ $arch -eq 1 ]; then
-    read -r -p "Install AUR packages $archAurRepos ? [y/n] : " response
+    read -r -p "Install AUR packages ? [y/n] : " response
     case "$response" in
         [yY][eE][sS]|[yY])
             echon "Installing ARCH AUR packages"
-            archAurInstall $archAurRepos
+            installAUR=1
             ;;
         *)
             echon "NOT Installing ARCH AUR packages"
@@ -405,33 +352,43 @@ if [ $arch -eq 1 ]; then
 fi
 
 ################################################################################
+# Actually install everything
+################################################################################
+installAppList
+install_cinnamon
+if [ $installAUR -eq 1 ] && [ $arch -eq 1 ]; then
+    archAurInstall
+fi
+
+################################################################################
 # update dotfiles if RCM was installed
 ################################################################################
-source ~/.bashrc
-tmp=$(which rcm > /dev/null 2>&1)
-if [ $? -eq 1 ]; then
-    read -r -p "Replace local dotfiles? (current versions will be backed up) [y/n] : " response
-    case "$response" in
-        [yY][eE][sS]|[yY])
-            backup
-            echon "updating dotfiles ..."
-            rcup -v -d $here/files | tee -a $logfile
-            source ~/.bashrc
-            ###################################
-            # install vim dotfiles and packages
-            ###################################
-            echon "installing vim settings ... "
-            vim -c 'PlugClean' +qa
-            vim -c 'PlugInstall' +qa
-            vim ~/.vim/vbas/Align.vba 'source %' +qa
-            ;;
-        *)
-            echon "NOT replacing dotfiles"
-            ;;
-    esac
-else
-    echon "RCM was not installed, not updating dotfiles"
-fi
+read -r -p "Replace local dotfiles? (current versions will be backed up) [y/n] : " response
+case "$response" in
+[yY][eE][sS]|[yY])
+    backup
+    echon "updating dotfiles ..."
+    tmp=$(which rcup > /dev/null 2>&1)
+    if [ $? -eq 1 ]; then
+        installRcm
+    fi
+    rcup -v -d $here/files | tee -a $logfile
+    source ~/.bashrc
+    ###################################
+    # install vim dotfiles and packages
+    ###################################
+    tmp=$(which vim > /dev/null 2>&1)
+    if [ $? -eq 0 ]; then
+        echon "installing vim settings ... "
+        vim -c 'PlugClean' +qa
+        vim -c 'PlugInstall' +qa
+        vim ~/.vim/vbas/Align.vba 'source %' +qa
+    fi
+    ;;
+*)
+    echon "NOT replacing dotfiles"
+    ;;
+esac
 
 ################################################################################
 # Add user to groups
