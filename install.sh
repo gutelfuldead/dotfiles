@@ -12,9 +12,9 @@ installApps=0
 installAUR=0
 gitinstall=0
 wgetinstall=0
+installDotfiles=0
 distro=""
 tool=""
-toolArgs=""
 installArgs=""
 groups=()
 
@@ -24,6 +24,14 @@ echon ()
     echo -e "$1" | tee -a $logfile
     echo -e "################################################################################\n" | tee -a $logfile
     sleep 1
+}
+
+overrideDotfiles() {
+    read -r -p "Enter name : " name
+    read -r -p "Enter email : " email
+    sed -i "s/Jason Gutel/$name/g" ~/.gitconfig
+    sed -i "s/jason.gutel@gmail.com/$email/g" ~/.gitconfig
+    echon "Overriding default name and email for gitconfig with name=$name email=$email"
 }
 
 # https://github.com/thoughtbot/rcm
@@ -76,27 +84,27 @@ installAppList() {
             case $appType in
                 A ) # install all distros
                     if [ $installApps -eq 1 ]; then
-                        echo "sudo $tool $toolArgs $installArgs $app"
-                        sudo $tool $toolArgs $installArgs $app | tee -a $logfile
+                        echo "sudo $tool $installArgs $app"
+                        sudo $tool $installArgs $app | tee -a $logfile
                     fi
                     ;;
                 C ) # install all centos apps
                     if [ $installApps -eq 1 ] && [ $centos -eq 1 ]; then
-                        sudo $tool $toolArgs $installArgs $app | tee -a $logfile
+                        sudo $tool $installArgs $app | tee -a $logfile
                     fi
                     ;;
                 U ) # install all ubuntu/debian apps
                     if [ $installApps -eq 1 ] && [ $debian -eq 1 ]; then
-                        sudo $tool $toolArgs $installArgs $app | tee -a $logfile
+                        sudo $tool $installArgs $app | tee -a $logfile
                     fi
                     ;;
                 X ) # install all arch apps
                     if [ $installApps -eq 1 ] && [ $arch -eq 1 ]; then
-                        sudo $tool $toolArgs $installArgs $app | tee -a $logfile
+                        sudo $tool $installArgs $app | tee -a $logfile
                     fi
                     ;;
                 AUR ) # install arch aur apps
-                    if [ $installAUR -eq 1 ] && [ $arch -eq 1 ]; then
+                    if [ $installAUR -eq 1 ] ; then
                         cloneArchAurRepos $gitRepo
                     fi
                     ;;
@@ -105,7 +113,7 @@ installAppList() {
                         if [ $pipInit -eq 0 ]; then
                             tmp=$(which pip > /dev/null 2>&1)
                             if [ $? -ne 0 ]; then
-                                sudo $tool $toolArgs $installArgs pip | tee -a $logfile
+                                sudo $tool $installArgs pip | tee -a $logfile
                             fi
                             echon "Updating PIP"
                             sudo pip install --upgrade pip
@@ -203,7 +211,7 @@ archAurInstall() {
     for i in $d; do
         if [ $init -ne 0 ]; then
             cd $i
-            makepkg -si --skippgpcheck | tee -a $logfile
+            makepkg -si --skippgpcheck --needed --noconfirm --noprogressbar | tee -a $logfile
             cd ..
         else
             let init=1
@@ -226,12 +234,8 @@ install_cinnamon() {
 
     if [ $centos -eq 1 ]; then
         sudo $tool groupinstall "Server with GUI" -y
-        sudo $tool install -y cinnamon
-    elif [ $debian -eq 1 ]; then
-        sudo $tool install -y cinnamon
-    elif [ $arch -eq 1 ]; then
-        sudo $tool -Syu cinnamon
     fi
+    sudo $tool $installArgs cinnamon
 }
 
 ################################################################################
@@ -250,7 +254,6 @@ if [ $? -eq 0 ]; then
     distro="debian"
     debian=1
     tool="apt-get"
-    toolArgs=""
     installArgs="install -y"
 fi
 
@@ -259,8 +262,7 @@ if [ $? -eq 0 ]; then
     distro="centos"
     centos=1
     tool="yum"
-    toolArgs="--nogpgcheck --skip-broken"
-    installArgs="install -y"
+    installArgs="install -y --nogpgcheck --skip-broken"
 fi
 
 tmp=$(which pacman > /dev/null 2>&1)
@@ -268,13 +270,21 @@ if [ $? -eq 0 ]; then
     distro="arch"
     arch=1
     tool="pacman"
-    toolArgs=""
-    installArgs="-Sy"
+    installArgs="-Sy --noconfirm --needed --noprogressbar"
 fi
 
-if [ $distro == "" ]; then
-    echon "unknown distro"
-    exit 1
+if [ $arch -eq 0 ] && [ $centos -eq 0 ] && [ $debian -eq 0 ]; then
+    # arch is so OP it doesnt come with which
+    sudo pacman -Sy which
+    if [ $? -ne 0 ]; then
+        echon "unknown distro"
+        exit 1
+    else
+        distro="arch"
+        arch=1
+        tool="pacman"
+        installArgs="-Sy --noconfirm --needed --noprogressbar"
+    fi
 fi
 
 ################################################################################
@@ -290,6 +300,9 @@ case "$response" in
         if [ $centos -eq 1 ] || [ $debian -eq 1 ]; then
             sudo $tool update -y | tee -a $logfile
             sudo $tool upgrade -y | tee -a $logfile
+        fi
+        if [ $arch -eq 1 ]; then
+            sudo pacman -Syu --noconfirm --needed --noprogressbar | tee -a $logfile
         fi
         ;;
     *)
@@ -342,7 +355,6 @@ if [ $arch -eq 1 ]; then
     read -r -p "Install AUR packages ? [y/n] : " response
     case "$response" in
         [yY][eE][sS]|[yY])
-            echon "Installing ARCH AUR packages"
             installAUR=1
             ;;
         *)
@@ -354,11 +366,12 @@ fi
 ################################################################################
 # Actually install everything
 ################################################################################
+echon "Installing Applications"
 installAppList
-install_cinnamon
-if [ $installAUR -eq 1 ] && [ $arch -eq 1 ]; then
+if [ $installAUR -eq 1 ] ; then
     archAurInstall
 fi
+install_cinnamon
 
 ################################################################################
 # update dotfiles if RCM was installed
@@ -366,6 +379,7 @@ fi
 read -r -p "Replace local dotfiles? (current versions will be backed up) [y/n] : " response
 case "$response" in
 [yY][eE][sS]|[yY])
+    installDotfiles=1
     backup
     echon "updating dotfiles ..."
     tmp=$(which rcup > /dev/null 2>&1)
@@ -374,6 +388,11 @@ case "$response" in
     fi
     rcup -v -d $here/files | tee -a $logfile
     source ~/.bashrc
+    if [ $arch -eq 1 ]; then
+        sudo sed -i "s/^#VerbosePkgLists$/VerbosePkgLists/" /etc/pacman.conf
+        sudo sed -i "s/^#Color$/Color/" /etc/pacman.conf
+    fi
+    sudo sed -i "s/-j2/-j$(nproc)/;s/^#MAKEFLAGS/MAKEFLAGS/" /etc/makepkg.conf
     ###################################
     # install vim dotfiles and packages
     ###################################
@@ -408,12 +427,57 @@ case "$response" in
 esac
 
 ################################################################################
+# Kill the arch beeps
+################################################################################
+if [ $arch -eq 1 ]; then
+    read -r -p "Disable system beeps ? [y/n] : " response
+    case "$response" in
+        [yY][eE][sS]|[yY])
+            echon "Disabling system beeps"
+            lsmod | grep pcspkr && sudo rmmod pcspkr
+            sudo echo "blacklist pcspkr" | sudo tee /etc/modprobe.d/nobeep.conf
+            ;;
+        *)
+            echon "NOT Disabling system beeps"
+            ;;
+    esac
+fi
+
+################################################################################
+# Get rid of my name from anywhere it doesnt belong
+################################################################################
+if [ $installDotfiles -eq 1 ]; then
+    read -r -p "Modify .gitconfig default name and email ? [y/n] : " response
+    case "$response" in
+        [yY][eE][sS]|[yY])
+            overrideDotfiles
+            ;;
+        *)
+            ;;
+    esac
+fi
+
+################################################################################
+# Enable GNOME Display Manager for Arch if it isnt already
+################################################################################
+if [ $arch -eq 1 ]; then
+    systemctl is-enabled gdm > /dev/null 2>&1
+    if [ $? -ne 0 ]; then
+        systemctl enable gdm
+        echon "GNOME Display Manager Enabled, reboot to load into GNOME/Cinnamon"
+    fi
+fi
+
+################################################################################
 # clean up
 ################################################################################
 read -r -p "Clean unused packages ($tool autoremove)? [y/n] : " response
 case "$response" in
     [yY][eE][sS]|[yY])
-        sudo $tool autoremove
+        sudo $tool autoremove -y | tee -a $logfile
+        if [ $arch -eq 1 ]; then
+            sudo $tool --clean --sync --noconfirm --noprogressbar | tee -a $logfile
+        fi
         ;;
     *)
         echon "NOT cleaning packages"
