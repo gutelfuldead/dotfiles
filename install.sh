@@ -211,7 +211,7 @@ archAurInstall() {
     for i in $d; do
         if [ $init -ne 0 ]; then
             cd $i
-            makepkg -si --skippgpcheck | tee -a $logfile
+            makepkg -si --skippgpcheck --needed --noconfirm --noprogressbar | tee -a $logfile
             cd ..
         else
             let init=1
@@ -234,12 +234,8 @@ install_cinnamon() {
 
     if [ $centos -eq 1 ]; then
         sudo $tool groupinstall "Server with GUI" -y
-        sudo $tool install -y cinnamon
-    elif [ $debian -eq 1 ]; then
-        sudo $tool install -y cinnamon
-    elif [ $arch -eq 1 ]; then
-        sudo $tool -Syu cinnamon
     fi
+    sudo $tool $installArgs cinnamon
 }
 
 ################################################################################
@@ -274,12 +270,21 @@ if [ $? -eq 0 ]; then
     distro="arch"
     arch=1
     tool="pacman"
-    installArgs="-Sy --noconfirm --needed"
+    installArgs="-Sy --noconfirm --needed --noprogressbar"
 fi
 
-if [ $distro == "" ]; then
-    echon "unknown distro"
-    exit 1
+if [ $arch -eq 0 ] && [ $centos -eq 0 ] && [ $debian -eq 0 ]; then
+    # arch is so OP it doesnt come with which
+    sudo pacman -Sy which
+    if [ $? -ne 0 ]; then
+        echon "unknown distro"
+        exit 1
+    else
+        distro="arch"
+        arch=1
+        tool="pacman"
+        installArgs="-Sy --noconfirm --needed --noprogressbar"
+    fi
 fi
 
 ################################################################################
@@ -297,7 +302,7 @@ case "$response" in
             sudo $tool upgrade -y | tee -a $logfile
         fi
         if [ $arch -eq 1 ]; then
-            sudo pacman -Syu | tee -a $logfile
+            sudo pacman -Syu --noconfirm --needed --noprogressbar | tee -a $logfile
         fi
         ;;
     *)
@@ -350,7 +355,6 @@ if [ $arch -eq 1 ]; then
     read -r -p "Install AUR packages ? [y/n] : " response
     case "$response" in
         [yY][eE][sS]|[yY])
-            echon "Installing ARCH AUR packages"
             installAUR=1
             ;;
         *)
@@ -362,6 +366,7 @@ fi
 ################################################################################
 # Actually install everything
 ################################################################################
+echon "Installing Applications"
 installAppList
 if [ $installAUR -eq 1 ] ; then
     archAurInstall
@@ -453,14 +458,25 @@ if [ $installDotfiles -eq 1 ]; then
 fi
 
 ################################################################################
+# Enable GNOME Display Manager for Arch if it isnt already
+################################################################################
+if [ $arch -eq 1 ]; then
+    systemctl is-enabled gdm > /dev/null 2>&1
+    if [ $? -ne 0 ]; then
+        systemctl enable gdm
+        echon "GNOME Display Manager Enabled, reboot to load into GNOME/Cinnamon"
+    fi
+fi
+
+################################################################################
 # clean up
 ################################################################################
 read -r -p "Clean unused packages ($tool autoremove)? [y/n] : " response
 case "$response" in
     [yY][eE][sS]|[yY])
-        sudo $tool autoremove
+        sudo $tool autoremove -y | tee -a $logfile
         if [ $arch -eq 1 ]; then
-            sudo $tool --clean --sync
+            sudo $tool --clean --sync --noconfirm --noprogressbar | tee -a $logfile
         fi
         ;;
     *)
