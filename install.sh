@@ -292,7 +292,7 @@ fi
 ################################################################################
 echon "Setup for $distro ..."
 
-read -r -p "Install packages from $appsFile with $tool? [y/n] : " response
+read -r -p "Install packages with $tool (tag(s) A|C|U|X from $appsFile) ? [y/n] : " response
 case "$response" in
     [yY][eE][sS]|[yY])
         echon "installing and updating apps with $tool ..."
@@ -313,7 +313,7 @@ esac
 ################################################################################
 # Install git apps
 ################################################################################
-read -r -p "Install GIT based Applications [tag G in apps.csv] from $appsFile [y/n] : " response
+read -r -p "Install GIT based Applications (tag G from $appsFile) ? [y/n] : " response
 case "$response" in
     [yY][eE][sS]|[yY])
         read -r -p "Source build files from Git [g] or Wget [w] [g/w] : " response
@@ -338,7 +338,7 @@ esac
 ################################################################################
 # Install python packages
 ################################################################################
-read -r -p "Install python 3 PIP packages? [y/n] : " response
+read -r -p "Install python 3 PIP packages (tag P from $appsFile) ? [y/n] : " response
 case "$response" in
     [yY][eE][sS]|[yY])
         installPip=1
@@ -352,7 +352,7 @@ esac
 # install all arch AUR apps
 ################################################################################
 if [ $arch -eq 1 ]; then
-    read -r -p "Install AUR packages ? [y/n] : " response
+    read -r -p "Install AUR packages (tag AUR from $appsFile) ? [y/n] : " response
     case "$response" in
         [yY][eE][sS]|[yY])
             installAUR=1
