@@ -21,7 +21,7 @@ else
 fi
 
 # adding /bin causes issues with buildroot
-def_path=/usr/bin:/usr/sbin:/usr/local/bin
+def_path=/usr/bin:/usr/sbin:/usr/local/bin:$HOME/.local/bin
 PATH=$def_path
 
 # add python 2.7 path ... needed for ranger
@@ -74,6 +74,7 @@ alias files='find -type f -exec du -Sh {} + | sort -rh | head -n 10' # sort file
 alias vimb='vim ~/.bashrc'
 alias vimba='vim ~/.bash_aliases'
 alias vimv='vim ~/.vimrc'
+alias excel='sc-im'
 
 # Adding color
 alias ls='ls -hN --color=auto --group-directories-first'

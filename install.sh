@@ -474,9 +474,9 @@ fi
 read -r -p "Clean unused packages ($tool autoremove)? [y/n] : " response
 case "$response" in
     [yY][eE][sS]|[yY])
-        sudo $tool autoremove
+        sudo $tool autoremove -y | tee -a $logfile
         if [ $arch -eq 1 ]; then
-            sudo $tool --clean --sync
+            sudo $tool --clean --sync --noconfirm --noprogressbar | tee -a $logfile
         fi
         ;;
     *)
