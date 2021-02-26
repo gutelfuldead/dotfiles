@@ -116,7 +116,7 @@ installAppList() {
                                 sudo $tool $installArgs pip | tee -a $logfile
                             fi
                             echon "Updating PIP"
-                            sudo pip install --upgrade pip
+                            sudo python3 -m pip install --upgrade pip | tee -a $logfile
                             pipInit=1
                         fi
                         sudo pip3 install -U $app | tee -a $logfile
