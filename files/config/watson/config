@@ -1,0 +1,8 @@
+# Watson configuration
+[options]
+stop_on_start = true
+log_current = true
+reverse_log = true
+
+[default_tags]
+egproj = debug dev test docs
