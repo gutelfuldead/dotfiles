@@ -181,6 +181,8 @@ addGroup() {
     if [ $? -eq 0 ]; then
         echon "adding user $user to $1 ..."
         sudo usermod -a -G $1 $user
+    else
+        echon "group $1 does not exist, ignoring ..."
     fi
 }
 
