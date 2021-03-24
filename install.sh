@@ -116,10 +116,10 @@ installAppList() {
                                 sudo $tool $installArgs pip | tee -a $logfile
                             fi
                             echon "Updating PIP"
-                            sudo pip install --upgrade pip
+                            sudo python3 -m pip install --upgrade pip | tee -a $logfile
                             pipInit=1
                         fi
-                        sudo pip3 install -U $app | tee -a $logfile
+                        sudo pip install -U $app | tee -a $logfile
                     fi
                     ;;
                 GP ) # append group list, dont add now wait for everything to be installed, just aggregate
@@ -181,6 +181,8 @@ addGroup() {
     if [ $? -eq 0 ]; then
         echon "adding user $user to $1 ..."
         sudo usermod -a -G $1 $user
+    else
+        echon "group $1 does not exist, ignoring ..."
     fi
 }
 
@@ -292,7 +294,7 @@ fi
 ################################################################################
 echon "Setup for $distro ..."
 
-read -r -p "Install packages from $appsFile with $tool? [y/n] : " response
+read -r -p "Install packages with $tool (tag(s) A|C|U|X from $appsFile) ? [y/n] : " response
 case "$response" in
     [yY][eE][sS]|[yY])
         echon "installing and updating apps with $tool ..."
@@ -313,7 +315,7 @@ esac
 ################################################################################
 # Install git apps
 ################################################################################
-read -r -p "Install GIT based Applications [tag G in apps.csv] from $appsFile [y/n] : " response
+read -r -p "Install GIT based Applications (tag G from $appsFile) ? [y/n] : " response
 case "$response" in
     [yY][eE][sS]|[yY])
         read -r -p "Source build files from Git [g] or Wget [w] [g/w] : " response
@@ -338,7 +340,7 @@ esac
 ################################################################################
 # Install python packages
 ################################################################################
-read -r -p "Install python 3 PIP packages? [y/n] : " response
+read -r -p "Install python 3 PIP packages (tag P from $appsFile) ? [y/n] : " response
 case "$response" in
     [yY][eE][sS]|[yY])
         installPip=1
@@ -352,7 +354,7 @@ esac
 # install all arch AUR apps
 ################################################################################
 if [ $arch -eq 1 ]; then
-    read -r -p "Install AUR packages ? [y/n] : " response
+    read -r -p "Install AUR packages (tag AUR from $appsFile) ? [y/n] : " response
     case "$response" in
         [yY][eE][sS]|[yY])
             installAUR=1

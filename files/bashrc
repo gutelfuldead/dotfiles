@@ -90,9 +90,10 @@ readme () {
     name=$1
     len=${#name}
     sep=$(printf '=%.0s' $(seq $len))
-    cp ~/.readmeTemplate.rst $(pwd)/${name}.rst
-    sed -i 's/Title/'$name'/g' $(pwd)/${name}.rst
-    sed -i 's/xxx/'$sep'/g' $(pwd)/${name}.rst
+    fname="${name// /-}"
+    cp ~/.readmeTemplate.rst $(pwd)/${fname}.rst
+    sed -i 's/Title/'"$name"'/g' $(pwd)/${fname}.rst
+    sed -i 's/xxx/'$sep'/g' $(pwd)/${fname}.rst
 }
 
 # smart extract
@@ -101,6 +102,7 @@ extract () {
         case $1 in
             *.tar.bz2)   tar xjf $1;;
             *.tar.gz)    tar xzf $1;;
+            *.tar.xz)    tar tvf $1;;
             *.bz2)       bunzip2 $1;;
             *.rar)       rar x $1;;
             *.gz)        gunzip $1;;
