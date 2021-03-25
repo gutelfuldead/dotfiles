@@ -90,9 +90,10 @@ readme () {
     name=$1
     len=${#name}
     sep=$(printf '=%.0s' $(seq $len))
-    cp ~/.readmeTemplate.rst $(pwd)/${name}.rst
-    sed -i 's/Title/'$name'/g' $(pwd)/${name}.rst
-    sed -i 's/xxx/'$sep'/g' $(pwd)/${name}.rst
+    fname="${name// /-}"
+    cp ~/.readmeTemplate.rst $(pwd)/${fname}.rst
+    sed -i 's/Title/'"$name"'/g' $(pwd)/${fname}.rst
+    sed -i 's/xxx/'$sep'/g' $(pwd)/${fname}.rst
 }
 
 # smart extract
