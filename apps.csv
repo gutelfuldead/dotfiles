@@ -49,6 +49,7 @@ P,scipy,N,Scientific computing tools for python,,
 P,pandas,N,Data analysis and manipulation tool,,
 P,pyvisa-py,N,Pure python backend for pyVISA,,
 P,pyusb,N,USB access for Python,,
+P,bpytop,N,linux/osx/freebsd resource monitor
 C,perl-Tk-devel.x86_64,N,Modules and Tk code for Perl/Tk (for buildroot),,
 C,perl-Thread-Queue,N,Thread safe Queues (for buildroot),,
 C,gcc-c++,N,GNU C++ Compiler,,
