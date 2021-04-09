@@ -78,12 +78,6 @@ call plug#end()
     set splitbelow
     set splitright
 
-" Shortcutting split navigation, saving a keypress
-    map <C-h> <C-w>h
-    map <C-j> <C-w>j
-    map <C-k> <C-w>k
-    map <C-l> <C-w>l
-
 " resize current buffer by +/- 5
     nnoremap <C-left> :vertical resize -5<cr>
     nnoremap <C-down> :resize +5<cr>
