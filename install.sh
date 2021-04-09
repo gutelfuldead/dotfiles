@@ -472,6 +472,7 @@ fi
 
 ################################################################################
 # clean up
+# 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
 ################################################################################
 read -r -p "Clean unused packages ($tool autoremove)? [y/n] : " response
 case "$response" in
