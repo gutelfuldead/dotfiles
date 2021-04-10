@@ -89,6 +89,7 @@ call plug#end()
     autocmd BufRead,BufNewFile *.tex set filetype=tex
     let g:tex_flavor='latex'
     let g:Tex_DefaultTargetFormat='pdf'
+    " nnoremap <leader>lv g:Tex_View
 
 " .bash* files automatically detected
     autocmd BufRead,BufNewFile *.bash* set filetype=sh
