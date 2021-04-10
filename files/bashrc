@@ -120,6 +120,30 @@ extract () {
     fi
 }
 
+# ReMove all files containing a grep Pattern
+rmp () {
+    pat=$1
+    a=$(grep -lrI $1 .)
+    slen=${#a}
+    if [ $slen -ne 0 ]; then
+        echo -e "... rm -f the following files containing the string : \"$1\" ?\n"
+        echo $a | tr " " "\n\t"
+        echo ""
+        read -rp "... [y/n] : " response
+        case "$response" in
+            [yY][eE][sS]|[yY])
+                grep -lrIZ $1 . | xargs -0 rm -f --
+                echo "... Removed"
+                ;;
+            *)
+                echo "... Not Removed"
+                ;;
+        esac
+    else
+        echo "String \"$1\" not found in directory using 'grep -lrI' ... skipping"
+    fi
+}
+
 # publicip - shows public IP address
 publicip ()
 {
