@@ -99,16 +99,17 @@ call plug#end()
     set spellfile=$HOME/.spellen.utf-8.add
     autocmd BufRead,BufNewFile *.md setlocal spell
     autocmd BufRead,BufNewFile *.rst setlocal spell
+    autocmd BufRead,BufNewFile *.tex setlocal spell
     map <leader>sn ]s
     map <leader>sp [s
     map <leader>sa zg
     map <leader>s? z=
 
 " resize current buffer by +/- 5
-    nnoremap <C-left> :vertical resize -5<cr>
-    nnoremap <C-down> :resize +5<cr>
-    nnoremap <C-up> :resize -5<cr>
-    nnoremap <C-right> :vertical resize +5<cr>
+    noremap <C-left> :vertical resize +5<cr>
+    noremap <C-down> :resize -5<cr>
+    noremap <C-up> :resize +5<cr>
+    noremap <C-right> :vertical resize -5<cr>
 
 " Set diff mode to ignore whitespace
     if &diff
