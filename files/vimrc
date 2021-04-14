@@ -9,6 +9,7 @@ Plug 'morhetz/gruvbox'
 Plug 'junegunn/fzf'
 Plug 'amal-khailtash/vim-xdc-syntax'
 Plug 'vim-latex/vim-latex'
+Plug 'xuhdev/vim-latex-live-preview' " requires Okular and pdflatex, call :LLPStartPreview to open the pdf for live editing
 call plug#end()
 
 " Some basics:
@@ -45,10 +46,10 @@ call plug#end()
     nnoremap n nzz
     nnoremap N Nzz
 
-" Press <leader> Enter to remove search highlights
+" Press <leader>Enter to remove search highlights
     noremap <silent> <leader><cr> :noh<cr>
 
-" Press <leader> r to resource ~/.vimrc
+" Press <leader>r to resource ~/.vimrc
     noremap <leader>r :source ~/.vimrc<cr>
 
 " set comment string for vhdl files to work with vim-commentary
@@ -73,17 +74,14 @@ call plug#end()
     set splitbelow
     set splitright
 
-" resize current buffer by +/- 5
-    nnoremap <C-left> :vertical resize -5<cr>
-    nnoremap <C-down> :resize +5<cr>
-    nnoremap <C-up> :resize -5<cr>
-    nnoremap <C-right> :vertical resize +5<cr>
-
 " .tex files automatically detected
     autocmd BufRead,BufNewFile *.tex set filetype=tex
     let g:tex_flavor='latex'
     let g:Tex_DefaultTargetFormat='pdf'
-    " nnoremap <leader>lv g:Tex_View
+    au! BufRead,BufNewFile *.cls setfiletype tex
+    au! BufRead,BufNewFile *.lco setfiletype tex
+" open pdf preview of latex (latex preview)
+    noremap <leader>lp :LLPStartPreview<cr>
 
 " .bash* files automatically detected
     autocmd BufRead,BufNewFile *.bash* set filetype=sh
@@ -105,6 +103,12 @@ call plug#end()
     map <leader>sp [s
     map <leader>sa zg
     map <leader>s? z=
+
+" resize current buffer by +/- 5
+    nnoremap <C-left> :vertical resize -5<cr>
+    nnoremap <C-down> :resize +5<cr>
+    nnoremap <C-up> :resize -5<cr>
+    nnoremap <C-right> :vertical resize +5<cr>
 
 " Set diff mode to ignore whitespace
     if &diff
