@@ -57,6 +57,7 @@ First column (AppType) uses key,
         python-pip installations using the package manager"
         "G","Git build with make/configure"
         "GP","Group to add user to (if it exists on the system)"
+        "RC","Remove CentOS package from base distro install... Havent implemented in script yet"
 
 Just install dotfiles
 =====================
