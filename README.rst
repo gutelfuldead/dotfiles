@@ -58,6 +58,7 @@ First column (AppType) uses key,
         "G","Git build with make/configure"
         "GP","Group to add user to (if it exists on the system)"
         "RC","Remove CentOS package from base distro install... Havent implemented in script yet"
+        "S","Snap packages... Havent implemented in script yet"
 
 Just install dotfiles
 =====================
@@ -104,3 +105,10 @@ XPS 13
 ======
 
 Notes specific to `XPS13 laptop setup with Arch <./xps13.rst>`_.
+
+TODO
+====
+
+- Add support for Removing packages
+- Add support for adding Snap packages
+- https://snapcraft.io/install/drawio/centos

@@ -21,7 +21,7 @@ else
 fi
 
 # adding /bin causes issues with buildroot
-def_path=/usr/bin:/usr/sbin:/usr/local/bin:$HOME/.local/bin
+def_path=/usr/bin:/usr/sbin:/usr/local/bin:$HOME/.local/bin:/var/lib/snapd/snap/bin
 PATH=$def_path
 
 # add python 2.7 path ... needed for ranger
