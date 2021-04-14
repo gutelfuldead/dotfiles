@@ -9,7 +9,7 @@ Plug 'morhetz/gruvbox'
 Plug 'junegunn/fzf'
 Plug 'amal-khailtash/vim-xdc-syntax'
 Plug 'vim-latex/vim-latex'
-Plug 'xuhdev/vim-latex-live-preview' " requires Okular and pdflatex, call :LLPStartPreview to open the pdf for live editing
+Plug 'xuhdev/vim-latex-live-preview' " requires Okular and/or pdflatex, <leader>llp to open pdf preview
 call plug#end()
 
 " Some basics:
@@ -81,7 +81,7 @@ call plug#end()
     au! BufRead,BufNewFile *.cls setfiletype tex
     au! BufRead,BufNewFile *.lco setfiletype tex
 " open pdf preview of latex (latex preview)
-    noremap <leader>lp :LLPStartPreview<cr>
+    noremap <leader>llp :LLPStartPreview<cr>
 
 " .bash* files automatically detected
     autocmd BufRead,BufNewFile *.bash* set filetype=sh
