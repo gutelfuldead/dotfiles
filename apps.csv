@@ -1,5 +1,6 @@
 AppType,Application,Managed Dotfile,Description,Repository,Wget
 A,tree,N,Recursive Directory listing,,
+A,snapd,N,snap daemon,,
 A,man,N,manuals,,
 A,make,N,GNU Make,,
 A,okular,N,pdf viewer,,
@@ -90,3 +91,5 @@ GP,dialout,N/A,group for serial programs like minicom,,
 GP,libvirt,N/A,group for kvm,,
 GP,vboxusers,N/A,group for virtual box,,
 GP,wireshark,N/A,group for wireshark,,
+RC,openssh-askpass,N,creates a pop up for passwords rather use terminal,,
+S,drawio,N,diagram generator,,
