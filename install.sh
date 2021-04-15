@@ -8,6 +8,9 @@ debian=0
 centos=0
 arch=0
 pipInit=0
+installSnap=0
+snapInit=0
+archSnapInitialInstall=0
 installApps=0
 installAUR=0
 gitinstall=0
@@ -39,7 +42,6 @@ installRcm () {
     ver=1.3.4
     echon "Installing RCM"
     if [ ! -d ~/.rcm ]; then
-        echo $here
         curl -LO https://thoughtbot.github.io/rcm/dist/rcm-${ver}.tar.gz
         mkdir ~/.rcm
         tar -xvf rcm-${ver}.tar.gz --directory ~/.rcm
@@ -52,6 +54,18 @@ installRcm () {
     make
     sudo make install
     cd $here
+}
+
+archSnapInstall() {
+    cloneArchAurRepos https://aur.archlinux.org/snapd.git | tee -a $logfile
+    cd $archAurRepo/snapd
+    makepkg -si --skippgpcheck --needed --noconfirm --noprogressbar | tee -a $logfile
+    cd ..
+    rm -rf snapd
+    cd $here
+    sudo chmod +x /etc/profile.d/snap.sh
+    sudo /etc/profile.d/snap.sh
+    echon "Must restart computer before using SNAP, rerun this script after rebooting..."
 }
 
 gitInstall() {
@@ -93,6 +107,11 @@ installAppList() {
                         sudo $tool $installArgs $app | tee -a $logfile
                     fi
                     ;;
+                RC) # uninstall centos app
+                    if [ $installApps -eq 1 ] && [ $centos -eq 1 ]; then
+                        sudo $tool $uninstallArgs $app | tee -a $logfile
+                    fi
+                    ;;
                 U ) # install all ubuntu/debian apps
                     if [ $installApps -eq 1 ] && [ $debian -eq 1 ]; then
                         sudo $tool $installArgs $app | tee -a $logfile
@@ -106,6 +125,33 @@ installAppList() {
                 AUR ) # install arch aur apps
                     if [ $installAUR -eq 1 ] ; then
                         cloneArchAurRepos $gitRepo
+                    fi
+                    ;;
+                S ) # install snap
+                    if [ $installSnap -eq 1 ]; then
+                        if [ $snapInit -eq 0 ]; then
+                            tmp=$(which snap > /dev/null 2>&1)
+                            if [ $? -ne 0 ]; then
+                                echon "Installing SNAPD"
+                                if [ $arch -eq 1 ]; then
+                                    archSnapInitialInstall=1
+                                    archSnapInstall
+                                else
+                                    sudo $tool $installArgs snapd | tee -a $logfile
+                                fi
+                                sudo systemctl enable --now snapd.socket
+                            fi
+                            snapInit=1
+                            sudo snap refresh
+                        fi
+                        if [ $archSnapInitialInstall -eq 0 ]; then
+                            if [ $arch -eq 1 ] && [ $app == "drawio" ]; then
+                                echon "skipping drawio snap, install through AUR instead"
+                            else
+                                echon "Installing snap app $app, may not be any output for a while..."
+                                sudo snap install $app | tee -a $logfile
+                            fi
+                        fi
                     fi
                     ;;
                 P ) # python pip
@@ -144,7 +190,6 @@ installAppList() {
 
 backup ()
 {
-    here=$(pwd)
     backupdir=$here/backup
     overwrite=0
     if [ -d $backupdir ]; then
@@ -265,6 +310,7 @@ if [ $? -eq 0 ]; then
     centos=1
     tool="yum"
     installArgs="install -y --nogpgcheck --skip-broken"
+    uninstallArgs="uninstall -y"
 fi
 
 tmp=$(which pacman > /dev/null 2>&1)
@@ -336,6 +382,19 @@ case "$response" in
         ;;
 esac
 
+
+################################################################################
+# Install snap packages
+################################################################################
+read -r -p "Install SNAP packages (tag S from $appsFile) ? [y/n] : " response
+case "$response" in
+    [yY][eE][sS]|[yY])
+        installSnap=1
+        ;;
+    *)
+        echon "NOT Installing SNAP packages"
+        ;;
+esac
 
 ################################################################################
 # Install python packages
