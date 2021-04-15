@@ -1,6 +1,5 @@
 AppType,Application,Managed Dotfile,Description,Repository,Wget
 A,tree,N,Recursive Directory listing,,
-A,snapd,N,snap daemon,,
 A,man,N,manuals,,
 A,make,N,GNU Make,,
 A,okular,N,pdf viewer,,
@@ -84,6 +83,7 @@ AUR,XRDP,N,Graphical login for rdp,https://aur.archlinux.org/xrdp.git,
 AUR,rst2pdf,Y,Convert rst to pdfs,https://aur.archlinux.org/rst2pdf.git,
 AUR,spotify,N,Music streaming,https://aur.archlinux.org/spotify.git,
 AUR,ncurses5-compat-libs,N,ncurses5 development libs,https://aur.archlinux.org/ncurses5-compat-libs.git,
+AUR,drawio,N,diagram generator,https://aur.archlinux.org/drawio-desktop.git,
 G,fzf,Y,Fuzzy Finder,https://github.com/junegunn/fzf.git,https://github.com/junegunn/fzf/archive/0.21.1.zip
 G,ranger,Y,Ranger CLI File Browser,https://github.com/ranger/ranger.git,https://github.com/ranger/ranger/archive/v1.9.3.zip
 GP,wheel,N/A,sudoers group for debian,,
