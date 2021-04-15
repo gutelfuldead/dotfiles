@@ -9,6 +9,7 @@ Plug 'morhetz/gruvbox'
 Plug 'junegunn/fzf'
 Plug 'amal-khailtash/vim-xdc-syntax'
 Plug 'vim-latex/vim-latex'
+Plug 'gutelfuldead/vim-tex-fold' " fork from matze/vim-tex-fold add chapter, sub&subsub section support
 Plug 'xuhdev/vim-latex-live-preview' " requires Okular and/or pdflatex, <leader>llp to open pdf preview
 call plug#end()
 
@@ -29,7 +30,7 @@ call plug#end()
     set tabstop=4
     set autoindent
     set pastetoggle=<F3> " F3 toggles paste/nopaste vim paste is trash
-    set autochdir
+"    set autochdir
     set wildmode=longest,list,full
     set wildmenu
     let g:netrw_banner=0
