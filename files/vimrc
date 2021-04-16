@@ -30,7 +30,7 @@ call plug#end()
     set tabstop=4
     set autoindent
     set pastetoggle=<F3> " F3 toggles paste/nopaste vim paste is trash
-"    set autochdir
+    set autochdir
     set wildmode=longest,list,full
     set wildmenu
     let g:netrw_banner=0
