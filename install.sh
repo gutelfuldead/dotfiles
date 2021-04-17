@@ -464,6 +464,11 @@ case "$response" in
         vim -c 'PlugInstall' +qa
         vim ~/.vim/vbas/Align.vba 'source %' +qa
     fi
+    tmp=$(which texhash > /dev/null 2>&1)
+    if [ $? -ne 0 ]; then
+        echon "Running texhash"
+        sudo texhash
+    fi
     ;;
 *)
     echon "NOT replacing dotfiles"
@@ -491,17 +496,20 @@ esac
 # Kill the arch beeps
 ################################################################################
 if [ $arch -eq 1 ]; then
-    read -r -p "Disable system beeps ? [y/n] : " response
-    case "$response" in
-        [yY][eE][sS]|[yY])
-            echon "Disabling system beeps"
-            lsmod | grep pcspkr && sudo rmmod pcspkr
-            sudo echo "blacklist pcspkr" | sudo tee /etc/modprobe.d/nobeep.conf
-            ;;
-        *)
-            echon "NOT Disabling system beeps"
-            ;;
-    esac
+    tmp=$(grep "blacklist pcspkr" /etc/modprobe.d/nobeep.conf > /dev/null 2>&1)
+    if [ $? -ne 0 ]; then
+        read -r -p "Disable system beeps ? [y/n] : " response
+        case "$response" in
+            [yY][eE][sS]|[yY])
+                echon "Disabling system beeps"
+                lsmod | grep pcspkr && sudo rmmod pcspkr
+                sudo echo "blacklist pcspkr" | sudo tee /etc/modprobe.d/nobeep.conf
+                ;;
+            *)
+                echon "NOT Disabling system beeps"
+                ;;
+        esac
+    fi
 fi
 
 ################################################################################
