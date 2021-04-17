@@ -57,6 +57,8 @@ First column (AppType) uses key,
         python-pip installations using the package manager"
         "G","Git build with make/configure"
         "GP","Group to add user to (if it exists on the system)"
+        "RC","Remove CentOS package from base distro install"
+        "S","Snap packages"
 
 Just install dotfiles
 =====================
@@ -103,3 +105,6 @@ XPS 13
 ======
 
 Notes specific to `XPS13 laptop setup with Arch <./xps13.rst>`_.
+
+TODO
+====
