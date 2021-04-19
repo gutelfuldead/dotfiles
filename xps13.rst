@@ -39,3 +39,12 @@ Add /etc/systemd/system/i3lock.service ::
 
     [Install]
     WantedBy=sleep.target suspend.target
+
+rEFInd-Theme
+============
+
+Added as a submodule.
+
+``git submodule update --init --recursive``
+
+https://github.com/gutelfuldead/rEFInd-Theme
