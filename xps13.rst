@@ -45,6 +45,6 @@ rEFInd-Theme
 
 Added as a submodule.
 
-``git submodule update --init --recursive"
+``git submodule update --init --recursive``
 
 https://github.com/gutelfuldead/rEFInd-Theme

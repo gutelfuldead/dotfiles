@@ -945,11 +945,11 @@
   \cline{1-4}
   \multicolumn{2}{|c|}{} & \textsf{\scriptsize{}OPERATIONS} & \textsf{\scriptsize{}DATE} & \multicolumn{5}{c|}{\TitleBlockTitleLineTwo}\tabularnewline
   \cline{1-2}
-  \textsf{\scriptsize{}RELEASED} & \textsf{\scriptsize{}DATE} &  &  & \multicolumn{5}{c|}{}\tabularnewline
+  \textsf{\scriptsize{}RELEASED} & \textsf{\scriptsize{}DATE} & &  & \multicolumn{5}{c|}{}\tabularnewline
   \cline{3-9}
   \qquad{}\qquad{} & \qquad{}\qquad{} & \textsf{\scriptsize{}QUALITY ASSURANCE} & \textsf{\scriptsize{}DATE} & \textsf{\scriptsize{}SIZE} & \textsf{\scriptsize{}CAGE CODE} & \textsf{\scriptsize{}DWG. NO.} & \multicolumn{2}{c|}{\textsf{\scriptsize{}REV.}}\tabularnewline
   \cline{5-9}
-  \textsf{\scriptsize{}DCR NO.} &  &  &  &  & 1T3M8 & \DocNumber & \multicolumn{2}{c|}{\DocRev}\tabularnewline
+  \textsf{\scriptsize{}DCR NO.} &  &  & &  & 1T3M8 & \DocNumber & \multicolumn{2}{c|}{\DocRev}\tabularnewline
   \cline{3-9}
    &  & \textsf{\scriptsize{}DOCUMENT CONTROL} & \textsf{\scriptsize{}DATE} & \multicolumn{2}{c|}{\textsf{\scriptsize{}SCALE}} & \multicolumn{1}{c}{\textsf{\scriptsize{}SHEET}} &  & \tabularnewline
   \cline{5-6}

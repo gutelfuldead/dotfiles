@@ -75,6 +75,7 @@ alias vimb='vim ~/.bashrc'
 alias vimba='vim ~/.bash_aliases'
 alias vimv='vim ~/.vimrc'
 alias excel='sc-im'
+alias rst2latex='python ~/.rst2latex.py'
 
 # Adding color
 alias ls='ls -hN --color=auto --group-directories-first'
