@@ -1,0 +1,159 @@
+\documentclass[oneside,english,chapters]{smireport}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\usepackage{color}
+\usepackage{babel}
+\usepackage{array}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage[unicode=true,
+  bookmarks=true,bookmarksnumbered=false,bookmarksopen=false,
+breaklinks=false,pdfborder={0 0 0},pdfborderstyle={},backref=false,colorlinks=true]
+{hyperref}
+\newcommand{\titletext}{TEMPLATE TITLE HERE}
+\hypersetup{pdftitle={\titletext},
+  pdfauthor={Jason Gutel},
+  pdfsubject={SMI},
+linkcolor=Blue, urlcolor=blue, citecolor=black}
+
+\makeatletter
+\setlength\parindent{0pt} % global \noindent
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
+%% Because html converters don't know tabularnewline
+\providecommand{\tabularnewline}{\\}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Textclass specific LaTeX commands.
+\newcommand\ReleasedDrawing{}
+\@ifundefined{ReleasedDrawing}
+{
+  \newcommand\ReleasedDrawing{}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+\usepackage[dvipsnames]{xcolor}
+\newcommand{\tabref}{\Tabref}
+\newcommand{\figref}{\Figref}
+
+
+\makeatother
+\author{Jason Gutel}
+
+\begin{document}
+
+\renewcommand\HeaderTitle{\titletext}{}
+
+\renewcommand\DocNumber{9XXXX-Y}{}
+
+\renewcommand\DocRev{A}{}
+
+\renewcommand\SVNRevision{\$Rev\$}{}
+
+\renewcommand\TitleBlockTitleLineOne{\titletext}{}
+
+\renewcommand\TitleBlockTitleLineTwo{TEMPLATE Title Line 2}{}
+
+\title{\titletext}
+
+\maketitle
+\tableofcontents{}
+
+\listoffigures
+
+\listoftables
+
+\chapter{Revision Notes}
+\begin{table}[H]
+  \begin{tabular}{|>{\centering}p{0.15\columnwidth}|>{\centering}p{0.85\columnwidth}|}
+    \hline
+    \textbf{\textsc{Rev}} & \textbf{\textsc{Comments}}\tabularnewline
+    \hline
+    \hline
+    A & Initial Release\tabularnewline
+    \hline
+  \end{tabular}
+  \caption{Revision Table}\label{tab:revision-table}
+\end{table}
+
+
+
+% EVERYTHING BELOW HERE IS FOR REFERENCE
+\chapter{Introduction}
+Introduction bold \textbf{Text}.
+\newline
+\href{https://github.com/gutelfuldead/dotfiles}{Here's a link}
+
+\section{Here's a section}
+\begin{center}Section centered italicized \textit{Text}.\end{center}
+\begin{verbatim}
+    $ here's some code, not syntax highlighted
+\end{verbatim}
+
+\section{References}
+\subsection{table example}
+Check out table \ref{tab:uselesstable}
+
+\begin{table}[H]
+  \begin{tabular}{|>{\centering}p{0.15\columnwidth}|>{\centering}p{0.15\columnwidth}|>{\centering}p{0.7\columnwidth}|}
+    \hline
+    \textbf{\textsc{Column A}} & \textbf{\textsc{Column B}} & \textbf{\textsc{Column C}}\tabularnewline
+    \hline
+    \hline
+    I & <3 & LaTeX\tabularnewline
+    \hline
+    I & <3 & Arch\tabularnewline
+    \hline
+    I & <3 & Vim\tabularnewline
+    \hline
+  \end{tabular}
+  \caption{Noone loves me}\label{tab:uselesstable}
+\end{table}
+
+\subsection{figure example}
+Check out figure \ref{fig:image} with an image.
+
+\begin{figure}
+  %                                    scale to column , scale to height
+  \begin{center}\includegraphics[width=0.25\columnwidth,height=0.25\textheight,keepaspectratio]{./images/smi-logo.png}\end{center}
+\caption{some image}\label{fig:image}
+\end{figure}
+
+\subsection{link to another section}
+I think you'll like Section \ref{sec:landn}.
+
+\section{lists and enumerations}
+\label{sec:landn}
+
+Check out this stupid Bullets Figure \ref{fig:bullets} and this other stupid enumeration Figure \ref{fig:enum}!
+It's cool to place them in figures so you can capture / reference them.
+
+\begin{figure}[H] % place this figure RIGHT HERE
+\begin{itemize}
+  \item bullet a
+  \begin{itemize}
+    \item sub-bullet a
+    \item sub-bullet b
+  \end{itemize}
+  \item bullet b
+\end{itemize}
+\caption{Bullets Fig}\label{fig:bullets}
+\end{figure}
+
+\begin{figure}
+\begin{enumerate}
+  \setcounter{enumi}{-1} % start counting at zero
+  \item start at zero obviously
+  \item ???
+  \item PROFIT
+\end{enumerate}
+\caption{stupid enums example}\label{fig:enum}
+\end{figure}
+
+% Include some other tex file so it gets compiled into this one
+% Secondary file shouldn't have a preamble or a \start{document} \end{document} tags
+% Should just have chapters, sections, figures, tables, etc
+% Don't include the .tex
+\include{secondary-tex-document-name}
+
+\end{document}
+
