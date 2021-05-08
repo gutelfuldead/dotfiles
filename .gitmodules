@@ -1,0 +1,3 @@
+[submodule "rEFInd-Theme"]
+	path = rEFInd-Theme
+	url = https://github.com/gutelfuldead/rEFInd-Theme

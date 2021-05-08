@@ -75,6 +75,7 @@ alias vimb='vim ~/.bashrc'
 alias vimba='vim ~/.bash_aliases'
 alias vimv='vim ~/.vimrc'
 alias excel='sc-im'
+alias rst2latex='python ~/.rst2latex.py'
 
 # Adding color
 alias ls='ls -hN --color=auto --group-directories-first'
@@ -168,6 +169,7 @@ dirsize ()
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 # all system indepedent aliases, path modifications, etc should be in ~/.bash_aliases
 [ -f ~/.bash_aliases ] && source ~/.bash_aliases
+[ -f ~/.config/watson/watson.completion.txt ] && source ~/.config/watson/watson.completion.txt
 
 if [ -d $HOME/.rbenv ]; then
     export PATH="$HOME/.rbenv/bin:$PATH"

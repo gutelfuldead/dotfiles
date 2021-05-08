@@ -165,7 +165,7 @@ installAppList() {
                             sudo python3 -m pip install --upgrade pip | tee -a $logfile
                             pipInit=1
                         fi
-                        sudo pip install -U $app | tee -a $logfile
+                        pip install -U $app | tee -a $logfile
                     fi
                     ;;
                 GP ) # append group list, dont add now wait for everything to be installed, just aggregate
@@ -467,7 +467,8 @@ case "$response" in
     tmp=$(which texhash > /dev/null 2>&1)
     if [ $? -ne 0 ]; then
         echon "Running texhash"
-        sudo texhash
+        # need to make a hard link to ~/texmf
+        texhash ~/texmf
     fi
     ;;
 *)
