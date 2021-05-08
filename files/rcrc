@@ -1,0 +1,3 @@
+EXCLUDES="README*.md README*.rst LICENSE"
+DOTFILES_DIR="$HOME/.dotfiles"
+UNDOTTED="texmf"

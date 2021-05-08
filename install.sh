@@ -465,9 +465,8 @@ case "$response" in
         vim ~/.vim/vbas/Align.vba 'source %' +qa
     fi
     tmp=$(which texhash > /dev/null 2>&1)
-    if [ $? -ne 0 ]; then
+    if [ $? -eq 0 ]; then
         echon "Running texhash"
-        # need to make a hard link to ~/texmf
         texhash ~/texmf
     fi
     ;;
