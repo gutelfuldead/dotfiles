@@ -447,6 +447,7 @@ case "$response" in
     if [ $? -eq 1 ]; then
         installRcm
     fi
+    rcup -v -d $here/files/rcrc | tee -a $logfile # source this first
     rcup -v -d $here/files | tee -a $logfile
     source ~/.bashrc
     if [ $arch -eq 1 ]; then

@@ -83,9 +83,9 @@ and manually add dotfiles ::
 Use RCM
 =======
 
-`Decent Guide <https://distrotube.com/blog/rcm-guide/>`_
+`Decent Guide <https://thoughtbot.com/blog/rcm-for-rc-files-in-dotfiles-repos>`_
 
-`manish page <http://thoughtbot.github.io/rcm/rcm.7.html>`_
+`man page <http://thoughtbot.github.io/rcm/rcm.7.html>`_
 
 Add new file to rcm control ::
 
