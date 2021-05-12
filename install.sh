@@ -447,6 +447,7 @@ case "$response" in
     if [ $? -eq 1 ]; then
         installRcm
     fi
+    rcup -v -d $here/files/rcrc | tee -a $logfile # source this first
     rcup -v -d $here/files | tee -a $logfile
     source ~/.bashrc
     if [ $arch -eq 1 ]; then
@@ -465,9 +466,8 @@ case "$response" in
         vim ~/.vim/vbas/Align.vba 'source %' +qa
     fi
     tmp=$(which texhash > /dev/null 2>&1)
-    if [ $? -ne 0 ]; then
+    if [ $? -eq 0 ]; then
         echon "Running texhash"
-        # need to make a hard link to ~/texmf
         texhash ~/texmf
     fi
     ;;
