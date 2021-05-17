@@ -1,7 +1,10 @@
 AppType,Application,Managed Dotfile,Description,Repository,Wget
+=====,=====,=====,=====,=====,=====
 A,tree,N,Recursive Directory listing,,
 A,man,N,manuals,,
 A,make,N,GNU Make,,
+A,rxvt-unicode,Y,virtual terminal,,
+A,terminus-fonts,N,Clean fixed with font,,
 A,okular,N,pdf viewer,,
 A,cmake,N,GNU Cmake,,
 A,clang,Y,C Language Formatter,,
@@ -9,7 +12,9 @@ A,pdftk,N,PDF Tool Kit,,
 A,minicom,Y,Serial communication,,
 A,eog,N,Eye of Gnome Image Viewer,,
 A,iperf3,N,Network Performance Tool,,
+A,xsel,N,Command Line Clipboard and X Selection,,
 A,gcc,N,GNU C Compiler,,
+A,dmenu,N,generic menu for X,,
 A,python2,N,Python 2,,
 A,biber,N,bibliography for latex (todo check if it works in centos, this is arch),,
 A,python3,N,Python 3,,
@@ -43,6 +48,7 @@ A,patch,N,Apply a diff file,,
 A,ctags,Y,Generate tag files for source code,,
 A,terminator,Y,Multiple GNOME terminals in one window,,
 A,tmux,Y,Terminal multiplexer,,
+=====,=====,=====,=====,=====,=====
 P,numpy,N,Scientific Computing,,
 P,pyvisa,N,Wrapper for VISA shared libraries,,
 P,matplotlib,N,Visualization with python,,
@@ -52,6 +58,7 @@ P,pandas,N,Data analysis and manipulation tool,,
 P,pyvisa-py,N,Pure python backend for pyVISA,,
 P,pyusb,N,USB access for Python,,
 P,bpytop,Y,linux/osx/freebsd resource monitor,https://github.com/aristocratos/bpytop,
+=====,=====,=====,=====,=====,=====
 C,perl-Tk-devel.x86_64,N,Modules and Tk code for Perl/Tk (for buildroot),,
 C,perl-Thread-Queue,N,Thread safe Queues (for buildroot),,
 C,gcc-c++,N,GNU C++ Compiler,,
@@ -68,9 +75,11 @@ C,geany-plugins-geanygendoc,N,Used for rst2html,,
 C,perl-ExtUtils-MakeMaker,N,Used for buildroot,,
 C,libusb,N,usb library for ti code composer req,,
 C,glibc-devel.i686,N,installing for ti code composer req,,
+=====,=====,=====,=====,=====,=====
 U,docutils-common,N,Used for rst2html,,
 U,g++,N,GNU C++ Compiler,,
 U,yakuake,N,Drop down terminal emulator,,
+=====,=====,=====,=====,=====,=====
 X,kakuake,N,Drop down terminal emulator,,
 X,base-devel,N,Base Development tools,,
 X,fzf,Y,Fuzzy Finder,,
@@ -84,18 +93,25 @@ X,pulsemixer,N,is an audio controller,,
 X,pamixer,N,is a command-line audio interface,,
 X,unrar,N,extracts rar's,,
 X,unzip,N,unzips zips,,
+=====,=====,=====,=====,=====,=====
 AUR,XRDP,N,Graphical login for rdp,https://aur.archlinux.org/xrdp.git,
 AUR,rst2pdf,Y,Convert rst to pdfs,https://aur.archlinux.org/rst2pdf.git,
 AUR,spotify,N,Music streaming,https://aur.archlinux.org/spotify.git,
 AUR,ncurses5-compat-libs,N,ncurses5 development libs,https://aur.archlinux.org/ncurses5-compat-libs.git,
 AUR,drawio,N,diagram generator,https://aur.archlinux.org/drawio-desktop.git,
 AUR,chrome,N,google chrome,https://aur.archlinux.org/google-chrome.git,
+=====,=====,=====,=====,=====,=====
 G,fzf,Y,Fuzzy Finder,https://github.com/junegunn/fzf.git,https://github.com/junegunn/fzf/archive/0.21.1.zip
 G,ranger,Y,Ranger CLI File Browser,https://github.com/ranger/ranger.git,https://github.com/ranger/ranger/archive/v1.9.3.zip
+=====,=====,=====,=====,=====,=====
 GP,wheel,N/A,sudoers group for debian,,
 GP,dialout,N/A,group for serial programs like minicom,,
 GP,libvirt,N/A,group for kvm,,
 GP,vboxusers,N/A,group for virtual box,,
 GP,wireshark,N/A,group for wireshark,,
+=====,=====,=====,=====,=====,=====
 RC,openssh-askpass,N,creates a pop up for passwords rather use terminal,,
+=====,=====,=====,=====,=====,=====
 S,drawio,N,diagram generator,,
+=====,=====,=====,=====,=====,=====
+XM,xmonad,tiling window manager,,
