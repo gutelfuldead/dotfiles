@@ -143,6 +143,14 @@ bar {
         font pango:Terminus 25px
 }
 
+bar {
+        position top
+        output nonprimary
+        status_command i3status -c ~/.config/i3/i3status-nonprimary.conf
+        separator_symbol " | "
+        font pango:Terminus 25px
+}
+
 # Gaps
 for_window [class="^.*"] border pixel 2
 gaps inner 5
