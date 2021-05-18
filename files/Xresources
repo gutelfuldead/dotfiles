@@ -1,4 +1,14 @@
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+! XPS13 -- fix scaling issues in i3
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Xft.dpi: 192
+Xft.hinting: true
+Xft.antialias: true
+Xft.rgba: rgb
+Xft.hinststyle: hintfull
+Xft.autohint: 0
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 ! URxvt
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 ! solarized theme
@@ -27,35 +37,27 @@ URxvt.color14 : #55FFFF
 ! white
 URxvt.color7  : #AAAAAA
 URxvt.color15 : #FFFFFF
-URxvt.background: [90]#000000
-URxvt.depth: 32
+URxvt*transparent: true
+URxvt*shading: 20
 URxvt.foreground: #FFFFFF
 
 ! FONT
-URxvt.font: xft:Terminus:pixelsize=21:antialias=true
-! URxvt.letterSpace: -2
+URxvt.font: xft:Terminus:pixelsize=31:antialias=true
 URxvt.scrollBar : False
 
-! URxvt.perl-ext-common: default,clipboard,tabbed,url-select,keyboard-select,resize-font,selection-to-clipboard
 URxvt.perl-ext-common: default,clipboard,tabbed,resize-font
-! URxvt.copyCommand: xclip -i -selection clipboard
-! URxvt.pasteCommand: xclip -o -selection clipboard
 URxvt.clipboard.autocopy: true
 
 ! Keybinds
-URxvt.keysym.M-c: perl:clipboard:copy
-URxvt.keysym.M-v: perl:clipboard:paste
+URxvt.keysym.C-y: perl:clipboard:copy
+URxvt.keysym.C-p: perl:clipboard:paste
 URxvt.keysym.C-j: command:\033]721;1\007
 URxvt.keysym.C-k: command:\033]720;1\007
 URxvt.keysym.C-Escape: perl:keyboard-select:activate
-URxvt.keysym.C-s: perl:keyboard-select:search
-URxvt.keysym.C-u: perl:url-select:select_next
 URxvt.keysym.C--: resize-font:smaller
 URxvt.keysym.C-+: resize-font:bigger
-URxvt.urlLauncher: /usr/bin/google-chrome
-URxvt.underlineURLs: true
-URxvt.urlButton: 1
 
+! Tab Colors
 URxvt.tabbed.tabbar-fg: 2
 URxvt.tabbed.tabbar-bg: 0
 URxvt.tabbed.tab-fg: 3
