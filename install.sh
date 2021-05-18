@@ -180,7 +180,6 @@ installAppList() {
                     fi
                     ;;
                 * )
-                    echo "Unknown tag $appType for application $app"
                     ;;
             esac
         fi
