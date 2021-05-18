@@ -1,7 +1,7 @@
 # i3 config file (v4)
 #
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
-# set modifier to left alt
+# set modifier to left/right alt
 set $mod Mod1
 
 # Font for window titles. Will also be used by the bar unless a different font
@@ -154,5 +154,5 @@ bindsym $mod+Shiftz gaps outer current minus 5
 exec --no-startup-id feh --bg-scale ~/Pictures/bg.jpg
 
 # lock
-bindsym Mod4+l exec "/usr/bin/i3lock -b -i ~/.config/i3/lock.png -e -f"
-exec "xautolock -detectsleep -time 10 -locker \"/usr/bin/i3lock -b -i ~/.config/i3/lock.png -e -f\""
+bindsym Mod4+l exec "/usr/bin/i3lock -i ~/.config/i3/lock.png -e -f -t"
+exec "xautolock -detectsleep -time 10 -locker \"/usr/bin/i3lock -i ~/.config/i3/lock.png -e -f -t\""
