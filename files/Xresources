@@ -53,9 +53,6 @@ URxvt.keysym.C-y: perl:clipboard:copy
 URxvt.keysym.C-p: perl:clipboard:paste
 URxvt.keysym.C-j: command:\033]721;1\007
 URxvt.keysym.C-k: command:\033]720;1\007
-URxvt.keysym.C-Escape: perl:keyboard-select:activate
-URxvt.keysym.C--: resize-font:smaller
-URxvt.keysym.C-+: resize-font:bigger
 
 ! Tab Colors
 URxvt.tabbed.tabbar-fg: 2
