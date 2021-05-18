@@ -1,6 +1,7 @@
 #!/bin/bash
 here=$(pwd)
 archAurRepo=$here/archAurPkgs
+gitRepo=$here/gitPkgs
 appsFile=$here/apps.csv
 logfile=$here/install.log
 installPip=0
@@ -53,6 +54,70 @@ installRcm () {
     ./configure
     make
     sudo make install
+    cd $here
+}
+
+# manually install i3 on CentOS 7.1 which has deprecated packages in yum
+installCentosI3 () {
+    if [ ! -d $gitRepo ]; then
+        mkdir -pv $gitRepo
+    fi
+    # pre-reqs for i3-gaps and i3status
+    sudo yum install -y -q "xcb-util*-devel" \
+            "xorg-x11-font*" \
+            autoconf \
+            automake \
+            gcc \
+            git \
+            libev-devel \
+            libX11-devel \
+            libxcb-devel \
+            libXinerama-devel \
+            libxkbcommon-devel \
+            libxkbcommon-x11-devel \
+            libXrandr-devel \
+            libconfuse-devel \
+            pulseaudio-libs-devel \
+            libnl-devel \
+            libnl3-devel \
+            alsa-lib-devel
+            make \
+            pango-devel \
+            pcre-devel \
+            startup-notification-devel \
+            wget \
+            xcb-util-cursor-devel \
+            xcb-util-devel \
+            xcb-util-keysyms-devel \
+            xcb-util-wm-devel \
+            xcb-util-xrm-devel \
+            xorg-x11-util-macros \
+            yajl-devel \
+            xterm
+
+    git clone --recursive https://github.com/Airblader/xcb-util-xrm $gitRepo
+    cd $gitRepo/xcb-util-xrm
+    git submodule update --init
+    ./autogen.sh --prefix=/usr --libdir=/usr/lib64
+    make
+    sudo make install
+
+    git clone https://www.github.com/Airblader/i3 $gitRep/i3-gaps
+    cd $gitRepo/i3-gaps
+    mkdir -p build && cd build
+    meson ..
+    ninja
+    sudo make install
+
+    git clone https://github.com/i3/i3status.git $gitRepo
+    cd $gitRepo/i3status
+    autoreconf -fi
+    mkdir build
+    cd build
+    ../configure --disable-sanitizers
+    make -j$(nproc)
+    sudo make install
+
     cd $here
 }
 
@@ -446,7 +511,8 @@ case "$response" in
     if [ $? -eq 1 ]; then
         installRcm
     fi
-    rcup -v -d $here/files/rcrc | tee -a $logfile # source this first
+    rcup -v -d $here/files/rcrc | tee -a $logfile
+    source ~/.rcrc
     rcup -v -d $here/files | tee -a $logfile
     source ~/.bashrc
     if [ $arch -eq 1 ]; then
