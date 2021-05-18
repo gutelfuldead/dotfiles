@@ -1,0 +1,10 @@
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+! XPS13 -- fix scaling issues in i3
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Xft.dpi: 192
+Xft.hinting: true
+Xft.antialias: true
+Xft.rgba: rgb
+Xft.hinststyle: hintfull
+Xft.autohint: 0
+

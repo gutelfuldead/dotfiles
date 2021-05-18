@@ -22,7 +22,15 @@ if [ -f "$usermodmap" ]; then
 fi
 
 if [ -f $HOME/.Xresources ]; then
-    xrdb --merge $Home/.Xresources
+    xrdb --merge $HOME/.Xresources
+fi
+
+if [ -f $HOME/.Xresources-arch ]; then
+    xrdb --merge $HOME/.Xresources-arch
+fi
+
+if [ -f $HOME/.mon.sh ]; then
+    bash $HOME/.mon.sh
 fi
 
 # start some nice programs
