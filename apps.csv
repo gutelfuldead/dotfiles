@@ -1,11 +1,11 @@
 AppType,Application,Managed Dotfile,Description,Repository,Wget
 =======,===========,===============,===========,==========,====
-A,i3-wm,Y,i3 window manager,,
-A,i3lock,Y,i3 window manager,,
-A,i3status,Y,i3 window manager,,
+A,i3-wm,Y,improved dynamic tiling window manager,,
+A,i3lock,Y,slightly improved version of slock,,
+A,i3status,Y,generates a status line for i3bar,,
 A,dmenu,N,generic menu for X,,
 A,tree,N,Recursive Directory listing,,
-A,man,N,manuals,,
+A,man,N,interface to the system reference manuals,,
 A,make,N,GNU Make,,
 A,rxvt-unicode,Y,virtual terminal,,
 A,terminus-font,N,Clean fixed with font,,
