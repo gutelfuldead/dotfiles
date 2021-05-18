@@ -1,7 +1,7 @@
 #!/bin/bash
 here=$(pwd)
 archAurRepo=$here/archAurPkgs
-gitRepo=$here/gitPkgs
+gitRepoPath=$here/gitPkgs
 appsFile=$here/apps.csv
 logfile=$here/install.log
 installPip=0
@@ -59,9 +59,21 @@ installRcm () {
 
 # manually install i3 on CentOS 7.1 which has deprecated packages in yum
 installCentosI3 () {
-    if [ ! -d $gitRepo ]; then
-        mkdir -pv $gitRepo
+    read -r -p "Install i3? [y/n] : " response
+    case "$response" in
+        [yY][eE][sS]|[yY])
+            echon "Installing i3 Desktop"
+            ;;
+        *)
+            echon "NOT Installing i3 Desktop"
+            return 0
+            ;;
+    esac
+
+    if [ ! -d $gitRepoPath ]; then
+        mkdir -pv $gitRepoPath
     fi
+
     # pre-reqs for i3-gaps and i3status
     sudo yum install -y -q "xcb-util*-devel" \
             "xorg-x11-font*" \
@@ -95,25 +107,24 @@ installCentosI3 () {
             yajl-devel \
             xterm
 
-    git clone --recursive https://github.com/Airblader/xcb-util-xrm $gitRepo
-    cd $gitRepo/xcb-util-xrm
+    git clone --recursive https://github.com/Airblader/xcb-util-xrm $gitRepoPath
+    cd $gitRepoPath/xcb-util-xrm
     git submodule update --init
     ./autogen.sh --prefix=/usr --libdir=/usr/lib64
     make
     sudo make install
 
-    git clone https://www.github.com/Airblader/i3 $gitRep/i3-gaps
-    cd $gitRepo/i3-gaps
+    git clone https://www.github.com/Airblader/i3 $gitRepoPath/i3-gaps
+    cd $gitRepoPath/i3-gaps
     mkdir -p build && cd build
     meson ..
     ninja
     sudo make install
 
-    git clone https://github.com/i3/i3status.git $gitRepo
-    cd $gitRepo/i3status
+    git clone https://github.com/i3/i3status.git $gitRepoPath
+    cd $gitRepoPath/i3status
     autoreconf -fi
-    mkdir build
-    cd build
+    mkdir -p build && cd build
     ../configure --disable-sanitizers
     make -j$(nproc)
     sudo make install
@@ -497,6 +508,9 @@ if [ $installAUR -eq 1 ] ; then
     archAurInstall
 fi
 install_cinnamon
+if [ $centos -eq 1 ]; then
+    installCentosI3
+fi
 
 ################################################################################
 # update dotfiles if RCM was installed
