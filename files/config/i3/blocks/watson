@@ -1,0 +1,15 @@
+#!/bin/bash
+w=$(watson status)
+w1=$(echo $w | awk '{print $1}')
+
+ACTIVE=""
+INACTIVE=""
+
+if [ $w1 != "No" ]; then
+    proj=$(echo $w | awk '{print $2}')
+    tag=$(echo $w | awk '{print $3}') 
+    tag=$(echo $tag | sed -e 's/\[//' -e 's/\]//') # strip [ ]
+    echo "$ACTIVE $proj : $tag"
+else
+    echo "$w"
+fi
