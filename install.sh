@@ -530,6 +530,7 @@ case "$response" in
     rcup -v -d $here/files | tee -a $logfile
     source ~/.bashrc
     if [ $arch -eq 1 ]; then
+        rcup -v -d $here/arch-files | tee -a $logfile
         sudo sed -i "s/^#VerbosePkgLists$/VerbosePkgLists/" /etc/pacman.conf
         sudo sed -i "s/^#Color$/Color/" /etc/pacman.conf
         # use this for i3 so we can share the .conf across multiple OS'
