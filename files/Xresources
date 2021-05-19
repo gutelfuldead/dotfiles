@@ -32,7 +32,6 @@ URxvt*shading: 20
 URxvt.foreground: #FFFFFF
 
 ! FONT
-URxvt.font: xft:Terminus:pixelsize=25:antialias=true
 URxvt.scrollBar : False
 
 URxvt.perl-ext-common: default,clipboard,tabbed,resize-font
