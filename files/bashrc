@@ -158,6 +158,8 @@ publicip ()
 # dirsize - finds directory sizes and lists them for the current directory
 dirsize ()
 {
+    nfiles=$(find . -type f | wc -l)
+    echo "Total number of recursive files : $nfiles"
     du -shx * .[a-zA-Z0-9_]* 2> /dev/null | \
     egrep '^ *[0-9.]*[MG]' | sort -n > /tmp/list
     egrep '^ *[0-9.]*M' /tmp/list

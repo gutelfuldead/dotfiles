@@ -170,4 +170,6 @@ exec --no-startup-id bash ~/.xprofile
 
 # lock
 bindsym Mod4+l exec "/usr/bin/i3lock -i ~/.config/i3/lock.png -e -f -t"
+bindsym Control+Mod1+l exec "/usr/bin/i3lock -i ~/.config/i3/lock.png -e -f -t"
+bindsym Control+l exec "/usr/bin/i3lock -i ~/.config/i3/lock.png -e -f -t"
 exec "xautolock -detectsleep -time 10 -locker \"/usr/bin/i3lock -i ~/.config/i3/lock.png -e -f -t\""
