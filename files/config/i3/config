@@ -34,7 +34,9 @@ floating_modifier $mod
 
 # start a terminal
 # CentOS7.1 use urxvt256c
-bindsym $mod+Return exec urxvt256c
+# bindsym $mod+Return exec urxvt256c
+# Arch use urxvt
+bindsym $mod+Return exec urxvt
 
 # snapshot
 bindsym $mod+p exec ksnapshot
@@ -143,7 +145,7 @@ bar {
         tray_output primary
         status_command i3status -c ~/.config/i3/i3status.conf
         separator_symbol " | "
-        font pango:Terminus 25px
+        font pango:Terminus 30px
 }
 
 # Start bars for nonprimary screens
@@ -152,7 +154,7 @@ bar {
         output nonprimary
         status_command i3status -c ~/.config/i3/i3status-nonprimary.conf
         separator_symbol " | "
-        font pango:Terminus 25px
+        font pango:Terminus 30px
 }
 
 # Gaps
