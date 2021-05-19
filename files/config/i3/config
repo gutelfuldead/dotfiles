@@ -36,7 +36,7 @@ floating_modifier $mod
 # CentOS7.1 use urxvt256c
 # bindsym $mod+Return exec urxvt256c
 # Arch use urxvt
-bindsym $mod+Return exec urxvt
+bindsym $mod+Return exec urxvt256c
 
 # snapshot
 bindsym $mod+p exec ksnapshot
@@ -45,7 +45,7 @@ bindsym $mod+p exec ksnapshot
 bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
-bindsym $mod+d exec --no-startup-id dmenu_run
+bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
 # change focus
 bindsym $mod+h focus left
@@ -166,7 +166,10 @@ bindsym $mod+Shiftz gaps outer current minus 5
 
 # background
 exec --no-startup-id feh --bg-fill ~/Pictures/bg.jpg
+exec --no-startup-id bash ~/.xprofile
 
 # lock
 bindsym Mod4+l exec "/usr/bin/i3lock -i ~/.config/i3/lock.png -e -f -t"
+bindsym Control+Mod1+l exec "/usr/bin/i3lock -i ~/.config/i3/lock.png -e -f -t"
+bindsym Control+l exec "/usr/bin/i3lock -i ~/.config/i3/lock.png -e -f -t"
 exec "xautolock -detectsleep -time 10 -locker \"/usr/bin/i3lock -i ~/.config/i3/lock.png -e -f -t\""
