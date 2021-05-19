@@ -532,6 +532,10 @@ case "$response" in
     if [ $arch -eq 1 ]; then
         sudo sed -i "s/^#VerbosePkgLists$/VerbosePkgLists/" /etc/pacman.conf
         sudo sed -i "s/^#Color$/Color/" /etc/pacman.conf
+        # use this for i3 so we can share the .conf across multiple OS'
+        if [ ! -f /usr/bin/urxvt256c ]; then
+            sudo ln -s /usr/bin/urxvt /usr/bin/urxvt256c
+        fi
     fi
     sudo sed -i "s/-j2/-j$(nproc)/;s/^#MAKEFLAGS/MAKEFLAGS/" /etc/makepkg.conf
     ###################################
