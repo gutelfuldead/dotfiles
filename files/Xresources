@@ -1,14 +1,4 @@
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-! XPS13 -- fix scaling issues in i3
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-Xft.dpi: 192
-Xft.hinting: true
-Xft.antialias: true
-Xft.rgba: rgb
-Xft.hinststyle: hintfull
-Xft.autohint: 0
-
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 ! URxvt
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 ! solarized theme
@@ -42,7 +32,7 @@ URxvt*shading: 20
 URxvt.foreground: #FFFFFF
 
 ! FONT
-URxvt.font: xft:Terminus:pixelsize=31:antialias=true
+URxvt.font: xft:Terminus:pixelsize=25:antialias=true
 URxvt.scrollBar : False
 
 URxvt.perl-ext-common: default,clipboard,tabbed,resize-font
