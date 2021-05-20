@@ -42,6 +42,9 @@ URxvt.keysym.C-y: perl:clipboard:copy
 URxvt.keysym.C-p: perl:clipboard:paste
 URxvt.keysym.C-j: command:\033]721;1\007
 URxvt.keysym.C-k: command:\033]720;1\007
+! doesnt work... hmm...
+URxvt.keysym.Shift-Control-j: command:\033]721;50\007
+URxvt.keysym.Shift-Control-k: command:\033]720;50\007
 
 ! Tab Colors
 URxvt.tabbed.tabbar-fg: 2

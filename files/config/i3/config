@@ -37,8 +37,9 @@ floating_modifier $mod
 # ARCH create symlink @ /usr/bin : ln -s urxvt urxvt256c
 bindsym $mod+Return exec urxvt256c
 
-# snapshot
+# Program Shortcuts
 bindsym $mod+p exec ksnapshot
+bindsym $mod+Shift+w exec google-chrome-stable
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -116,6 +117,9 @@ bindsym $mod+Shift+8 move container to workspace number $ws8
 bindsym $mod+Shift+9 move container to workspace number $ws9
 bindsym $mod+Shift+0 move container to workspace number $ws10
 
+bindsym $mod+Right workspace next
+bindsym $mod+Left workspace prev
+
 # reload the configuration file
 bindsym $mod+Shift+c reload
 
@@ -163,7 +167,7 @@ for_window [class="^.*"] border pixel 2
 gaps inner 5
 gaps outer 5
 bindsym $mod+z gaps outer current plus 5
-bindsym $mod+Shiftz gaps outer current minus 5
+bindsym $mod+Shift+z gaps outer current minus 5
 
 # background
 exec --no-startup-id feh --bg-fill ~/Pictures/bg.jpg

@@ -1,6 +1,6 @@
 #!/bin/bash
 here=$(pwd)
-archAurRepo=$here/archAurPkgs
+aurinit=0
 gitRepoPath=$here/gitPkgs
 appsFile=$here/apps.csv
 logfile=$here/install.log
@@ -9,9 +9,6 @@ debian=0
 centos=0
 arch=0
 pipInit=0
-installSnap=0
-snapInit=0
-archSnapInitialInstall=0
 installApps=0
 installAUR=0
 gitinstall=0
@@ -132,18 +129,6 @@ installCentosI3 () {
     cd $here
 }
 
-archSnapInstall() {
-    cloneArchAurRepos https://aur.archlinux.org/snapd.git | tee -a $logfile
-    cd $archAurRepo/snapd
-    makepkg -si --skippgpcheck --needed --noconfirm --noprogressbar | tee -a $logfile
-    cd ..
-    rm -rf snapd
-    cd $here
-    sudo chmod +x /etc/profile.d/snap.sh
-    sudo /etc/profile.d/snap.sh
-    echon "Must restart computer before using SNAP, rerun this script after rebooting..."
-}
-
 gitInstall() {
     app=$1
     repo=$2
@@ -198,36 +183,21 @@ installAppList() {
                         sudo $tool $installArgs $app | tee -a $logfile
                     fi
                     ;;
-                AUR ) # install arch aur apps
+                AUR ) # install arch aur apps using paru
                     if [ $installAUR -eq 1 ] ; then
-                        cloneArchAurRepos $gitRepo
-                    fi
-                    ;;
-                S ) # install snap
-                    if [ $installSnap -eq 1 ]; then
-                        if [ $snapInit -eq 0 ]; then
-                            tmp=$(which snap > /dev/null 2>&1)
+                        if [ $aurinit -eq 0 ]; then
+                            # https://github.com/Morganamilo/paru
+                            tmp=$(which paru > /dev/null 2>&1)
                             if [ $? -ne 0 ]; then
-                                echon "Installing SNAPD"
-                                if [ $arch -eq 1 ]; then
-                                    archSnapInitialInstall=1
-                                    archSnapInstall
-                                else
-                                    sudo $tool $installArgs snapd | tee -a $logfile
-                                fi
-                                sudo systemctl enable --now snapd.socket
+                                sudo $tool $installArgs --needed base-devel
+                                git clone https://aur.archlinux.org/paru.git $gitRepoPath
+                                cd $gitRepoPath/paru
+                                makepkg -si --skippgpcheck --needed --noconfirm --noprogressbar | tee -a $logfile
+                                cd $here
                             fi
-                            snapInit=1
-                            sudo snap refresh
+                            aurinit=1
                         fi
-                        if [ $archSnapInitialInstall -eq 0 ]; then
-                            if [ $arch -eq 1 ] && [ $app == "drawio" ]; then
-                                echon "skipping drawio snap, install through AUR instead"
-                            else
-                                echon "Installing snap app $app, may not be any output for a while..."
-                                sudo snap install $app | tee -a $logfile
-                            fi
-                        fi
+                        paru $installArgs $app
                     fi
                     ;;
                 P ) # python pip
@@ -304,42 +274,6 @@ addGroup() {
     else
         echon "group $1 does not exist, ignoring ..."
     fi
-}
-
-cloneArchAurRepos() {
-    repo=$1
-    # create directory for repos
-    if [ ! -d $archAurRepo ]; then
-        mkdir $archAurRepo
-    fi
-    cd $archAurRepo
-
-    # clone all the repos
-    git clone $repo | tee -a $logfile
-
-    cd $here
-}
-
-archAurInstall() {
-    if [ ! -d $archAurRepo ]; then
-        return
-    fi
-    cd $archAurRepo
-
-    # go in each repo and install it
-    d=$(find . -maxdepth 1 -type d)
-    echo $d
-    init=0 # ignore the first entry which is ./
-    for i in $d; do
-        if [ $init -ne 0 ]; then
-            cd $i
-            makepkg -si --skippgpcheck --needed --noconfirm --noprogressbar | tee -a $logfile
-            cd ..
-        else
-            let init=1
-        fi
-    done
-    cd $here
 }
 
 install_cinnamon() {
@@ -457,20 +391,6 @@ case "$response" in
         ;;
 esac
 
-
-################################################################################
-# Install snap packages
-################################################################################
-read -r -p "Install SNAP packages (tag S from $appsFile) ? [y/n] : " response
-case "$response" in
-    [yY][eE][sS]|[yY])
-        installSnap=1
-        ;;
-    *)
-        echon "NOT Installing SNAP packages"
-        ;;
-esac
-
 ################################################################################
 # Install python packages
 ################################################################################
@@ -504,9 +424,6 @@ fi
 ################################################################################
 echon "Installing Applications"
 installAppList
-if [ $installAUR -eq 1 ] ; then
-    archAurInstall
-fi
 install_cinnamon
 if [ $centos -eq 1 ]; then
     installCentosI3
