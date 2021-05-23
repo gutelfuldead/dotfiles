@@ -79,6 +79,7 @@ C,texlive-ncctools,N,A collection of general packages for LaTeX,,
 C,xpdf,N,PDF viewer,,
 C,geany-plugins-geanygendoc,N,Used for rst2html,,
 C,perl-ExtUtils-MakeMaker,N,Used for buildroot,,
+C,fontawesome-fonts,N,vector icons,,
 C,libusb,N,usb library for ti code composer req,,
 C,glibc-devel.i686,N,installing for ti code composer req,,
 =====,=====,=====,=====,=====,=====

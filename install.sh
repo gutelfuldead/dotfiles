@@ -126,6 +126,13 @@ installCentosI3 () {
     make -j$(nproc)
     sudo make install
 
+    git clone https://github.com/vivien/i3blocks $gitRepoPath
+    cd $gitRepoPath/i3blocks
+    ./autogen.sh
+    ./configure
+    make
+    make install
+
     cd $here
 }
 
