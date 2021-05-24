@@ -35,7 +35,8 @@ floating_modifier $mod
 # start a terminal
 # CentOS7.1 use urxvt256c
 # ARCH create symlink @ /usr/bin : ln -s urxvt urxvt256c
-bindsym $mod+Return exec urxvt256c
+# bindsym $mod+Return exec urxvt256c
+bindsym $mod+Return exec terminator
 
 # Program Shortcuts
 bindsym $mod+p exec ksnapshot
@@ -117,8 +118,8 @@ bindsym $mod+Shift+8 move container to workspace number $ws8
 bindsym $mod+Shift+9 move container to workspace number $ws9
 bindsym $mod+Shift+0 move container to workspace number $ws10
 
-bindsym $mod+Right workspace next
-bindsym $mod+Left workspace prev
+bindsym $mod+Control+Right workspace next
+bindsym $mod+Control+Left workspace prev
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -172,6 +173,7 @@ bindsym $mod+Shift+z gaps outer current minus 5
 # background
 exec --no-startup-id feh --bg-fill ~/Pictures/bg.jpg
 exec --no-startup-id bash ~/.xprofile
+exec_always --no-startup-id picom --config ~/.config/i3/picom.conf
 
 # lock
 bindsym Mod4+l exec "/usr/bin/i3lock -i ~/.config/i3/lock.png -e -f -t"
