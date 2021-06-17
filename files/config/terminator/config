@@ -10,12 +10,12 @@
   help = <Primary>F1
 [profiles]
   [[default]]
-    background_darkness = 0.84
+    background_darkness = 0.78
     background_type = transparent
     cursor_color = "#aaaaaa"
+    show_titlebar = False
     scrollback_lines = 10000
     exit_action = hold
-    use_custom_command = False
     custom_command = neofetch; bash
 [layouts]
   [[default]]

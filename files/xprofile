@@ -1,0 +1,20 @@
+#!/bin/sh
+file=$HOME/.Xresources.tmp
+rm -f $file
+touch $file
+
+if [ -f $HOME/.Xresources ]; then
+    cat $HOME/.Xresources >> $file
+    echo URxvt.font: xft:Terminus:pixelsize=30:antialias=true >> $file
+fi
+
+if [ -f $HOME/.Xresources-arch ]; then
+    cat $HOME/.Xresources-arch >> $file
+    echo URxvt.font: xft:Terminus:pixelsize=35:antialias=true >> $file
+fi
+
+if [ -f $HOME/.Xmonitors.sh ]; then
+    source $HOME/.Xmonitors.sh
+fi
+
+xrdb $file

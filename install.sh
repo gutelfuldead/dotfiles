@@ -1,6 +1,7 @@
 #!/bin/bash
 here=$(pwd)
-archAurRepo=$here/archAurPkgs
+aurinit=0
+gitRepoPath=$here/gitPkgs
 appsFile=$here/apps.csv
 logfile=$here/install.log
 installPip=0
@@ -8,9 +9,6 @@ debian=0
 centos=0
 arch=0
 pipInit=0
-installSnap=0
-snapInit=0
-archSnapInitialInstall=0
 installApps=0
 installAUR=0
 gitinstall=0
@@ -56,16 +54,86 @@ installRcm () {
     cd $here
 }
 
-archSnapInstall() {
-    cloneArchAurRepos https://aur.archlinux.org/snapd.git | tee -a $logfile
-    cd $archAurRepo/snapd
-    makepkg -si --skippgpcheck --needed --noconfirm --noprogressbar | tee -a $logfile
-    cd ..
-    rm -rf snapd
+# manually install i3 on CentOS 7.1 which has deprecated packages in yum
+installCentosI3 () {
+    read -r -p "Install i3? [y/n] : " response
+    case "$response" in
+        [yY][eE][sS]|[yY])
+            echon "Installing i3 Desktop"
+            ;;
+        *)
+            echon "NOT Installing i3 Desktop"
+            return 0
+            ;;
+    esac
+
+    if [ ! -d $gitRepoPath ]; then
+        mkdir -pv $gitRepoPath
+    fi
+
+    # pre-reqs for i3-gaps and i3status
+    sudo yum install -y -q "xcb-util*-devel" \
+            "xorg-x11-font*" \
+            autoconf \
+            automake \
+            gcc \
+            git \
+            libev-devel \
+            libX11-devel \
+            libxcb-devel \
+            libXinerama-devel \
+            libxkbcommon-devel \
+            libxkbcommon-x11-devel \
+            libXrandr-devel \
+            libconfuse-devel \
+            pulseaudio-libs-devel \
+            libnl-devel \
+            libnl3-devel \
+            alsa-lib-devel
+            make \
+            pango-devel \
+            pcre-devel \
+            startup-notification-devel \
+            wget \
+            xcb-util-cursor-devel \
+            xcb-util-devel \
+            xcb-util-keysyms-devel \
+            xcb-util-wm-devel \
+            xcb-util-xrm-devel \
+            xorg-x11-util-macros \
+            yajl-devel \
+            xterm
+
+    git clone --recursive https://github.com/Airblader/xcb-util-xrm $gitRepoPath
+    cd $gitRepoPath/xcb-util-xrm
+    git submodule update --init
+    ./autogen.sh --prefix=/usr --libdir=/usr/lib64
+    make
+    sudo make install
+
+    git clone https://www.github.com/Airblader/i3 $gitRepoPath/i3-gaps
+    cd $gitRepoPath/i3-gaps
+    mkdir -p build && cd build
+    meson ..
+    ninja
+    sudo make install
+
+    git clone https://github.com/i3/i3status.git $gitRepoPath
+    cd $gitRepoPath/i3status
+    autoreconf -fi
+    mkdir -p build && cd build
+    ../configure --disable-sanitizers
+    make -j$(nproc)
+    sudo make install
+
+    git clone https://github.com/vivien/i3blocks $gitRepoPath
+    cd $gitRepoPath/i3blocks
+    ./autogen.sh
+    ./configure
+    make
+    make install
+
     cd $here
-    sudo chmod +x /etc/profile.d/snap.sh
-    sudo /etc/profile.d/snap.sh
-    echon "Must restart computer before using SNAP, rerun this script after rebooting..."
 }
 
 gitInstall() {
@@ -122,36 +190,21 @@ installAppList() {
                         sudo $tool $installArgs $app | tee -a $logfile
                     fi
                     ;;
-                AUR ) # install arch aur apps
+                AUR ) # install arch aur apps using paru
                     if [ $installAUR -eq 1 ] ; then
-                        cloneArchAurRepos $gitRepo
-                    fi
-                    ;;
-                S ) # install snap
-                    if [ $installSnap -eq 1 ]; then
-                        if [ $snapInit -eq 0 ]; then
-                            tmp=$(which snap > /dev/null 2>&1)
+                        if [ $aurinit -eq 0 ]; then
+                            # https://github.com/Morganamilo/paru
+                            tmp=$(which paru > /dev/null 2>&1)
                             if [ $? -ne 0 ]; then
-                                echon "Installing SNAPD"
-                                if [ $arch -eq 1 ]; then
-                                    archSnapInitialInstall=1
-                                    archSnapInstall
-                                else
-                                    sudo $tool $installArgs snapd | tee -a $logfile
-                                fi
-                                sudo systemctl enable --now snapd.socket
+                                sudo $tool $installArgs --needed base-devel
+                                git clone https://aur.archlinux.org/paru.git $gitRepoPath
+                                cd $gitRepoPath/paru
+                                makepkg -si --skippgpcheck --needed --noconfirm --noprogressbar | tee -a $logfile
+                                cd $here
                             fi
-                            snapInit=1
-                            sudo snap refresh
+                            aurinit=1
                         fi
-                        if [ $archSnapInitialInstall -eq 0 ]; then
-                            if [ $arch -eq 1 ] && [ $app == "drawio" ]; then
-                                echon "skipping drawio snap, install through AUR instead"
-                            else
-                                echon "Installing snap app $app, may not be any output for a while..."
-                                sudo snap install $app | tee -a $logfile
-                            fi
-                        fi
+                        paru $installArgs $app
                     fi
                     ;;
                 P ) # python pip
@@ -180,7 +233,6 @@ installAppList() {
                     fi
                     ;;
                 * )
-                    echo "Unknown tag $appType for application $app"
                     ;;
             esac
         fi
@@ -229,42 +281,6 @@ addGroup() {
     else
         echon "group $1 does not exist, ignoring ..."
     fi
-}
-
-cloneArchAurRepos() {
-    repo=$1
-    # create directory for repos
-    if [ ! -d $archAurRepo ]; then
-        mkdir $archAurRepo
-    fi
-    cd $archAurRepo
-
-    # clone all the repos
-    git clone $repo | tee -a $logfile
-
-    cd $here
-}
-
-archAurInstall() {
-    if [ ! -d $archAurRepo ]; then
-        return
-    fi
-    cd $archAurRepo
-
-    # go in each repo and install it
-    d=$(find . -maxdepth 1 -type d)
-    echo $d
-    init=0 # ignore the first entry which is ./
-    for i in $d; do
-        if [ $init -ne 0 ]; then
-            cd $i
-            makepkg -si --skippgpcheck --needed --noconfirm --noprogressbar | tee -a $logfile
-            cd ..
-        else
-            let init=1
-        fi
-    done
-    cd $here
 }
 
 install_cinnamon() {
@@ -382,20 +398,6 @@ case "$response" in
         ;;
 esac
 
-
-################################################################################
-# Install snap packages
-################################################################################
-read -r -p "Install SNAP packages (tag S from $appsFile) ? [y/n] : " response
-case "$response" in
-    [yY][eE][sS]|[yY])
-        installSnap=1
-        ;;
-    *)
-        echon "NOT Installing SNAP packages"
-        ;;
-esac
-
 ################################################################################
 # Install python packages
 ################################################################################
@@ -429,10 +431,10 @@ fi
 ################################################################################
 echon "Installing Applications"
 installAppList
-if [ $installAUR -eq 1 ] ; then
-    archAurInstall
-fi
 install_cinnamon
+if [ $centos -eq 1 ]; then
+    installCentosI3
+fi
 
 ################################################################################
 # update dotfiles if RCM was installed
@@ -447,12 +449,18 @@ case "$response" in
     if [ $? -eq 1 ]; then
         installRcm
     fi
-    rcup -v -d $here/files/rcrc | tee -a $logfile # source this first
+    rcup -v -d $here/files/rcrc | tee -a $logfile
+    source ~/.rcrc
     rcup -v -d $here/files | tee -a $logfile
     source ~/.bashrc
     if [ $arch -eq 1 ]; then
+        rcup -v -d $here/arch-files | tee -a $logfile
         sudo sed -i "s/^#VerbosePkgLists$/VerbosePkgLists/" /etc/pacman.conf
         sudo sed -i "s/^#Color$/Color/" /etc/pacman.conf
+        # use this for i3 so we can share the .conf across multiple OS'
+        if [ ! -f /usr/bin/urxvt256c ]; then
+            sudo ln -s /usr/bin/urxvt /usr/bin/urxvt256c
+        fi
     fi
     sudo sed -i "s/-j2/-j$(nproc)/;s/^#MAKEFLAGS/MAKEFLAGS/" /etc/makepkg.conf
     ###################################

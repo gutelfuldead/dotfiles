@@ -42,6 +42,10 @@ call plug#end()
 " remap ESC to jk because my pinky is fucked
     inoremap jk <ESC>
 
+" use F2 to toggle line numbers on/off for easy copy pasting to system
+" clipboard with the mouse
+    noremap <F2> :set invnumber<CR>
+
 " keep search results at the center of the screen
     nnoremap n nzz
     nnoremap N Nzz
@@ -120,7 +124,7 @@ call plug#end()
     autocmd BufWritePre * retab
 
 " Automatically deletes all trailing whitespace on save
-    autocmd BufWritePre * %s/\s\+$//e
+    " autocmd BufWritePre * %s/\s\+$//e
 
 " Automatically run clang-format when using gg=G
     " autocmd FileType c,cpp setlocal equalprg=clang-format
