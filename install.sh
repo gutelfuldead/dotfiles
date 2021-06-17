@@ -101,6 +101,9 @@ installCentosI3 () {
             xcb-util-wm-devel \
             xcb-util-xrm-devel \
             xorg-x11-util-macros \
+            i3 \
+            i3lock \
+            i3status \
             yajl-devel \
             xterm
 
