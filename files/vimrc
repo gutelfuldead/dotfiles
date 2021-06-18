@@ -42,6 +42,10 @@ call plug#end()
 " remap ESC to jk because my pinky is fucked
     inoremap jk <ESC>
 
+" use F2 to toggle line numbers on/off for easy copy pasting to system
+" clipboard with the mouse
+    noremap <F2> :set invnumber<CR>
+
 " keep search results at the center of the screen
     nnoremap n nzz
     nnoremap N Nzz
