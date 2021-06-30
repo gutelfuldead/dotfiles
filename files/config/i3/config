@@ -31,6 +31,7 @@ bindsym XF86AudioNext exec playerctl next
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 for_window [class="Gnome-calculator"] floating enable
+for_window [class="Pidgin"] floating enable
 floating_modifier $mod
 
 # start a terminal
