@@ -56,6 +56,9 @@ call plug#end()
 " Press <leader>r to resource ~/.vimrc
     noremap <leader>r :source ~/.vimrc<cr>
 
+" set comment string for idd files to work with vim-commentary
+    autocmd FileType idd setlocal commentstring=#\ %s
+
 " set comment string for vhdl files to work with vim-commentary
     autocmd FileType vhdl setlocal commentstring=--\ %s
 
