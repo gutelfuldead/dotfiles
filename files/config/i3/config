@@ -44,7 +44,7 @@ bindsym $mod+Return exec terminator
 
 # Program Shortcuts
 bindsym $mod+p exec ksnapshot
-bindsym $mod+Shift+w exec firefox
+bindsym $mod+Shift+w exec vivaldi 
 
 # kill focused window
 bindsym $mod+Shift+q kill
