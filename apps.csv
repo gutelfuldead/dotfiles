@@ -105,13 +105,13 @@ X,unrar,N,extracts rar's,,
 X,unzip,N,unzips zips,,
 X,bc,N,arbitrary percision calculator,,
 X,ttf-font-awesome,N,image font,,
+X,vivaldi,N,web browser,,
 =====,=====,=====,=====,=====,=====
 AUR,aur/xrdp,N,Graphical login for rdp,https://aur.archlinux.org/xrdp.git,
 AUR,aur/rst2pdf,Y,Convert rst to pdfs,https://aur.archlinux.org/rst2pdf.git,
 AUR,aur/spotify,N,Music streaming,https://aur.archlinux.org/spotify.git,
 AUR,aur/ncurses5-compat-libs,N,ncurses5 development libs,https://aur.archlinux.org/ncurses5-compat-libs.git,
 AUR,aur/drawio,N,diagram generator,https://aur.archlinux.org/drawio-desktop.git,
-AUR,aur/chrome,N,google chrome,https://aur.archlinux.org/google-chrome.git,
 =====,=====,=====,=====,=====,=====
 G,fzf,Y,Fuzzy Finder,https://github.com/junegunn/fzf.git,https://github.com/junegunn/fzf/archive/0.21.1.zip
 G,ranger,Y,Ranger CLI File Browser,https://github.com/ranger/ranger.git,https://github.com/ranger/ranger/archive/v1.9.3.zip
