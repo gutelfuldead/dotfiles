@@ -37,6 +37,7 @@ for_window [class="Pidgin"] floating enable
 for_window [class="CmdSender"] floating enable
 for_window [class="CmdTlmServer"] floating enable
 for_window [class="PacketViewer"] floating enable
+for_window [class="feh"] floating enable
 floating_modifier $mod
 
 # start a terminal
