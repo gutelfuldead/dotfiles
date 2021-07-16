@@ -55,15 +55,11 @@ export EDITOR='vim'
 
 # aliases
 alias vi='vim'
-alias kviv='kill $(pidof vivado)'
-alias ksdk='kill $(pidof xsdk)'
-alias pdf='xpdf'
 alias xclip='xclip -selection c' # cat some.file | xclip # now it is in system clipboard
 alias scpi='scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null' # ignore keys
 alias sshi='ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null' # ignore keys
 alias rst2html='rst2html --stylesheet-dirs=~/.rst2html/html --stylesheet=sm-docutils.css'
 alias rst2pdf='rst2pdf --stylesheet-path=~/.rst2pdf --stylesheets=rst2pdf.style --use-floating-images'
-alias rst2latex='python ~/.rst2latex.py'
 alias mkdir='mkdir -pv'
 alias ..='cd ..'
 alias ...='cd ../..'
@@ -76,7 +72,6 @@ alias vimb='vim ~/.bashrc'
 alias vimba='vim ~/.bash_aliases'
 alias vimv='vim ~/.vimrc'
 alias vimi='vim ~/.config/i3/config'
-alias excel='sc-im'
 
 # Adding color
 alias ls='ls -hN --color=auto --group-directories-first'
