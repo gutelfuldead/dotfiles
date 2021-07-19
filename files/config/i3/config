@@ -179,6 +179,7 @@ bindsym $mod+Shift+z gaps outer current minus 5
 # background
 exec --no-startup-id feh --bg-fill ~/Pictures/bg.jpg
 exec --no-startup-id bash ~/.xprofile
+exec --no-startup-id pactl set-sink-mute 0 1 # start up muted
 # exec_always --no-startup-id picom --config ~/.config/i3/picom.conf
 
 # lock
