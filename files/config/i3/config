@@ -171,8 +171,8 @@ bar {
 
 # Gaps
 for_window [class="^.*"] border pixel 8
-gaps inner 15
-gaps outer 15 
+gaps inner 5
+gaps outer 5 
 bindsym $mod+z gaps outer current plus 5
 bindsym $mod+Shift+z gaps outer current minus 5
 
