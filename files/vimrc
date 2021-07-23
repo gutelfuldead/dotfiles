@@ -135,12 +135,15 @@ call plug#end()
 " Disables automatic commenting on newline
     " autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
+" Use word wrapping in vimdiff
+    autocmd FilterWritePre * if &diff | setlocal wrap< | endif
+
 " Allows to see diff in current file before saving with :diffSaved
-function! s:DiffWithSaved()
-    let filetype=&ft
-    diffthis
-    vnew | r # | normal! 1Gdd
-    diffthis
-    exe "setlocal bt=nofile bh=wipe nobl noswf ro ft=" . filetype
-endfunction
-com! DiffSaved call s:DiffWithSaved()
+    function! s:DiffWithSaved()
+        let filetype=&ft
+        diffthis
+        vnew | r # | normal! 1Gdd
+        diffthis
+        exe "setlocal bt=nofile bh=wipe nobl noswf ro ft=" . filetype
+    endfunction
+    com! DiffSaved call s:DiffWithSaved()
