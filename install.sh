@@ -27,7 +27,8 @@ echon ()
     sleep 1
 }
 
-overrideDotfiles() {
+overrideDotfiles() 
+{
     read -r -p "Enter name : " name
     read -r -p "Enter email : " email
     sed -i "s/Jason Gutel/$name/g" ~/.gitconfig
@@ -36,7 +37,8 @@ overrideDotfiles() {
 }
 
 # https://github.com/thoughtbot/rcm
-installRcm () {
+installRcm () 
+{
     ver=1.3.4
     echon "Installing RCM"
     if [ ! -d ~/.rcm ]; then
@@ -55,7 +57,8 @@ installRcm () {
 }
 
 # manually install i3 on CentOS 7.1 which has deprecated packages in yum
-installCentosI3 () {
+installCentosI3 () 
+{
     read -r -p "Install i3? [y/n] : " response
     case "$response" in
         [yY][eE][sS]|[yY])
@@ -139,7 +142,8 @@ installCentosI3 () {
     cd $here
 }
 
-gitInstall() {
+gitInstall() 
+{
     app=$1
     repo=$2
     tmp=$(which $app > /dev/null 2>&1)
@@ -161,7 +165,8 @@ gitInstall() {
     fi
 }
 
-installAppList() {
+installAppList() 
+{
     total=$(wc -l < $appsFile)
     n=0
     while IFS=, read -r appType app manDot description gitRepo wgetRepo; do
@@ -274,7 +279,8 @@ backup ()
     cd $here
 }
 
-addGroup() {
+addGroup() 
+{
     user=$(whoami)
     # check to see if the group exists first
     getent group | grep $1 > /dev/null 2>&1
@@ -286,7 +292,8 @@ addGroup() {
     fi
 }
 
-install_cinnamon() {
+install_cinnamon() 
+{
     read -r -p "Install Cinnamon Desktop? [y/n] : " response
     case "$response" in
         [yY][eE][sS]|[yY])
