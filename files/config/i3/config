@@ -38,6 +38,8 @@ for_window [class="CmdSender"] floating enable
 for_window [class="CmdTlmServer"] floating enable
 for_window [class="PacketViewer"] floating enable
 for_window [class="feh"] floating enable
+for_window [class="star_receive"] floating enable
+for_window [class="star_device_config"] floating enable
 floating_modifier $mod
 
 # start a terminal

@@ -85,7 +85,8 @@ alias pacup='sudo pacman -Syu --noconfirm --needed'
 alias aur='makepkg -si --skippgpcheck --noconfirm --needed'
 
 # create quick rst readmes from template
-readme () {
+readme () 
+{
     name=$1
     len=${#name}
     sep=$(printf '=%.0s' $(seq $len))
@@ -96,7 +97,8 @@ readme () {
 }
 
 # smart extract
-extract () {
+extract () 
+{
     if [ -f $1 ] ; then
         case $1 in
             *.tar.bz2)   tar xjf $1;;
@@ -119,7 +121,8 @@ extract () {
 }
 
 # ReMove all files containing a grep Pattern
-rmp () {
+rmp () 
+{
     pat=$1
     a=$(grep -lrI $1 .)
     slen=${#a}
