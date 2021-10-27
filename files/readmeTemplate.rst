@@ -8,7 +8,7 @@ xxx
         15378 Avenue of Science
         San Diego, CA 92128
 :Contact:
-        csp@spacemicro.com
+        jgutel@spacemicro.com
         (858) 332-0700
 :Copyright:
         The information contained herein is controlled by U.S. Department of Commerce’s Export Administration Regulations (EAR) and
