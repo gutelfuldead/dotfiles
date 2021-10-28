@@ -17,6 +17,7 @@ call plug#end()
     syntax on
     set encoding=utf-8
     set number
+    set noswapfile
     set hlsearch
     set incsearch
     set ignorecase " case insensitivity when searching
