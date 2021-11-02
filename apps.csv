@@ -109,6 +109,7 @@ X,ttf-font-awesome,N,image font,,
 X,vivaldi,N,web browser,,
 X,youtube-dl,Y,youtube video downloader,,
 X,cmus,N,terminal music player,,
+X,clementine,N,music player,,
 =====,=====,=====,=====,=====,=====
 AUR,aur/xrdp,N,Graphical login for rdp,https://aur.archlinux.org/xrdp.git,
 AUR,aur/rst2pdf,Y,Convert rst to pdfs,https://aur.archlinux.org/rst2pdf.git,
