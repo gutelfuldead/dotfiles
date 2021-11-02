@@ -32,6 +32,10 @@ call plug#end()
     set wildmode=longest,list,full
     set wildmenu
     let g:netrw_banner=0
+    " place swap files and others in a common directory
+    set backupdir=~/.vim/backup//
+    set directory=~/.vim/swap//
+    set undodir=~/.vim/undo//
 
 " Theme
     set background=dark
