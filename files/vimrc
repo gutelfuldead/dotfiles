@@ -109,9 +109,13 @@ call plug#end()
     autocmd BufRead,BufNewFile *.md setlocal spell
     autocmd BufRead,BufNewFile *.rst setlocal spell
     autocmd BufRead,BufNewFile *.tex setlocal spell
-    map <leader>sn ]s
+    " next misspelled word
+    map <leader>sn ]s 
+    " previous misspelled word
     map <leader>sp [s
+    " accept spelling as good word and update dictionary
     map <leader>sa zg
+    " suggest alternate spellings
     map <leader>s? z=
 
 " resize current buffer by +/- 5
