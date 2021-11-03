@@ -1,12 +1,11 @@
 let mapleader ="-"
 
 call plug#begin('~/.vim/plugged')
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-surround'
-Plug 'vim-airline/vim-airline'
-Plug 'morhetz/gruvbox'
-Plug 'junegunn/fzf'
-Plug 'amal-khailtash/vim-xdc-syntax'
+Plug 'tpope/vim-commentary' " press gcc to auto comment a line
+Plug 'vim-airline/vim-airline' " status bar
+Plug 'kshenoy/vim-signature' " show mark ids left of line number
+Plug 'morhetz/gruvbox' " colorscheme
+Plug 'amal-khailtash/vim-xdc-syntax' " xdc syntax
 Plug 'gutelfuldead/vim-tex-fold' " fork from matze/vim-tex-fold add chapter, sub&subsub section support
 Plug 'xuhdev/vim-latex-live-preview' " requires Okular and/or pdflatex, <leader>llp to open pdf preview
 call plug#end()
