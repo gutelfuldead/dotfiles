@@ -8,6 +8,9 @@ Plug 'morhetz/gruvbox' " colorscheme
 Plug 'amal-khailtash/vim-xdc-syntax' " xdc syntax
 Plug 'gutelfuldead/vim-tex-fold' " fork from matze/vim-tex-fold add chapter, sub&subsub section support
 Plug 'xuhdev/vim-latex-live-preview' " requires Okular and/or pdflatex, <leader>llp to open pdf preview
+Plug 'szw/vim-tags' " create tags for new project with :TagsGenerate! also updates on save
+Plug 'SirVer/ultisnips' 
+Plug 'honza/vim-snippets' 
 call plug#end()
 
 " Some basics:
@@ -105,6 +108,7 @@ call plug#end()
 " Spell-check (underline misspelled words in md,rst files)
     hi clear SpellBad
     hi SpellBad cterm=underline
+    set spelllang=en_us
     set spellfile=$HOME/.spellen.utf-8.add
     autocmd BufRead,BufNewFile *.md setlocal spell
     autocmd BufRead,BufNewFile *.rst setlocal spell
@@ -117,6 +121,9 @@ call plug#end()
     map <leader>sa zg
     " suggest alternate spellings
     map <leader>s? z=
+    " TODO auto-accept all corrections in file doesnt work
+    " https://castel.dev/post/lecture-notes-1/
+    " imap <c-l> <c-g>u<esc>[s1z=`]a<c-g>u
 
 " resize current buffer by +/- 5
     noremap <C-left> :vertical resize +5<cr>
@@ -153,3 +160,9 @@ call plug#end()
         exe "setlocal bt=nofile bh=wipe nobl noswf ro ft=" . filetype
     endfunction
     com! DiffSaved call s:DiffWithSaved()
+
+" SNIPS
+let g:UltiSnipsExpandTrigger = "<tab>"
+let g:UltiSnipsJumpForwardTrigger = "<tab>"
+let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+let g:UltiSnipsSnippetDirectories = ['~/.vim/plugged/vim-snippets/snippets','vim-snippets']
