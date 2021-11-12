@@ -1,5 +1,5 @@
 #!/bin/bash
 rcup -v -d ./files
-if [ -d vim-plugged ]; then
-    rcup -v -d ./vim-plugged
+if [ -d smi-files ]; then
+    rcup -v -d ./smi-files
 fi
