@@ -9,8 +9,8 @@ Plug 'amal-khailtash/vim-xdc-syntax' " xdc syntax
 Plug 'gutelfuldead/vim-tex-fold' " fork from matze/vim-tex-fold add chapter, sub&subsub section support
 Plug 'xuhdev/vim-latex-live-preview' " requires Okular and/or pdflatex, <leader>llp to open pdf preview
 Plug 'szw/vim-tags' " create tags for new project with :TagsGenerate! also updates on save
-Plug 'SirVer/ultisnips' 
-Plug 'honza/vim-snippets' 
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
 call plug#end()
 
 " Some basics:
@@ -114,7 +114,7 @@ call plug#end()
     autocmd BufRead,BufNewFile *.rst setlocal spell
     autocmd BufRead,BufNewFile *.tex setlocal spell
     " next misspelled word
-    map <leader>sn ]s 
+    map <leader>sn ]s
     " previous misspelled word
     map <leader>sp [s
     " accept spelling as good word and update dictionary
@@ -161,6 +161,6 @@ call plug#end()
     com! DiffSaved call s:DiffWithSaved()
 
 " SNIPS
-    let g:UltiSnipsExpandTrigger = "<s-tab>"
-    let g:UltiSnipsJumpForwardTrigger = "<s-tab>"
+    let g:UltiSnipsExpandTrigger = "<tab>"
+    let g:UltiSnipsJumpForwardTrigger = "<tab>"
     let g:UltiSnipsSnippetDirectories = ['~/.vim/plugged/vim-snippets/snippets','vim-snippets']
