@@ -85,7 +85,7 @@ alias pacup='sudo pacman -Syu --noconfirm --needed'
 alias aur='makepkg -si --skippgpcheck --noconfirm --needed'
 
 # create quick rst readmes from template
-readme () 
+readme ()
 {
     name=$1
     len=${#name}
@@ -97,7 +97,7 @@ readme ()
 }
 
 # smart extract
-extract () 
+extract ()
 {
     if [ -f $1 ] ; then
         case $1 in
@@ -121,7 +121,7 @@ extract ()
 }
 
 # ReMove all files containing a grep Pattern
-rmp () 
+rmp ()
 {
     pat=$1
     a=$(grep -lrI $1 .)
@@ -172,6 +172,7 @@ dirsize ()
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 # all system indepedent aliases, path modifications, etc should be in ~/.bash_aliases
 [ -f ~/.bash_aliases ] && source ~/.bash_aliases
+[ -f ~/.bash_vivado ] && source ~/.bash_vivado
 [ -f ~/.config/watson/watson.completion.txt ] && source ~/.config/watson/watson.completion.txt
 
 if [ -d $HOME/.rbenv ]; then

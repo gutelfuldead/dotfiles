@@ -139,7 +139,7 @@ call plug#end()
     autocmd BufWritePre * retab
 
 " Automatically deletes all trailing whitespace on save
-    " autocmd BufWritePre * %s/\s\+$//e
+    autocmd BufWritePre * %s/\s\+$//e
 
 " Automatically run clang-format when using gg=G
     " autocmd FileType c,cpp setlocal equalprg=clang-format
@@ -161,7 +161,6 @@ call plug#end()
     com! DiffSaved call s:DiffWithSaved()
 
 " SNIPS
-let g:UltiSnipsExpandTrigger = "<tab>"
-let g:UltiSnipsJumpForwardTrigger = "<tab>"
-let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
-let g:UltiSnipsSnippetDirectories = ['~/.vim/plugged/vim-snippets/snippets','vim-snippets']
+    let g:UltiSnipsExpandTrigger = "<s-tab>"
+    let g:UltiSnipsJumpForwardTrigger = "<s-tab>"
+    let g:UltiSnipsSnippetDirectories = ['~/.vim/plugged/vim-snippets/snippets','vim-snippets']
