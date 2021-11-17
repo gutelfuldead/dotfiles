@@ -72,6 +72,7 @@ alias vimb='vim ~/.bashrc'
 alias vimba='vim ~/.bash_aliases'
 alias vimv='vim ~/.vimrc'
 alias vimi='vim ~/.config/i3/config'
+alias vimx='vim ~/.bash_vivado'
 alias svndiff='svn diff -x "-w --ignore-eol-style"'
 
 # Adding color
