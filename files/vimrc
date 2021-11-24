@@ -1,14 +1,16 @@
 let mapleader ="-"
 
 call plug#begin('~/.vim/plugged')
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-surround'
-Plug 'vim-airline/vim-airline'
-Plug 'morhetz/gruvbox'
-Plug 'junegunn/fzf'
-Plug 'amal-khailtash/vim-xdc-syntax'
+Plug 'tpope/vim-commentary' " press gcc to auto comment a line
+Plug 'vim-airline/vim-airline' " status bar
+Plug 'kshenoy/vim-signature' " show mark ids left of line number
+Plug 'morhetz/gruvbox' " colorscheme
+Plug 'amal-khailtash/vim-xdc-syntax' " xdc syntax
 Plug 'gutelfuldead/vim-tex-fold' " fork from matze/vim-tex-fold add chapter, sub&subsub section support
 Plug 'xuhdev/vim-latex-live-preview' " requires Okular and/or pdflatex, <leader>llp to open pdf preview
+Plug 'szw/vim-tags' " create tags for new project with :TagsGenerate! also updates on save
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
 call plug#end()
 
 " Some basics:
@@ -106,14 +108,21 @@ call plug#end()
 " Spell-check (underline misspelled words in md,rst files)
     hi clear SpellBad
     hi SpellBad cterm=underline
+    set spelllang=en_us
     set spellfile=$HOME/.spellen.utf-8.add
     autocmd BufRead,BufNewFile *.md setlocal spell
     autocmd BufRead,BufNewFile *.rst setlocal spell
     autocmd BufRead,BufNewFile *.tex setlocal spell
+    " next misspelled word
     map <leader>sn ]s
+    " previous misspelled word
     map <leader>sp [s
+    " accept spelling as good word and update dictionary
     map <leader>sa zg
+    " suggest alternate spellings
     map <leader>s? z=
+    " when in inset mode ctrl+l to go back and auto-accept spelling suggestions
+    inoremap <c-l> <c-g>u<esc>[s1z=`]a<c-g>u
 
 " resize current buffer by +/- 5
     noremap <C-left> :vertical resize +5<cr>
@@ -130,7 +139,7 @@ call plug#end()
     autocmd BufWritePre * retab
 
 " Automatically deletes all trailing whitespace on save
-    " autocmd BufWritePre * %s/\s\+$//e
+    autocmd BufWritePre * %s/\s\+$//e
 
 " Automatically run clang-format when using gg=G
     " autocmd FileType c,cpp setlocal equalprg=clang-format
@@ -150,3 +159,8 @@ call plug#end()
         exe "setlocal bt=nofile bh=wipe nobl noswf ro ft=" . filetype
     endfunction
     com! DiffSaved call s:DiffWithSaved()
+
+" SNIPS
+    let g:UltiSnipsExpandTrigger = "<tab>"
+    let g:UltiSnipsJumpForwardTrigger = "<tab>"
+    let g:UltiSnipsSnippetDirectories = ['~/.vim/plugged/vim-snippets/snippets','vim-snippets']

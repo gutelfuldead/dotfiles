@@ -8,6 +8,8 @@ Gutelfuldead Dot Files
 About
 =====
 
+https://github.com/gutelfuldead/dotfiles
+
 More of a new system setup. ``install.sh`` Will do the following with a confirmation [y/n]
 prompt first,
 
