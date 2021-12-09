@@ -6,6 +6,7 @@ Plug 'vim-airline/vim-airline' " status bar
 Plug 'kshenoy/vim-signature' " show mark ids left of line number
 Plug 'morhetz/gruvbox' " colorscheme
 Plug 'amal-khailtash/vim-xdc-syntax' " xdc syntax
+Plug 'vhda/verilog_systemverilog.vim' " system verilog
 Plug 'gutelfuldead/vim-tex-fold' " fork from matze/vim-tex-fold add chapter, sub&subsub section support
 Plug 'xuhdev/vim-latex-live-preview' " requires Okular and/or pdflatex, <leader>llp to open pdf preview
 Plug 'szw/vim-tags' " create tags for new project with :TagsGenerate! also updates on save
