@@ -1,6 +1,8 @@
 AppType,Application,Managed Dotfile,Description,Repository,Wget
 =======,===========,===============,===========,==========,====
+A,p7zip,N,7za extractions,,
 A,dmenu,N,generic menu for X,,
+A,rdp,N,remote desktop protocol,,
 A,tree,N,Recursive Directory listing,,
 A,man,N,interface to the system reference manuals,,
 A,make,N,GNU Make,,
