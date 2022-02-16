@@ -10,8 +10,6 @@ Plug 'vhda/verilog_systemverilog.vim' " system verilog
 Plug 'gutelfuldead/vim-tex-fold' " fork from matze/vim-tex-fold add chapter, sub&subsub section support
 Plug 'xuhdev/vim-latex-live-preview' " requires Okular and/or pdflatex, <leader>llp to open pdf preview
 Plug 'szw/vim-tags' " create tags for new project with :TagsGenerate! also updates on save
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
 call plug#end()
 
 " Some basics:
@@ -161,7 +159,3 @@ call plug#end()
     endfunction
     com! DiffSaved call s:DiffWithSaved()
 
-" SNIPS
-    let g:UltiSnipsExpandTrigger = "<tab>"
-    let g:UltiSnipsJumpForwardTrigger = "<tab>"
-    let g:UltiSnipsSnippetDirectories = ['~/.vim/plugged/vim-snippets/snippets','vim-snippets']

@@ -22,7 +22,7 @@
 [plugins]
 [profiles]
   [[default]]
-    background_darkness = 0.78
+    background_darkness = 0.63
     cursor_color = "#aaaaaa"
     custom_command = neofetch; bash
     exit_action = hold

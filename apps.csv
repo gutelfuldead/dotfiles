@@ -1,6 +1,8 @@
 AppType,Application,Managed Dotfile,Description,Repository,Wget
 =======,===========,===============,===========,==========,====
+A,p7zip,N,7za extractions,,
 A,dmenu,N,generic menu for X,,
+A,rdp,N,remote desktop protocol,,
 A,tree,N,Recursive Directory listing,,
 A,man,N,interface to the system reference manuals,,
 A,make,N,GNU Make,,
@@ -66,6 +68,7 @@ C,perl-Thread-Queue,N,Thread safe Queues (for buildroot),,
 C,gcc-c++,N,GNU C++ Compiler,,
 C,rpl,N,Replace Strings in Files,,
 C,ncurses-devel,N,ncurses library,,
+C,yumex,Yum Graphical Extender,,
 C,openssl-devel,N,openssl library,,
 C,texlive,N,TeX formatting system,,
 C,texlive-latex,N,A TeX macro package that defines LaTeX,,
