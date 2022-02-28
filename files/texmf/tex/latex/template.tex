@@ -6,6 +6,31 @@
 \usepackage{array}
 \usepackage{float}
 \usepackage{graphicx}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{listings}
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2
+}
+\lstset{style=mystyle}
 \usepackage[unicode=true,
   bookmarks=true,bookmarksnumbered=false,bookmarksopen=false,
 breaklinks=false,pdfborder={0 0 0},pdfborderstyle={},backref=false,colorlinks=true]
@@ -31,7 +56,6 @@ linkcolor=Blue, urlcolor=blue, citecolor=black}
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
-\usepackage[dvipsnames]{xcolor}
 \newcommand{\tabref}{\Tabref}
 \newcommand{\figref}{\Figref}
 
@@ -88,6 +112,11 @@ Introduction bold \textbf{Text}.
 \begin{verbatim}
     $ here's some code, not syntax highlighted
 \end{verbatim}
+\\
+\\
+\begin{lstlisting}[language=bash]
+    $ here's some code, syntax highlighted
+\end{lstlisting}
 
 \section{References}
 \subsection{table example}
