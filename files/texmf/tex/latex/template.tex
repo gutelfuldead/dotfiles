@@ -109,14 +109,25 @@ Introduction bold \textbf{Text}.
 
 \section{Here's a section}
 \begin{center}Section centered italicized \textit{Text}.\end{center}
+Here's some code not syntax highlighted
 \begin{verbatim}
-    $ here's some code, not syntax highlighted
+    int main() {
+      printf("Hello World\n\r");
+      return 0;
+    }
 \end{verbatim}
-\\
-\\
-\begin{lstlisting}[language=bash]
-    $ here's some code, syntax highlighted
+Here's some code syntax highlighted
+\begin{lstlisting}[language=C]
+    // syntax highlighted
+    int main() {
+      printf("Hello World\n\r");
+      return 0;
+    }
 \end{lstlisting}
+Heres importing some code from a file,
+\lstinputlisting[language=C]{example.c}
+Heres importing some code from a file between lines [4,20],
+\lstinputlisting[language=C, firstline=4, lastline=20]{example.c}
 
 \section{References}
 \subsection{table example}
