@@ -21,7 +21,10 @@
     basicstyle=\ttfamily\footnotesize,
     breakatwhitespace=false,
     breaklines=true,
+    % make it so $# gets rendered correctly
+    literate = {\$\#}{{{\$\#}}}2,
     captionpos=b,
+    columns=fullflexible,
     keepspaces=true,
     numbers=left,
     numbersep=5pt,
@@ -124,6 +127,11 @@ Here's some code syntax highlighted
       printf("Hello World\n\r");
       return 0;
     }
+\end{lstlisting}
+Here's some bash with an escape char for the prompt
+\begin{lstlisting}[language=bash, escapechar=^]
+    ^^$ Without the two escape chars the dollar sign
+        messes up latex formatting
 \end{lstlisting}
 Heres importing some code from a file,
 \lstinputlisting[language=C]{example.c}
