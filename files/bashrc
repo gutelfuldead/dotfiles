@@ -59,7 +59,6 @@ alias xclip='xclip -selection c' # cat some.file | xclip # now it is in system c
 alias scpi='scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null' # ignore keys
 alias sshi='ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null' # ignore keys
 alias rst2html='rst2html --stylesheet-dirs=~/.rst2html/html --stylesheet=sm-docutils.css'
-alias rst2pdf='rst2pdf --stylesheet-path=~/.rst2pdf --stylesheets=rst2pdf.style --use-floating-images'
 alias mkdir='mkdir -pv'
 alias ..='cd ..'
 alias ...='cd ../..'
