@@ -27,7 +27,7 @@ echon ()
     sleep 1
 }
 
-overrideDotfiles() 
+overrideDotfiles()
 {
     read -r -p "Enter name : " name
     read -r -p "Enter email : " email
@@ -37,7 +37,7 @@ overrideDotfiles()
 }
 
 # https://github.com/thoughtbot/rcm
-installRcm () 
+installRcm ()
 {
     ver=1.3.4
     echon "Installing RCM"
@@ -57,7 +57,7 @@ installRcm ()
 }
 
 # manually install i3 on CentOS 7.1 which has deprecated packages in yum
-installCentosI3 () 
+installCentosI3 ()
 {
     read -r -p "Install i3? [y/n] : " response
     case "$response" in
@@ -142,7 +142,7 @@ installCentosI3 ()
     cd $here
 }
 
-gitInstall() 
+gitInstall()
 {
     app=$1
     repo=$2
@@ -165,7 +165,7 @@ gitInstall()
     fi
 }
 
-installAppList() 
+installAppList()
 {
     total=$(wc -l < $appsFile)
     n=0
@@ -279,7 +279,7 @@ backup ()
     cd $here
 }
 
-addGroup() 
+addGroup()
 {
     user=$(whoami)
     # check to see if the group exists first
@@ -292,7 +292,7 @@ addGroup()
     fi
 }
 
-install_cinnamon() 
+install_cinnamon()
 {
     read -r -p "Install Cinnamon Desktop? [y/n] : " response
     case "$response" in
@@ -372,8 +372,8 @@ case "$response" in
         echon "installing and updating apps with $tool ..."
         installApps=1
         if [ $centos -eq 1 ] || [ $debian -eq 1 ]; then
-            sudo $tool update -y | tee -a $logfile
-            sudo $tool upgrade -y | tee -a $logfile
+            sudo $tool update --skip-broken -y | tee -a $logfile
+            sudo $tool upgrade --skip-broken -y | tee -a $logfile
         fi
         if [ $arch -eq 1 ]; then
             sudo pacman -Syu --noconfirm --needed --noprogressbar | tee -a $logfile

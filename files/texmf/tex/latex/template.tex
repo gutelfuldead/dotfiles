@@ -6,6 +6,34 @@
 \usepackage{array}
 \usepackage{float}
 \usepackage{graphicx}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{listings}
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,
+    breaklines=true,
+    % make it so $# gets rendered correctly
+    literate = {\$\#}{{{\$\#}}}2,
+    captionpos=b,
+    columns=fullflexible,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2
+}
+\lstset{style=mystyle}
 \usepackage[unicode=true,
   bookmarks=true,bookmarksnumbered=false,bookmarksopen=false,
 breaklinks=false,pdfborder={0 0 0},pdfborderstyle={},backref=false,colorlinks=true]
@@ -31,7 +59,6 @@ linkcolor=Blue, urlcolor=blue, citecolor=black}
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
-\usepackage[dvipsnames]{xcolor}
 \newcommand{\tabref}{\Tabref}
 \newcommand{\figref}{\Figref}
 
@@ -85,9 +112,31 @@ Introduction bold \textbf{Text}.
 
 \section{Here's a section}
 \begin{center}Section centered italicized \textit{Text}.\end{center}
+Here's some code not syntax highlighted
 \begin{verbatim}
-    $ here's some code, not syntax highlighted
+    int main() {
+      printf("Hello World\n\r");
+      return 0;
+    }
 \end{verbatim}
+Here's some code syntax highlighted
+\href{https://www.overleaf.com/learn/latex/Code\_listing}{Checkout this listings tutorial}
+\begin{lstlisting}[language=C]
+    // syntax highlighted
+    int main() {
+      printf("Hello World\n\r");
+      return 0;
+    }
+\end{lstlisting}
+Here's some bash with an escape char for the prompt
+\begin{lstlisting}[language=bash, escapechar=^]
+    ^^$ Without the two escape chars the dollar sign
+        messes up latex formatting
+\end{lstlisting}
+Heres importing some code from a file,
+\lstinputlisting[language=C]{example.c}
+Heres importing some code from a file between lines [4,20],
+\lstinputlisting[language=C, firstline=4, lastline=20]{example.c}
 
 \section{References}
 \subsection{table example}

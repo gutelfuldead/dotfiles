@@ -68,7 +68,7 @@ editor-cmd = vim
 ### Set global-ignores to a set of whitespace-delimited globs
 ### which Subversion will ignore in its 'status' output, and
 ### while importing or adding files and directories.
-global-ignores = *.pyc *.pyo *.o 
+global-ignores = *.pyc *.pyo *.o
 ### Set log-encoding to the default encoding for log messages
 # log-encoding = latin1
 ### Set use-commit-times to make checkout/update/switch/revert
@@ -129,7 +129,7 @@ enable-auto-props = yes
 *.html       = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/html
 *.ini        = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/plain
 *.sql        = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/x-sql
-*.txt        = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/plain
+*.txt        = svn:keywords=Id; svn:mime-type=text/plain
 *.xhtml      = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/xhtml+xml
 *.xml        = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/xml
 *.xsd        = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/xml
