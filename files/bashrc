@@ -54,6 +54,7 @@ export LESS_TERMCAP_us=$'\E[01;32m'
 export EDITOR='vim'
 
 # aliases
+alias invert='xcalib -invert -alter'
 alias vi='vim'
 alias xclip='xclip -selection c' # cat some.file | xclip # now it is in system clipboard
 alias scpi='scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null' # ignore keys
