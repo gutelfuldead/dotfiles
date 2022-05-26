@@ -6,11 +6,10 @@ Plug 'vim-airline/vim-airline' " status bar
 Plug 'kshenoy/vim-signature' " show mark ids left of line number
 Plug 'morhetz/gruvbox' " colorscheme
 Plug 'amal-khailtash/vim-xdc-syntax' " xdc syntax
+Plug 'vhda/verilog_systemverilog.vim' " system verilog
 Plug 'gutelfuldead/vim-tex-fold' " fork from matze/vim-tex-fold add chapter, sub&subsub section support
 Plug 'xuhdev/vim-latex-live-preview' " requires Okular and/or pdflatex, <leader>llp to open pdf preview
 Plug 'szw/vim-tags' " create tags for new project with :TagsGenerate! also updates on save
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
 call plug#end()
 
 " Some basics:
@@ -30,7 +29,7 @@ call plug#end()
     set tabstop=4
     set autoindent
     set pastetoggle=<F3> " F3 toggles paste/nopaste vim paste is trash
-    set autochdir
+    set autochdir " disable this when using ctags file... TODO find a way to keep this alive
     set wildmode=longest,list,full
     set wildmenu
     let g:netrw_banner=0
@@ -160,7 +159,3 @@ call plug#end()
     endfunction
     com! DiffSaved call s:DiffWithSaved()
 
-" SNIPS
-    let g:UltiSnipsExpandTrigger = "<tab>"
-    let g:UltiSnipsJumpForwardTrigger = "<tab>"
-    let g:UltiSnipsSnippetDirectories = ['~/.vim/plugged/vim-snippets/snippets','vim-snippets']
