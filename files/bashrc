@@ -52,6 +52,7 @@ export LESS_TERMCAP_us=$'\E[01;32m'
 
 # duh
 export EDITOR='vim'
+export VISUAL='vim'
 
 # aliases
 alias invert='xcalib -invert -alter'
