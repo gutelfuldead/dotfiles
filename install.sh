@@ -110,7 +110,7 @@ installCentosI3 ()
             yajl-devel \
             xterm
 
-    git clone --recursive https://github.com/Airblader/xcb-util-xrm $gitRepoPath
+    git clone --recursive https://github.com/Airblader/xcb-util-xrm $gitRepoPath/xcb-util-xrm
     cd $gitRepoPath/xcb-util-xrm
     git submodule update --init
     ./autogen.sh --prefix=/usr --libdir=/usr/lib64
@@ -124,7 +124,7 @@ installCentosI3 ()
     ninja
     sudo make install
 
-    git clone https://github.com/i3/i3status.git $gitRepoPath
+    git clone https://github.com/i3/i3status.git $gitRepoPath/i3status
     cd $gitRepoPath/i3status
     autoreconf -fi
     mkdir -p build && cd build
@@ -132,7 +132,7 @@ installCentosI3 ()
     make -j$(nproc)
     sudo make install
 
-    git clone https://github.com/vivien/i3blocks $gitRepoPath
+    git clone https://github.com/vivien/i3blocks $gitRepoPath/i3blocks
     cd $gitRepoPath/i3blocks
     ./autogen.sh
     ./configure
@@ -205,7 +205,10 @@ installAppList()
                             tmp=$(which paru > /dev/null 2>&1)
                             if [ $? -ne 0 ]; then
                                 sudo $tool $installArgs --needed base-devel
-                                git clone https://aur.archlinux.org/paru.git $gitRepoPath
+                                if [ ! -d $gitRepoPath ]; then
+                                    mkdir -pv $gitRepoPath
+                                fi
+                                git clone https://aur.archlinux.org/paru.git $gitRepoPath/paru
                                 cd $gitRepoPath/paru
                                 makepkg -si --skippgpcheck --needed --noconfirm --noprogressbar | tee -a $logfile
                                 cd $here
