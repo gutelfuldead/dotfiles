@@ -2,8 +2,8 @@ xxx
 Title
 xxx
 
-.. header:: ###Title###
-.. footer:: ##Page###
+.. header:: Title
+.. footer:: ###Page###
 
 :Organization:
         Space Micro Inc
