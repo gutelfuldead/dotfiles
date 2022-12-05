@@ -116,12 +116,14 @@ X,vivaldi,N,web browser,,
 X,youtube-dl,Y,youtube video downloader,,
 X,cmus,N,terminal music player,,
 X,clementine,N,music player,,
+X,openssl-1.1,N,open ssl needed for paru,,
 =====,=====,=====,=====,=====,=====
 AUR,aur/xrdp,N,Graphical login for rdp,https://aur.archlinux.org/xrdp.git,
 AUR,aur/rst2pdf,Y,Convert rst to pdfs,https://aur.archlinux.org/rst2pdf.git,
 AUR,aur/spotify,N,Music streaming,https://aur.archlinux.org/spotify.git,
 AUR,aur/ncurses5-compat-libs,N,ncurses5 development libs,https://aur.archlinux.org/ncurses5-compat-libs.git,
 AUR,aur/drawio,N,diagram generator,https://aur.archlinux.org/drawio-desktop.git,
+AUR,aur/surfshark-gui-bin,N,SurfShark VPN,https://aur.archlinux.org/surfshark-gui-bin.git,
 =====,=====,=====,=====,=====,=====
 G,fzf,Y,Fuzzy Finder,https://github.com/junegunn/fzf.git,https://github.com/junegunn/fzf/archive/0.21.1.zip
 G,ranger,Y,Ranger CLI File Browser,https://github.com/ranger/ranger.git,https://github.com/ranger/ranger/archive/v1.9.3.zip
