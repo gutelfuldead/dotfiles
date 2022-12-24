@@ -52,8 +52,10 @@ export LESS_TERMCAP_us=$'\E[01;32m'
 
 # duh
 export EDITOR='vim'
+export VISUAL='vim'
 
 # aliases
+alias invert='xcalib -invert -alter'
 alias vi='vim'
 alias xclip='xclip -selection c' # cat some.file | xclip # now it is in system clipboard
 alias scpi='scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null' # ignore keys
@@ -161,9 +163,9 @@ dirsize ()
     nfiles=$(find . -type f | wc -l)
     s=$(du -sh . | awk '{print $1}')
     du -shx * .[a-zA-Z0-9_]* 2> /dev/null | \
-    egrep '^ *[0-9.]*[MG]' | sort -n > /tmp/list
-    egrep '^ *[0-9.]*M' /tmp/list
-    egrep '^ *[0-9.]*G' /tmp/list
+    grep -E '^ *[0-9.]*[MG]' | sort -n > /tmp/list
+    grep -E '^ *[0-9.]*M' /tmp/list
+    grep -E '^ *[0-9.]*G' /tmp/list
     rm -rf /tmp/list
     echo "Total number of recursive files : $nfiles ($s)"
 }

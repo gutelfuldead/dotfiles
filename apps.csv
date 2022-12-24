@@ -1,6 +1,7 @@
 AppType,Application,Managed Dotfile,Description,Repository,Wget
 =======,===========,===============,===========,==========,====
 A,p7zip,N,7za extractions,,
+A,xcalib,N,used to invert color scheme wont install on centos,,
 A,dmenu,N,generic menu for X,,
 A,rdp,N,remote desktop protocol,,
 A,tree,N,Recursive Directory listing,,
@@ -108,18 +109,21 @@ X,pamixer,N,is a command-line audio interface,,
 X,acpi,N,shows battery status,,
 X,unrar,N,extracts rar's,,
 X,unzip,N,unzips zips,,
+X,caprine,N,facebook messenger app,,
 X,bc,N,arbitrary percision calculator,,
 X,ttf-font-awesome,N,image font,,
 X,vivaldi,N,web browser,,
 X,youtube-dl,Y,youtube video downloader,,
 X,cmus,N,terminal music player,,
 X,clementine,N,music player,,
+X,openssl-1.1,N,open ssl needed for paru,,
 =====,=====,=====,=====,=====,=====
 AUR,aur/xrdp,N,Graphical login for rdp,https://aur.archlinux.org/xrdp.git,
 AUR,aur/rst2pdf,Y,Convert rst to pdfs,https://aur.archlinux.org/rst2pdf.git,
 AUR,aur/spotify,N,Music streaming,https://aur.archlinux.org/spotify.git,
 AUR,aur/ncurses5-compat-libs,N,ncurses5 development libs,https://aur.archlinux.org/ncurses5-compat-libs.git,
 AUR,aur/drawio,N,diagram generator,https://aur.archlinux.org/drawio-desktop.git,
+AUR,aur/surfshark-gui-bin,N,SurfShark VPN,https://aur.archlinux.org/surfshark-gui-bin.git,
 =====,=====,=====,=====,=====,=====
 G,fzf,Y,Fuzzy Finder,https://github.com/junegunn/fzf.git,https://github.com/junegunn/fzf/archive/0.21.1.zip
 G,ranger,Y,Ranger CLI File Browser,https://github.com/ranger/ranger.git,https://github.com/ranger/ranger/archive/v1.9.3.zip
