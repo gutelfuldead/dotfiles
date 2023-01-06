@@ -69,7 +69,6 @@ P,bpytop,Y,linux/osx/freebsd resource monitor,https://github.com/aristocratos/bp
 C,perl-Tk-devel.x86_64,N,Modules and Tk code for Perl/Tk (for buildroot),,
 C,perl-Thread-Queue,N,Thread safe Queues (for buildroot),,
 C,gcc-c++,N,GNU C++ Compiler,,
-C,rpl,N,Replace Strings in Files,,
 C,ncurses-devel,N,ncurses library,,
 C,yumex,Yum Graphical Extender,,
 C,openssl-devel,N,openssl library,,
