@@ -76,6 +76,7 @@ alias vimi='vim ~/.config/i3/config'
 alias vimx='vim ~/.bash_vivado'
 alias svndiff='svn diff -x "-w --ignore-eol-style"'
 alias lynx='lynx -cfg=~/.config/lynx/lynx.cfg'
+alias grepy='grep -r --color=auto --line-number'
 
 # Adding color
 alias ls='ls -hN --color=auto --group-directories-first'
