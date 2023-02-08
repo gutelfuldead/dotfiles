@@ -102,7 +102,7 @@ call plug#end()
     autocmd BufNewFile,BufRead *.xdc setfiletype xdc
 
 " Readmes autowrap text
-    autocmd BufRead,BufNewFile README.* set tw=79
+    " autocmd BufRead,BufNewFile README.* set tw=79
 
 " Spell-check (underline misspelled words in md,rst files)
     hi clear SpellBad

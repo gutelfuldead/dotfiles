@@ -76,6 +76,7 @@ alias vimi='vim ~/.config/i3/config'
 alias vimx='vim ~/.bash_vivado'
 alias svndiff='svn diff -x "-w --ignore-eol-style"'
 alias lynx='lynx -cfg=~/.config/lynx/lynx.cfg'
+alias grepy='grep -r --color=auto --line-number'
 
 # Adding color
 alias ls='ls -hN --color=auto --group-directories-first'
@@ -83,8 +84,8 @@ alias l='ls -hN --color=auto --group-directories-first'
 alias ll='ls -lahN --color=auto --group-directories-first'
 
 # arch aliases
-alias pac='sudo pacman -Sy archlinux-keyring && sudo pacman -Sy --noconfirm --needed'
-alias pacup='sudo pacman -Sy archlinux-keyring && sudo pacman -Syu --noconfirm --needed'
+alias pac='sudo pacman -Sy --noconfirm archlinux-keyring && sudo pacman -Sy --noconfirm --needed'
+alias pacup='sudo pacman -Sy --noconfirm archlinux-keyring && sudo pacman -Syu --noconfirm --needed'
 alias aur='makepkg -si --skippgpcheck --noconfirm --needed'
 
 # create quick rst readmes from template
