@@ -198,7 +198,7 @@ installAppList()
                         sudo $tool $installArgs $app | tee -a $logfile
                     fi
                     ;;
-                AUR ) # install arch aur apps using paru
+                AUR ) # install arch aur apps using paru TODO FIX THIS
                     if [ $installAUR -eq 1 ] ; then
                         if [ $aurinit -eq 0 ]; then
                             # https://github.com/Morganamilo/paru
