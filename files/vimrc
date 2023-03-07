@@ -23,7 +23,6 @@ call plug#end()
     set ignorecase " case insensitivity when searching
     set smartcase  " re enables case sensitivity when pattern has upper case
     set cursorline
-    set noesckeys
     set expandtab
     set shiftwidth=4
     set tabstop=4
@@ -37,6 +36,12 @@ call plug#end()
     set backupdir=~/.vim/backup//
     set directory=~/.vim/swap//
     set undodir=~/.vim/undo//
+
+" Instead of noesckeys use this so arrows can still be used in insert mode
+    set timeout " timeout on partial command like: <leader>, g, etc.
+    set tm=1000 " timeoutlen is 1 second
+    set ttimeout " have separate value for timeout re: leaving insert mode
+    set ttimeoutlen=0 " insert / visual timeout immediately
 
 " Theme
     set background=dark
