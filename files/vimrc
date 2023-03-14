@@ -28,7 +28,6 @@ call plug#end()
     set tabstop=4
     set autoindent
     set pastetoggle=<F3> " F3 toggles paste/nopaste vim paste is trash
-    set autochdir " disable this when using ctags file... TODO find a way to keep this alive
     set wildmode=longest,list,full
     set wildmenu
     let g:netrw_banner=0
@@ -36,6 +35,8 @@ call plug#end()
     set backupdir=~/.vim/backup//
     set directory=~/.vim/swap//
     set undodir=~/.vim/undo//
+    set tags=./tags,tags;$HOME " look for tags file in current directory, then keep going up one directory
+                               " until it gets to $HOME
 
 " Instead of noesckeys use this so arrows can still be used in insert mode
     set timeout " timeout on partial command like: <leader>, g, etc.
