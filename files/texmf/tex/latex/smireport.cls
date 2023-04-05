@@ -1,4 +1,4 @@
-%% This file has been modified by Ken Rose of Space Micro, Inc.
+%% This file has been modified by Ken Rose and Jason Gutel of Space Micro, Inc.
 %% In accordance with the terms below, it has been renamed "smireport.cls".
 %%
 %% -------------------------
@@ -17,6 +17,22 @@
 %% in this file.
 %%
 %% This file was generated from file(s) of the LaTeX base system.
+%% --------------------------------------------------------------
+%%
+%% The following variables are used which should be in the calling tex file,
+%% if left commented out or undefined then they will not be filled in on cover page
+%%
+%% \newcommand \projEngineerName {J. Gutel}
+%% \newcommand \projEngineerDate {\mydate}
+%% \newcommand \operationsName {N/A}
+%% \newcommand \operationsDate {\mydate}
+%% \newcommand \qualityAssuranceName {N/A}
+%% \newcommand \qualityAssuranceDate {\mydate}
+%% \newcommand \docControlName {S. Name}
+%% \newcommand \docControlDate {\mydate}
+%% \newcommand \dcrNumber {}
+%% \newcommand \dcrNumberDate {\mydate}
+%%
 %% --------------------------------------------------------------
 %%
 %% It may be distributed and/or modified under the
@@ -941,19 +957,19 @@
   \cline{1-4}
   \multicolumn{2}{|c|}{} & \textsf{\scriptsize{}PROJECT ENGINEER} & \textsf{\scriptsize{}DATE} & \multicolumn{5}{c|}{}\tabularnewline
   \cline{1-2}
-  \multicolumn{2}{|c|}{} & \projEngineerName & \mydate & \multicolumn{5}{c|}{\TitleBlockTitleLineOne}\tabularnewline
+  \multicolumn{2}{|c|}{} & \projEngineerName & \projEngineerDate & \multicolumn{5}{c|}{\TitleBlockTitleLineOne}\tabularnewline
   \cline{1-4}
   \multicolumn{2}{|c|}{} & \textsf{\scriptsize{}OPERATIONS} & \textsf{\scriptsize{}DATE} & \multicolumn{5}{c|}{\TitleBlockTitleLineTwo}\tabularnewline
   \cline{1-2}
-  \textsf{\scriptsize{}RELEASED} & \textsf{\scriptsize{}DATE} & \operationsName & \mydate  & \multicolumn{5}{c|}{}\tabularnewline
+  \textsf{\scriptsize{}RELEASED} & \textsf{\scriptsize{}DATE} & \operationsName & \operationsDate  & \multicolumn{5}{c|}{}\tabularnewline
   \cline{3-9}
   \qquad{}\qquad{} & \qquad{}\qquad{} & \textsf{\scriptsize{}QUALITY ASSURANCE} & \textsf{\scriptsize{}DATE} & \textsf{\scriptsize{}SIZE} & \textsf{\scriptsize{}CAGE CODE} & \textsf{\scriptsize{}DWG. NO.} & \multicolumn{2}{c|}{\textsf{\scriptsize{}REV.}}\tabularnewline
   \cline{5-9}
-  \textsf{\scriptsize{}DCR NO.} & \mydate & \qualityAssuranceName  & \mydate & & 1T3M8 & \DocNumber & \multicolumn{2}{c|}{\DocRev}\tabularnewline
+  \textsf{\scriptsize{}DCR NO.} & \dcrNumberDate & \qualityAssuranceName  & \qualityAssuranceDate & A & 1T3M8 & \DocNumber & \multicolumn{2}{c|}{\DocRev}\tabularnewline
   \cline{3-9}
    \dcrNumber & & \textsf{\scriptsize{}DOCUMENT CONTROL} & \textsf{\scriptsize{}DATE} & \multicolumn{2}{c|}{\textsf{\scriptsize{}SCALE}} & \multicolumn{1}{c}{\textsf{\scriptsize{}SHEET}} &  & \tabularnewline
   \cline{5-6}
-   &  & \docControlName & \mydate & \multicolumn{2}{c|}{NONE} & \multicolumn{1}{c}{\textsf{1}} & \textsf{\scriptsize{}OF } & \hypersetup{linkcolor=black}\pageref{LastPage}\tabularnewline
+   &  & \docControlName & \docControlDate & \multicolumn{2}{c|}{NONE} & \multicolumn{1}{c}{\textsf{1}} & \textsf{\scriptsize{}OF } & \hypersetup{linkcolor=black}\pageref{LastPage}\tabularnewline
   \hline
   \end{tabular}
   \end{flushleft}
