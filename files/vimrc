@@ -23,10 +23,12 @@ call plug#end()
     set ignorecase " case insensitivity when searching
     set smartcase  " re enables case sensitivity when pattern has upper case
     set cursorline
+    set relativenumber
     set expandtab
     set shiftwidth=4
     set tabstop=4
     set autoindent
+    set autochdir
     set pastetoggle=<F3> " F3 toggles paste/nopaste vim paste is trash
     set wildmode=longest,list,full
     set wildmenu
