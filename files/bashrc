@@ -77,7 +77,7 @@ alias vimx='vim ~/.bash_vivado'
 alias svndiff='svn diff -x "-w --ignore-eol-style"'
 alias lynx='lynx -cfg=~/.config/lynx/lynx.cfg'
 alias grepy='grep -r --color=auto --line-number'
-alias svns="~/.subversion/svn-color.py status"
+alias svns="python ~/.subversion/svn-color.py status"
 
 # Adding color
 alias ls='ls -hN --color=auto --group-directories-first'
