@@ -167,3 +167,25 @@ call plug#end()
     endfunction
     com! DiffSaved call s:DiffWithSaved()
 
+" Allows to see diff between current file and svn
+    function! s:DiffWithSVNCheckedOut()
+      let filetype=&ft
+      diffthis
+      vnew | exe "%!svn cat " . fnameescape( expand("#:p") )
+      diffthis
+      exe "setlocal bt=nofile bh=wipe nobl noswf ro ft=" . filetype
+      wincmd R
+    endfunction
+    com! SvnDiff call s:DiffWithSVNCheckedOut()
+
+" Allows to see diff between current file and git
+    function! s:DiffWithGITCheckedOut()
+      let filetype=&ft
+      diffthis
+      vnew | exe "%!git diff " . fnameescape( expand("#:p") ) . " | patch -p 1 -Rs -o -"
+      exe "setlocal bt=nofile bh=wipe nobl noswf ro ft=" . filetype
+      diffthis
+      wincmd R
+    endfunction
+    com! GitDiff call s:DiffWithGITCheckedOut()
+
