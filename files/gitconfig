@@ -74,3 +74,5 @@
 [user]
     name = Jason Gutel
     email = jason.gutel@gmail.com
+[http]
+	sslverify = false

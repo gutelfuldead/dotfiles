@@ -1,6 +1,7 @@
 AppType,Application,Managed Dotfile,Description,Repository,Wget
 =======,===========,===============,===========,==========,====
 A,p7zip,N,7za extractions,,
+A,colordiff,N,adds color to diff and svn diff commands,,
 A,xcalib,N,used to invert color scheme wont install on centos,,
 A,conda,N,python environment manager,,
 A,dmenu,N,generic menu for X,,

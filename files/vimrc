@@ -37,8 +37,7 @@ call plug#end()
     set backupdir=~/.vim/backup//
     set directory=~/.vim/swap//
     set undodir=~/.vim/undo//
-    set tags=./tags,tags;$HOME " look for tags file in current directory, then keep going up one directory
-                               " until it gets to $HOME
+    set tags=tags;$HOME
 
 " Instead of noesckeys use this so arrows can still be used in insert mode
     set timeout " timeout on partial command like: <leader>, g, etc.

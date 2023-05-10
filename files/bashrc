@@ -74,7 +74,6 @@ alias vimba='vim ~/.bash_aliases'
 alias vimv='vim ~/.vimrc'
 alias vimi='vim ~/.config/i3/config'
 alias vimx='vim ~/.bash_vivado'
-alias svndiff='svn diff -x "-w --ignore-eol-style"'
 alias lynx='lynx -cfg=~/.config/lynx/lynx.cfg'
 alias grepy='grep -r --color=auto --line-number'
 alias svns="python ~/.subversion/svn-color.py status"
@@ -107,17 +106,17 @@ extract ()
     if [ -f $1 ] ; then
         case $1 in
             *.tar.bz2)   tar xjf $1;;
-            *.tar.gz)    tar xzf $1;;
-            *.tar.xz)    tar tvf $1;;
-            *.bz2)       bunzip2 $1;;
+        *.tar.gz)    tar xzf $1;;
+    *.tar.xz)    tar tvf $1;;
+*.bz2)       bunzip2 $1;;
             *.rar)       rar x $1;;
-            *.gz)        gunzip $1;;
-            *.tar)       tar xf $1;;
-            *.tbz2)      tar xjf $1;;
+        *.gz)        gunzip $1;;
+    *.tar)       tar xf $1;;
+*.tbz2)      tar xjf $1;;
             *.tgz)       tar xzf $1;;
-            *.zip)       unzip $1;;
-            *.Z)         uncompress $1;;
-            *.7z)        7z x $1;;
+        *.zip)       unzip $1;;
+    *.Z)         uncompress $1;;
+*.7z)        7z x $1;;
             *)           echo "'$1' cannot be extracted via extract()";;
         esac
     else
@@ -165,59 +164,65 @@ dirsize ()
     nfiles=$(find . -type f | wc -l)
     s=$(du -sh . | awk '{print $1}')
     du -shx * .[a-zA-Z0-9_]* 2> /dev/null | \
-    grep -E '^ *[0-9.]*[MG]' | sort -n > /tmp/list
+        grep -E '^ *[0-9.]*[MG]' | sort -n > /tmp/list
     grep -E '^ *[0-9.]*M' /tmp/list
     grep -E '^ *[0-9.]*G' /tmp/list
     rm -rf /tmp/list
     echo "Total number of recursive files : $nfiles ($s)"
 }
 
+# create a stash functionality in svn
 export STASHDIR=~/.svnstash
-svnstash() {
-  # Help screen
-  if [ -z $1 ] || [[ $1 =~ ^(-?-?[Hh](elp)?(ELP)?)$ ]]; then
-    echo "svnstash replicates 'git stash' for a svn repo."
-    echo " usage: 'svnstash [save]  <stash_name>' stashes changes [overwriting old stash if same name] and reverts the directory."
-    echo "    or: 'svnstash keep    <stash_name>' creates stash, but does not revert the directory"
-    echo "    or: 'svnstash list'                 lists names of stashed changes."
-    echo "    or: 'svnstash pop     <stash_name>' applies changes and removes stash"
-    echo "    or: 'svnstash apply   <stash_name>' applies changes and keeps stash"
-    echo "    or: 'svnstash peek    <stash_name>' displays the stashed changes"
-    echo "    or: 'svnstash discard <stash_name>' throws away stash without applying changes"
-    echo "    or: 'svnstash drop    <stash_name>' same as 'discard'"
-    return
-  fi
+svnstash () {
+    # Help screen
+    if [ -z $1 ] || [[ $1 =~ ^(-?-?[Hh](elp)?(ELP)?)$ ]]; then
+        echo "svnstash replicates 'git stash' for a svn repo."
+        echo " usage: 'svnstash [save]  <stash_name>' stashes changes [overwriting old stash if same name] and reverts the directory."
+        echo "    or: 'svnstash keep    <stash_name>' creates stash, but does not revert the directory"
+        echo "    or: 'svnstash list'                 lists names of stashed changes."
+        echo "    or: 'svnstash pop     <stash_name>' applies changes and removes stash"
+        echo "    or: 'svnstash apply   <stash_name>' applies changes and keeps stash"
+        echo "    or: 'svnstash peek    <stash_name>' displays the stashed changes"
+        echo "    or: 'svnstash discard <stash_name>' throws away stash without applying changes"
+        echo "    or: 'svnstash drop    <stash_name>' same as 'discard'"
+        return
+    fi
 
-  # Create file path for new stash file
-  local dir=$STASHDIR
-  [[ ! -d $STASHDIR ]] && mkdir $STASHDIR
-  if [ -z $2 ] && ([ $1 == "apply" ] || [ $1 == "pop" ]  || [ $1 == "peek" ] || [ $1 == "save" ] ||
-                   [ $1 == "keep" ]  || [ $1 == "drop" ] || [ $1 == "discard" ]); then
+    # Create file path for new stash file
+    local dir=$STASHDIR
+    [[ ! -d $STASHDIR ]] && mkdir $STASHDIR
+    if [ -z $2 ] && ([ $1 == "apply" ] || [ $1 == "pop" ]  || [ $1 == "peek" ] || [ $1 == "save" ] ||
+        [ $1 == "keep" ]  || [ $1 == "drop" ] || [ $1 == "discard" ]); then
     echo "$1 expects a <stash_name>"; return
-  elif [ -z $2 ]; then local file="${dir}/${1}.stash";
-  else                 local file="${dir}/${2}.stash"; fi
+    elif [ -z $2 ]; then local file="${dir}/${1}.stash";
+    else                 local file="${dir}/${2}.stash"; fi
 
-  # Double check if it exists / doesn't exist.
-  if ([ $1 == "keep" ] || [ $1 == "save" ] || [ -z $2 ]) && [ -f $file ]; then
-    echo "stash with name '$(basename -s.stash $file)' exists already!"; return
-  elif [ ! -f $file ] && ([ $1 == "apply" ] || [ $1 == "pop" ]); then
-    echo "stash with name '$(basename -s.stash $file)' doesn't exist!"; return; fi
+    # Double check if it exists / doesn't exist.
+    if ([ $1 == "keep" ] || [ $1 == "save" ] || [ -z $2 ]) && [ -f $file ]; then
+        echo "stash with name '$(basename -s.stash $file)' exists already!"; return
+    elif [ ! -f $file ] && ([ $1 == "apply" ] || [ $1 == "pop" ]); then
+        echo "stash with name '$(basename -s.stash $file)' doesn't exist!"; return; fi
 
-  # Apply desired changes.
-  case $1 in
-    "drop")    rm $file;;
-    "discard") rm $file;;
-    "apply")   patch -p0 < $file;;
-    "pop")     patch -p0 < $file; rm $file;;
-    "list")    ls -1t $dir | sed 's_\.\w*__g';;
-    "peek")    colordiff < $file | less -r;;
-    "keep")    svn diff > $file;;
-    "save")    svn diff > $file; svn revert -R .;;
-    *)         svn diff > $file; svn revert -R .;;
-  esac
+        # Apply desired changes.
+    case $1 in
+            "drop")    rm $file;;
+            "discard") rm $file;;
+            "apply")   patch -p0 < $file;;
+            "pop")     patch -p0 < $file; rm $file;;
+            "list")    ls -1t $dir | sed 's_\.\w*__g';;
+            "peek")    colordiff < $file | less -r;;
+            "keep")    svn diff > $file;;
+            "save")    svn diff > $file; svn revert -R .;;
+            *)         svn diff > $file; svn revert -R .;;
+    esac
 }
 # autocomplete svnstash
 complete -W "-f help save keep list pop apply peek drop discard \`[ -d $STASHDIR ] && ls $STASHDIR | sed 's/.stash$//'\`" svnstash
+
+# add color to svn diff
+svndiff () {
+    svn diff -x "-w --ignore-eol-style" "${@}" | colordiff
+}
 
 # autocomplete make commands
 complete -W "\`grep -oE '^[a-zA-Z0-9_.-]+\s*:([^=]|$)' ?akefile | sed 's/[^a-zA-Z0-9_.-]*$//'\`" make
@@ -242,10 +247,10 @@ if [ -n "$PATH" ]; then
         x=${old_PATH%%:*}       # the first remaining entry
         case $PATH: in
             *:"$x":*) ;;          # already there
-            *) PATH=$PATH:$x;;    # not there yet
-        esac
-        old_PATH=${old_PATH#*:}
-    done
-    PATH=${PATH#:}
-    unset old_PATH x
+        *) PATH=$PATH:$x;;    # not there yet
+    esac
+    old_PATH=${old_PATH#*:}
+done
+PATH=${PATH#:}
+unset old_PATH x
 fi
