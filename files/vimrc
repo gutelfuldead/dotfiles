@@ -9,7 +9,6 @@ Plug 'amal-khailtash/vim-xdc-syntax' " xdc syntax
 Plug 'vhda/verilog_systemverilog.vim' " system verilog
 Plug 'gutelfuldead/vim-tex-fold' " fork from matze/vim-tex-fold add chapter, sub&subsub section support
 Plug 'xuhdev/vim-latex-live-preview' " requires Okular and/or pdflatex, <leader>llp to open pdf preview
-Plug 'szw/vim-tags' " create tags for new project with :TagsGenerate! also updates on save
 call plug#end()
 
 " Some basics:
@@ -23,7 +22,7 @@ call plug#end()
     set ignorecase " case insensitivity when searching
     set smartcase  " re enables case sensitivity when pattern has upper case
     set cursorline
-    set relativenumber
+    " set relativenumber
     set expandtab
     set shiftwidth=4
     set tabstop=4
@@ -37,7 +36,7 @@ call plug#end()
     set backupdir=~/.vim/backup//
     set directory=~/.vim/swap//
     set undodir=~/.vim/undo//
-    set tags=tags;$HOME
+    set tags=tags
 
 " Instead of noesckeys use this so arrows can still be used in insert mode
     set timeout " timeout on partial command like: <leader>, g, etc.

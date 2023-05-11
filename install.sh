@@ -27,7 +27,17 @@ echon ()
     sleep 1
 }
 
-overrideDotfiles()
+updateSvnConfig()
+{
+    store=$1
+    if [ $store -eq 1 ]; then
+        sed -i "s/store-passwords = .*/store-passwords = yes/g" ~/.subversion/config
+    else
+        sed -i "s/store-passwords = .*/store-passwords = no/g" ~/.subversion/config
+    fi
+}
+
+updateGitConfig()
 {
     read -r -p "Enter name : " name
     read -r -p "Enter email : " email
@@ -541,9 +551,18 @@ if [ $installDotfiles -eq 1 ]; then
     read -r -p "Modify .gitconfig default name and email ? [y/n] : " response
     case "$response" in
         [yY][eE][sS]|[yY])
-            overrideDotfiles
+            updateGitConfig
             ;;
         *)
+            ;;
+    esac
+    read -r -p "Store passwords in svn config? [y/n] : " response
+    case "$response" in
+        [yY][eE][sS]|[yY])
+            updateSvnConfig 1
+            ;;
+        *)
+            updateSvnConfig 0
             ;;
     esac
 fi
