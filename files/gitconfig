@@ -57,7 +57,6 @@
 
 [merge]
     log = true
-    ff = false
 
 [push]
     default = simple
@@ -66,7 +65,7 @@
     insteadOf = bb:
 
 [url "https://github.com/"]
-	insteadOf = git://github.com/
+    insteadOf = git://github.com/
 
 [url "https://gist.github.com/"]
     insteadOf = gist:
@@ -75,4 +74,4 @@
     name = Jason Gutel
     email = jason.gutel@gmail.com
 [http]
-	sslverify = false
+    sslverify = false
