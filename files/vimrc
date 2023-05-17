@@ -1,7 +1,24 @@
+"""""""""""""""""""""""""""" Vim Cscope quick guide """""""""""""""""""""""""""
+" Integrated Cscope tutorial see,
+"    https://cscope.sourceforge.net/cscope_vim_tutorial.html
+"
+" At top of directory build cscope database with 'cscope -Rb'
+" Three lead control options ...
+"  <ctrl-\> command ... will run command in the same window
+"  <ctrl-space> command ... will run command in a split horizontal window
+"  <ctrl-space-space> command ... will run command in a split vertical window
+" Commands (all apply to text under cursor),
+"  s : find all uses of symbol X
+"  g : find global definitions(s) of symbol
+"  c : find all calls to a function
+"  f : opens the filename
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let mapleader ="-"
 
 call plug#begin('~/.vim/plugged')
 Plug 'tpope/vim-commentary' " press gcc to auto comment a line
+Plug 'tpope/vim-repeat' " makes . work better with plugins
+Plug 'tpope/vim-surround' " surrounds text in (), [], quotes, etc.
 Plug 'vim-airline/vim-airline' " status bar
 Plug 'kshenoy/vim-signature' " show mark ids left of line number
 Plug 'morhetz/gruvbox' " colorscheme
@@ -22,13 +39,12 @@ call plug#end()
     set ignorecase " case insensitivity when searching
     set smartcase  " re enables case sensitivity when pattern has upper case
     set cursorline
-    " set relativenumber
+    set relativenumber
     set expandtab
     set shiftwidth=4
     set tabstop=4
     set autoindent
-    set autochdir
-    set pastetoggle=<F3> " F3 toggles paste/nopaste vim paste is trash
+    " set autochdir
     set wildmode=longest,list,full
     set wildmenu
     let g:netrw_banner=0
@@ -36,7 +52,6 @@ call plug#end()
     set backupdir=~/.vim/backup//
     set directory=~/.vim/swap//
     set undodir=~/.vim/undo//
-    set tags=tags
 
 " Instead of noesckeys use this so arrows can still be used in insert mode
     set timeout " timeout on partial command like: <leader>, g, etc.
@@ -52,13 +67,18 @@ call plug#end()
 " remap ESC to jk because my pinky is fucked
     inoremap jk <ESC>
 
-" use F2 to toggle line numbers on/off for easy copy pasting to system
-" clipboard with the mouse
-    noremap <F2> :set invnumber<CR>
+" F2 toggle to paste mode (assumes relativenumber IS set)
+    noremap <F2> :set invrelativenumber<CR>
+    nnoremap <F3> :set invnumber<CR>:set invrelativenumber<CR>:set invpaste<CR>
 
 " keep search results at the center of the screen
     nnoremap n nzz
     nnoremap N Nzz
+
+" Tab shortcuts
+    map <leader>te :tabedit<cr>
+    map <leader>tn :tabnext<cr>
+    map <leader>tx :tabclose<cr>
 
 " Press <leader>Enter to remove search highlights
     noremap <silent> <leader><cr> :noh<cr>
@@ -186,4 +206,3 @@ call plug#end()
       wincmd R
     endfunction
     com! GitDiff call s:DiffWithGITCheckedOut()
-
