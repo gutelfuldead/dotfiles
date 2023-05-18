@@ -16,16 +16,16 @@
 let mapleader ="-"
 
 call plug#begin('~/.vim/plugged')
-Plug 'tpope/vim-commentary'           " press gcc to auto comment a line
-Plug 'tpope/vim-repeat'               " makes . work better with plugins
-Plug 'tpope/vim-surround'             " surrounds text in (), [], quotes, etc.
-Plug 'vim-airline/vim-airline'        " status bar
-Plug 'kshenoy/vim-signature'          " show mark ids left of line number
-Plug 'morhetz/gruvbox'                " colorscheme
-Plug 'amal-khailtash/vim-xdc-syntax'  " xdc syntax
-Plug 'vhda/verilog_systemverilog.vim' " system verilog
-Plug 'gutelfuldead/vim-tex-fold'      " fork from matze/vim-tex-fold add chapter, sub&subsub section support
-Plug 'xuhdev/vim-latex-live-preview'  " requires Okular and/or pdflatex, <leader>llp to open pdf preview
+Plug '~/.vim/plugged/vim-commentary'           " press gcc to auto comment a line
+Plug '~/.vim/plugged/vim-repeat'               " makes . work better with plugins
+Plug '~/.vim/plugged/vim-surround'             " surrounds text in (), [], quotes, etc.
+Plug '~/.vim/plugged/vim-airline'        " status bar
+Plug '~/.vim/plugged/vim-signature'          " show mark ids left of line number
+Plug '~/.vim/plugged/gruvbox'                " colorscheme
+Plug '~/.vim/plugged/vim-xdc-syntax'  " xdc syntax
+Plug '~/.vim/plugged/verilog_systemverilog.vim' " system verilog
+Plug '~/.vim/plugged/vim-tex-fold'      " fork from matze/vim-tex-fold add chapter, sub&subsub section support
+Plug '~/.vim/plugged/vim-latex-live-preview'  " requires Okular and/or pdflatex, <leader>llp to open pdf preview
 call plug#end()
 
 " Some basics:
@@ -106,6 +106,9 @@ call plug#end()
 
 " Interpret ITS files as device tree
     autocmd BufNewFile,BufRead *.its set syntax=dts
+
+" interpret markdown files
+    autocmd BufNewFile,BufRead *.md set filetype=markdown
 
 " Splits open at the bottom and right, instead of the stupid default
     set splitbelow
