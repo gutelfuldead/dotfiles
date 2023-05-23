@@ -1,6 +1,7 @@
 AppType,Application,Managed Dotfile,Description,Repository,Wget
 =======,===========,===============,===========,==========,====
 A,p7zip,N,7za extractions,,
+A,figlet,create ascii text banners in terminal,,
 A,colordiff,N,adds color to diff and svn diff commands,,
 A,xcalib,N,used to invert color scheme wont install on centos,,
 A,conda,N,python environment manager,,
@@ -43,7 +44,6 @@ A,htop,N,Improved top system performance monitor,,
 A,vagrant,N,manage and configure vms,,
 A,bison,N,GNU Bison parser generator,,
 A,dropbear,N,Small SSH server/client,,
-A,neofetch,N,CLI System Info,,
 A,flex,N,Fast Lexical Analyser Generator,,
 A,sshfs,N,Mount remote filesystems with sftp,,
 A,wine,N,Wine Is Not an Emulator,,

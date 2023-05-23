@@ -44,10 +44,13 @@ call plug#end()
     set shiftwidth=4
     set tabstop=4
     set autoindent
-    set autochdir
     set wildmode=longest,list,full
     set wildmenu
     let g:netrw_banner=0
+
+" Cannot get autochdir to work when using tags/cscope
+    " set autochdir
+    " set tags=cscope.out;
 
 " place swap files and others in a common directory
     set backupdir=~/.vim/backup//
