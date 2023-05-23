@@ -121,6 +121,7 @@ X,openssl-1.1,N,open ssl needed for paru,,
 X,mtpfs,N,needed for MTP file support (android mounting),,
 X,gvfs-mtp,N,needed for MTP file support (android mounting),,
 X,ranger,Y,ranger cli file manager,,
+X,screenfetch,N,print system information in terminal,,
 =====,=====,=====,=====,=====,=====
 AUR,aur/xrdp,N,Graphical login for rdp,https://aur.archlinux.org/xrdp.git,
 AUR,aur/rst2pdf,Y,Convert rst to pdfs,https://aur.archlinux.org/rst2pdf.git,
