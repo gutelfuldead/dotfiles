@@ -77,7 +77,6 @@ alias vimi='vim ~/.config/i3/config'
 alias vimx='vim ~/.bash_vivado'
 alias lynx='lynx -cfg=~/.config/lynx/lynx.cfg'
 alias grepy='grep -r --color=auto --line-number'
-alias svns="python ~/.subversion/svn-color.py status"
 alias asciibanner="figlet"
 
 # Adding color
@@ -173,6 +172,13 @@ dirsize ()
     echo "Total number of recursive files : $nfiles ($s)"
 }
 
+# autocomplete make commands
+complete -W "\`grep -oE '^[a-zA-Z0-9_.-]+\s*:([^=]|$)' ?akefile | sed 's/[^a-zA-Z0-9_.-]*$//'\`" make
+
+################################################################################
+# START SVN SHIT
+################################################################################
+
 # create a stash functionality in svn
 export STASHDIR=~/.svnstash
 svnstash () {
@@ -226,8 +232,12 @@ svndiff () {
     svn diff -x "-w --ignore-eol-style" "${@}" | colordiff
 }
 
-# autocomplete make commands
-complete -W "\`grep -oE '^[a-zA-Z0-9_.-]+\s*:([^=]|$)' ?akefile | sed 's/[^a-zA-Z0-9_.-]*$//'\`" make
+# add color to svn
+alias svns="python ~/.subversion/svn-color.py status"
+
+################################################################################
+# END SVN SHIT
+################################################################################
 
 # source files
 [[ -r /usr/local/etc/profile.d/bash_completion.sh ]] && . /usr/local/etc/profile.d/bash_completion.sh
@@ -235,6 +245,7 @@ complete -W "\`grep -oE '^[a-zA-Z0-9_.-]+\s*:([^=]|$)' ?akefile | sed 's/[^a-zA-
 # all system indepedent aliases, path modifications, etc should be in ~/.bash_aliases
 [ -f ~/.bash_aliases ] && source ~/.bash_aliases
 [ -f ~/.bash_vivado ] && source ~/.bash_vivado
+[ -f ~/.bash_svn ] && source ~/.bash_svn
 [ -f ~/.config/watson/watson.completion.txt ] && source ~/.config/watson/watson.completion.txt
 
 if [ -d $HOME/.rbenv ]; then
