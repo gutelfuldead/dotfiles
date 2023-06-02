@@ -1,4 +1,6 @@
 #!/bin/bash
+# bash file that makes svn more 'git-like'
+# branch from jordan f**king woods : https://github.com/jordanfwoods/dotfiles/blob/master/svn_patch.sh
 
 # create a stash functionality in svn
 export STASHDIR=~/.svnstash
@@ -45,6 +47,7 @@ svnstash () {
             *)         svn diff > $file; svn revert -R .;;
     esac
 }
+
 # autocomplete svnstash
 complete -W "-f help save keep list pop apply peek drop discard \`[ -d $STASHDIR ] && ls $STASHDIR | sed 's/.stash$//'\`" svnstash
 
