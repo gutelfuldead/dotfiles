@@ -44,14 +44,19 @@ call plug#end()
     set expandtab
     set shiftwidth=4
     set tabstop=4
+    set autochdir
     set autoindent
     set wildmode=longest,list,full
     set wildmenu
     let g:netrw_banner=0
-
-" Cannot get autochdir to work when using tags/cscope
-    " set autochdir
     " set tags=cscope.out;
+
+
+" Fx Key Bindings
+    noremap <F2> :set invrelativenumber<CR>
+" F3 toggle to paste mode (assumes relativenumber IS set, use F2 to get there)
+    nnoremap <F3> :set invnumber<CR>:set invrelativenumber<CR>:set invpaste<CR>
+    noremap <F4> :set invautochdir<CR>
 
 " place swap files and others in a common directory
     set backupdir=~/.vim/backup//
@@ -75,10 +80,6 @@ call plug#end()
 " Splits open at the bottom and right, instead of the stupid default
     set splitbelow
     set splitright
-
-" F2 toggle to paste mode (assumes relativenumber IS set)
-    noremap <F2> :set invrelativenumber<CR>
-    nnoremap <F3> :set invnumber<CR>:set invrelativenumber<CR>:set invpaste<CR>
 
 " keep search results at the center of the screen
     nnoremap n nzz

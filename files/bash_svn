@@ -58,3 +58,8 @@ svndiff () {
 
 # add color to svn
 alias svns="python ~/.subversion/svn-color.py status"
+
+# resolve accept the version that is in svn
+alias svnrtf="svn resolve --accept theirs-full"
+alias svnmtf="svn resolve --accept mine-full"
+
