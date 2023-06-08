@@ -71,8 +71,12 @@ call plug#end()
 
 " Theme
     set background=dark
-    let g:gruvbox_contrast_dark = 'hard'
-    colorscheme gruvbox
+    if v:version == 802
+        colorscheme industry
+    else
+        let g:gruvbox_contrast_dark = 'hard'
+        colorscheme gruvbox
+    endif
 
 " remap ESC to jk because my pinky is fucked
     inoremap jk <ESC>
