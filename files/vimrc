@@ -52,6 +52,9 @@ call plug#end()
     " set tags=cscope.out;
 
 
+" Insert Doxygen style commenting when cursor is on funciton name
+    map <leader>t :Dox<CR><ESC>
+
 " Fx Key Bindings
     noremap <F2> :set invrelativenumber<CR>
 " F3 toggle to paste mode (assumes relativenumber IS set, use F2 to get there)
