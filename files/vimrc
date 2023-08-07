@@ -60,6 +60,7 @@ call plug#end()
 " F3 toggle to paste mode (assumes relativenumber IS set, use F2 to get there)
     nnoremap <F3> :set invnumber<CR>:set invrelativenumber<CR>:set invpaste<CR>
     noremap <F4> :set invautochdir<CR>
+    noremap <F5> :windo set scrollbind!<CR>
 
 " place swap files and others in a common directory
     set backupdir=~/.vim/backup//
