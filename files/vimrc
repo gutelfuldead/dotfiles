@@ -150,6 +150,8 @@ call plug#end()
 " Spell-check (underline misspelled words in md,rst files)
     hi clear SpellBad
     hi SpellBad cterm=underline
+    " ignore case for spellcheck
+    set spellcapcheck=
     set spelllang=en_us
     set spellfile=$HOME/.spellen.utf-8.add
     autocmd BufRead,BufNewFile *.md setlocal spell
