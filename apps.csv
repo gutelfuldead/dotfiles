@@ -1,5 +1,5 @@
 AppType,Application,Managed Dotfile,Description,Repository,Wget
-=======,===========,===============,===========,==========,====
+=======,install for all distros,===============,===========,==========,====
 A,p7zip,N,7za extractions,,
 A,figlet,create ascii text banners in terminal,,
 A,colordiff,N,adds color to diff and svn diff commands,,
@@ -56,7 +56,7 @@ A,patch,N,Apply a diff file,,
 A,ctags,Y,Generate tag files for source code,,
 A,terminator,Y,Multiple GNOME terminals in one window,,
 A,tmux,Y,Terminal multiplexer,,
-=====,=====,=====,=====,=====,=====
+=====,python packages,=====,=====,=====,=====
 P,numpy,N,Scientific Computing,,
 P,pyvisa,N,Wrapper for VISA shared libraries,,
 P,matplotlib,N,Visualization with python,,
@@ -66,7 +66,7 @@ P,pandas,N,Data analysis and manipulation tool,,
 P,pyvisa-py,N,Pure python backend for pyVISA,,
 P,pyusb,N,USB access for Python,,
 P,bpytop,Y,linux/osx/freebsd resource monitor,https://github.com/aristocratos/bpytop,
-=====,=====,=====,=====,=====,=====
+=====,centos7 packages,=====,=====,=====,=====
 C,perl-Tk-devel.x86_64,N,Modules and Tk code for Perl/Tk (for buildroot),,
 C,perl-Thread-Queue,N,Thread safe Queues (for buildroot),,
 C,gcc-c++,N,GNU C++ Compiler,,
@@ -85,10 +85,10 @@ C,perl-ExtUtils-MakeMaker,N,Used for buildroot,,
 C,fontawesome-fonts,N,vector icons,,
 C,libusb,N,usb library for ti code composer req,,
 C,glibc-devel.i686,N,installing for ti code composer req,,
-=====,=====,=====,=====,=====,=====
+=====,ubuntu packages,=====,=====,=====,=====
 U,docutils-common,N,Used for rst2html,,
 U,g++,N,GNU C++ Compiler,,
-=====,=====,=====,=====,=====,=====
+=====,arch packages,=====,=====,=====,=====
 X,base-devel,N,Base Development tools,,
 X,fzf,Y,Fuzzy Finder,,
 X,xorg-server,N,is the graphical server,,
@@ -126,7 +126,9 @@ X,exfatprogs,N,exfat support,,
 X,exfat-utils,N,exfat support programs,,
 X,dosfstools,N,mkfs.fat,,
 X,mtools,N,fat file system utilities,,
-=====,=====,=====,=====,=====,=====
+X,linux,N,kernel and modules,,
+X,linux-headers,N,headers and scripts for building modules,,
+=====,arch user repo packages,=====,=====,=====,=====
 AUR,xrdp,N,Graphical login for rdp,https://aur.archlinux.org/xrdp.git,
 AUR,rst2pdf,Y,Convert rst to pdfs,https://aur.archlinux.org/rst2pdf.git,
 AUR,spotify,N,Music streaming,https://aur.archlinux.org/spotify.git,
@@ -134,11 +136,11 @@ AUR,ncurses5-compat-libs,N,ncurses5 development libs,https://aur.archlinux.org/n
 AUR,drawio,N,diagram generator,https://aur.archlinux.org/drawio-desktop.git,
 AUR,surfshark-gui-bin,N,SurfShark VPN,https://aur.archlinux.org/surfshark-gui-bin.git,
 AUR,ventoy-bin,N,installs /opt/ventoy application for bootable usbs with file partitions,
-=====,=====,=====,=====,=====,=====
+=====,Groups to add user to,=====,=====,=====,=====
 GP,wheel,N/A,sudoers group for debian,,
 GP,dialout,N/A,group for serial programs like minicom,,
 GP,libvirt,N/A,group for kvm,,
 GP,vboxusers,N/A,group for virtual box,,
 GP,wireshark,N/A,group for wireshark,,
-=====,=====,=====,=====,=====,=====
+=====,centos7 packages to uninstall,=====,=====,=====,=====
 RC,openssh-askpass,N,creates a pop up for passwords rather use terminal,,
