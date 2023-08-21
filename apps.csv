@@ -1,5 +1,6 @@
 AppType,Application,Managed Dotfile,Description,Repository,Wget
 =======,install for all distros,===============,===========,==========,====
+A,cscope,N,code navigator,,
 A,p7zip,N,7za extractions,,
 A,figlet,create ascii text banners in terminal,,
 A,colordiff,N,adds color to diff and svn diff commands,,
