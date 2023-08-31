@@ -129,6 +129,7 @@ X,dosfstools,N,mkfs.fat,,
 X,mtools,N,fat file system utilities,,
 X,linux,N,kernel and modules,,
 X,linux-headers,N,headers and scripts for building modules,,
+X,kdenlive,N,Video Editing software,,
 =====,arch user repo packages,=====,=====,=====,=====
 AUR,xrdp,N,Graphical login for rdp,https://aur.archlinux.org/xrdp.git,
 AUR,rst2pdf,Y,Convert rst to pdfs,https://aur.archlinux.org/rst2pdf.git,
