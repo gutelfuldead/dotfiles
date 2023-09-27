@@ -896,8 +896,7 @@
   \addtolength\logoleft{-\oddsidemargin}
 
   \hskip0in
-  %{\vskip-1.0in \hskip-\logoleft \includegraphics{images/smi-logo.png}}
-  {\includegraphics{images/smi-logo.png}}
+  {\begin{center}\includegraphics[width=0.62\columnwidth,height=0.62\textheight,keepaspectratio]{images/smi-logo.png}\end{center}}
 
 
   \vspace*{4cm}\begin{center}
@@ -933,8 +932,7 @@
   \addtolength\logoleft{-\oddsidemargin}
 
   \hskip0in
-  %{\vskip-1.0in \hskip-\logoleft \includegraphics{images/smi-logo.png}}
-  {\includegraphics{images/smi-logo.png}}
+  {\begin{center}\includegraphics[width=0.62\columnwidth,height=0.62\textheight,keepaspectratio]{images/smi-logo.png}\end{center}}
 
 
   \vspace*{1cm}\begin{center}
