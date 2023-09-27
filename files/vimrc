@@ -147,6 +147,9 @@ call plug#end()
 " Readmes autowrap text
     " autocmd BufRead,BufNewFile README.* set tw=79
 
+" Always make TODO
+    match Tag "TODO"
+
 " Spell-check (underline misspelled words in md,rst files)
     hi clear SpellBad
     hi SpellBad cterm=underline

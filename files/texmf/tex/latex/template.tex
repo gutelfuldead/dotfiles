@@ -1,12 +1,12 @@
 \documentclass[oneside,english,chapters]{smireport}
 \usepackage[T1]{fontenc}
 \usepackage[latin9]{inputenc}
+\usepackage[table,dvipsnames]{xcolor}
 \usepackage{color}
 \usepackage{babel}
 \usepackage{array}
 \usepackage{float}
 \usepackage{graphicx}
-\usepackage[dvipsnames]{xcolor}
 \usepackage{listings}
 \definecolor{codegreen}{rgb}{0,0.6,0}
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
@@ -65,6 +65,7 @@ linkcolor=Blue, urlcolor=blue, citecolor=black}
 
 \makeatother
 \author{Jason Gutel}
+\newcommand \tableheadercolor{gray!50}
 
 \begin{document}
 
@@ -88,6 +89,7 @@ linkcolor=Blue, urlcolor=blue, citecolor=black}
 \listoffigures
 
 \listoftables
+\rowcolors{2}{gray!25}{white}
 
 \chapter{Revision Notes}
 \begin{table}[H]
