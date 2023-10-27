@@ -108,5 +108,18 @@ XPS 13
 
 Notes specific to `XPS13 laptop setup with Arch <./xps13.rst>`_.
 
+Notes on Installing Arch (general)
+==================================
+
+Always seem to run into a keyring issue when performing ``pacstrap``. This is resolved by running ::
+
+    pacman-key --populate archlinux
+
+Before ``pacstrap``
+
+After chroot install ::
+
+    pacman -Sy networkmanager git vim
+
 TODO
 ====
