@@ -119,7 +119,14 @@ Before ``pacstrap``
 
 After chroot install ::
 
-    pacman -Sy networkmanager git vim
+    pacman -Sy networkmanager git vim sudo which
+
+After finishing installation and booting into image and enable wheel group with sudo privileges ``EDITOR=vim && visudo`` to use the script which requires sudo.
+
+General rEFIND issues
+=====================
+
+When setting up with ``refind-install --usedefault /dev/sdaX`` and ``mkrlconf`` it will autopopulate the fields in ``/boot/refind_linux.conf`` use blkid to get the correct UUID or PARTUUID.
 
 TODO
 ====
