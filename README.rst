@@ -40,6 +40,11 @@ prompt first,
 
 * Installs Cinnamon Desktop
 
+Also has my rEFIND theme. To access pull the submodule then check the ``README.rst``, ::
+
+    git submodule init
+    git submodule update
+
 Packages
 ========
 
@@ -111,22 +116,45 @@ Notes specific to `XPS13 laptop setup with Arch <./xps13.rst>`_.
 Notes on Installing Arch (general)
 ==================================
 
-Always seem to run into a keyring issue when performing ``pacstrap``. This is resolved by running ::
+Bring up network
+----------------
+
+edit ``/etc/iwd/main.conf``, ::
+
+    [General]
+    EnableNetworkConfiguration=true
+
+Connect with ``iwctl`` ::
+
+    [iwd]# station device scan
+    [iwd]# station device get-networks
+    [iwd]# station device connect SSID
+
+Pacstrap
+--------
+
+Always seem to run into a keyring issue when performing ``pacstrap``. This is resolved by running the following before the ``pacstrap`` command, ::
 
     pacman-key --populate archlinux
 
-Before ``pacstrap``
-
-After chroot install ::
+After performing ``arch-chroot`` install, ::
 
     pacman -Sy networkmanager git vim sudo which
 
 After finishing installation and booting into image and enable wheel group with sudo privileges ``EDITOR=vim && visudo`` to use the script which requires sudo.
 
-General rEFIND issues
-=====================
+rEFIND Setup
+------------
 
-When setting up with ``refind-install --usedefault /dev/sdaX`` and ``mkrlconf`` it will autopopulate the fields in ``/boot/refind_linux.conf`` use blkid to get the correct UUID or PARTUUID.
+When setting up with ``refind-install --usedefault /dev/sdaX`` and ``mkrlconf``.
+
+Default file ``/boot/refind_linux.conf`` will be autopopulated incorrectly... Use ``blkid`` to get the correct UUID/PARTUUID values, ::
+
+    "Boot using default options" "root=PARTUUID=XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX rw add_efi_memmap"
+
+    "Boot using fallback initramfs" "root=PARTUUID=XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX rw add_efi_memmap initrd=/boot/initramfs-%v-fallback.img"
+
+    "Boot to terminal" "root=PARTUUID=XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX rw add_efi_memmap systemd.unit=multi-user.target"
 
 TODO
 ====
