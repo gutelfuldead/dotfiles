@@ -135,9 +135,15 @@ Always seem to run into a keyring issue when performing ``pacstrap``. This is re
 
 After performing ``arch-chroot`` install, ::
 
-    pacman -Sy networkmanager git vim sudo which
+    pacman -Sy networkmanager git vi vim sudo which
 
-After finishing installation and booting into image and enable wheel group with sudo privileges ``EDITOR=vim && visudo`` to use the script which requires sudo.
+Add User
+--------
+::
+    useradd user-name
+    passwd user-name
+    usermod -aG wheel user-name
+    mkdir /home/user-name
 
 rEFIND Setup
 ------------
@@ -151,6 +157,36 @@ Default file ``/boot/refind_linux.conf`` will be autopopulated incorrectly... Us
     "Boot using fallback initramfs" "root=PARTUUID=XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX rw add_efi_memmap initrd=/boot/initramfs-%v-fallback.img"
 
     "Boot to terminal" "root=PARTUUID=XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX rw add_efi_memmap systemd.unit=multi-user.target"
+
+BIO Setup
+~~~~~~~~~
+
+Add rEFIND boot option @ FSx/EFI/Boot/BOOTX64.EFI
+
+First bootup
+------------
+
+Enable root privileges with wheel group using ``visudo`` un-commenting ::
+
+    %wheel ALL=(ALL:ALL) ALL
+
+Enable wifi ::
+
+    systemctl enable NetworkManager
+    systemctl start NetworkManager
+    nmtui
+
+Run this bootstrap ::
+
+    git clone https://github.com/gutelfuldead/dotfiles.git ~/.dotfiles
+    cd ~/.dotfiles
+    ./install.sh
+
+To use the rEFIND theme pull the submodule and see the ``README.rst`` in there ::
+
+    git submodule init
+    git submodule update
+    
 
 TODO
 ====
