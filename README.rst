@@ -119,11 +119,6 @@ Notes on Installing Arch (general)
 Bring up network
 ----------------
 
-edit ``/etc/iwd/main.conf``, ::
-
-    [General]
-    EnableNetworkConfiguration=true
-
 Connect with ``iwctl`` ::
 
     [iwd]# station device scan
@@ -135,6 +130,7 @@ Pacstrap
 
 Always seem to run into a keyring issue when performing ``pacstrap``. This is resolved by running the following before the ``pacstrap`` command, ::
 
+    pacman-key --init    
     pacman-key --populate archlinux
 
 After performing ``arch-chroot`` install, ::
