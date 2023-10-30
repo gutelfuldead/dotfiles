@@ -113,6 +113,21 @@ XPS 13
 
 Notes specific to `XPS13 laptop setup with Arch <./xps13.rst>`_.
 
+Dual Boot with Windows 10
+=========================
+
+Hardrive Partition Scheme *TODO*
+
++-----------+----------------+-------------+-------------------------------+
+| Partition | Partition Type | Mount Point | Function                      |
++===========+================+=============+===============================+
+| /dev/sdx1 | EFI            | /mnt/boot   | uEFI boot manager             |
++-----------+----------------+-------------+-------------------------------+
+| /dev/sdx2 |                |             |                               |
++-----------+----------------+-------------+-------------------------------+
+
+Install Windows before Arch pointing to /dev/sdx3 for the installation directory.
+
 Notes on Installing Arch (general)
 ==================================
 
