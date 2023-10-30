@@ -204,7 +204,3 @@ To use the rEFIND theme pull the submodule and see the ``README.rst`` in there :
 
     git submodule init
     git submodule update
-    
-
-TODO
-====
