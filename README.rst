@@ -140,10 +140,12 @@ After performing ``arch-chroot`` install, ::
 Add User
 --------
 ::
+
     useradd user-name
     passwd user-name
     usermod -aG wheel user-name
     mkdir /home/user-name
+    chown user-name:user-name /home/user-name
 
 rEFIND Setup
 ------------
