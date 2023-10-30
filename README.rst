@@ -116,7 +116,7 @@ Notes specific to `XPS13 laptop setup with Arch <./xps13.rst>`_.
 Notes on Installing Arch (general)
 ==================================
 
-Follow the `official Arch Installation Guide <https://wiki.archlinux.org/title/installation_guide`_ these are just things that made it easier for me covering missing or ambiguous parts of the installation guide.
+Follow the `official Arch Installation Guide <https://wiki.archlinux.org/title/installation_guide>`_ these are just things that made it easier for me covering missing or ambiguous parts of the installation guide.
 
 Bring up network
 ----------------
