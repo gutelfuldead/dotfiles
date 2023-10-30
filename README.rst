@@ -158,10 +158,9 @@ Default file ``/boot/refind_linux.conf`` will be autopopulated incorrectly... Us
 
     "Boot to terminal" "root=PARTUUID=XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX rw add_efi_memmap systemd.unit=multi-user.target"
 
-BIO Setup
-~~~~~~~~~
+To add BIOS entry add the rEFIND boot option @ ::
 
-Add rEFIND boot option @ FSx/EFI/Boot/BOOTX64.EFI
+    FSx/EFI/Boot/BOOTX64.EFI
 
 First bootup
 ------------
