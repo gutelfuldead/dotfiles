@@ -1,6 +1,7 @@
 AppType,Application,Managed Dotfile,Description,Repository,Wget
 =======,install for all distros,===============,===========,==========,====
 A,cscope,N,code navigator,,
+A,gparted,N,partition editor,,
 A,p7zip,N,7za extractions,,
 A,figlet,create ascii text banners in terminal,,
 A,colordiff,N,adds color to diff and svn diff commands,,
@@ -138,6 +139,7 @@ AUR,ncurses5-compat-libs,N,ncurses5 development libs,https://aur.archlinux.org/n
 AUR,drawio,N,diagram generator,https://aur.archlinux.org/drawio-desktop.git,
 AUR,surfshark-gui-bin,N,SurfShark VPN,https://aur.archlinux.org/surfshark-gui-bin.git,
 AUR,ventoy-bin,N,installs /opt/ventoy application for bootable usbs with file partitions,
+AUR,discord_arch_electron,N,discord,
 =====,Groups to add user to,=====,=====,=====,=====
 GP,wheel,N/A,sudoers group for debian,,
 GP,dialout,N/A,group for serial programs like minicom,,

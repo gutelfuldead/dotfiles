@@ -116,15 +116,26 @@ Notes specific to `XPS13 laptop setup with Arch <./xps13.rst>`_.
 Dual Boot with Windows 10
 =========================
 
-Hardrive Partition Scheme *TODO*
+Hardrive Partition Scheme example ::
 
-+-----------+----------------+-------------+-------------------------------+
-| Partition | Partition Type | Mount Point | Function                      |
-+===========+================+=============+===============================+
-| /dev/sdx1 | EFI            | /mnt/boot   | uEFI boot manager             |
-+-----------+----------------+-------------+-------------------------------+
-| /dev/sdx2 |                |             |                               |
-+-----------+----------------+-------------+-------------------------------+
+    $ fdisk -l
+    Device         Start       End   Sectors  Size Type                          Comment
+    /dev/sda1       2048   1581055   1579008  771M EFI System                    FAT32 Make at least 500 MB
+    /dev/sda2    1581056   1613823     32768   16M Microsoft basic data
+    /dev/sda3    1613824 150919167 149305344 71.2G Microsoft basic data          NTFS Windows installation path
+    /dev/sda4  150919168 490692607 339773440  162G Linux filesystem              ARCH Installatin ext4
+    /dev/sda5  490692608 499081215   8388608    4G Linux filesystem              Swap
+    /dev/sda6  499081216 500115455   1034240  505M Windows recovery environment  Created by Windows automatically
+
+    $ lsblk
+    NAME   MAJ:MIN RM   SIZE RO TYPE MOUNTPOINTS
+    sda      8:0    0 238.5G  0 disk
+    ├─sda1   8:1    0   771M  0 part /boot
+    ├─sda2   8:2    0    16M  0 part
+    ├─sda3   8:3    0  71.2G  0 part
+    ├─sda4   8:4    0   162G  0 part /
+    ├─sda5   8:5    0     4G  0 part [SWAP]
+    └─sda6   8:6    0   505M  0 part
 
 Install Windows before Arch pointing to /dev/sdx3 for the installation directory.
 
@@ -147,7 +158,7 @@ Pacstrap
 
 Always seem to run into a keyring issue when performing ``pacstrap``. This is resolved by running the following before the ``pacstrap`` command, ::
 
-    pacman-key --init    
+    pacman-key --init
     pacman-key --populate archlinux
 
 After performing ``arch-chroot`` install, ::
