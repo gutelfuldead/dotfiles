@@ -58,6 +58,8 @@ A,patch,N,Apply a diff file,,
 A,ctags,Y,Generate tag files for source code,,
 A,terminator,Y,Multiple GNOME terminals in one window,,
 A,tmux,Y,Terminal multiplexer,,
+A,repo,N,manage git repos,,
+A,perl,N,practical extraction and report language,,
 =====,python packages,=====,=====,=====,=====
 P,numpy,N,Scientific Computing,,
 P,pyvisa,N,Wrapper for VISA shared libraries,,
