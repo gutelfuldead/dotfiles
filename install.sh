@@ -233,10 +233,10 @@ installAppList()
                         if [ $pipInit -eq 0 ]; then
                             tmp=$(which pip > /dev/null 2>&1)
                             if [ $? -ne 0 ]; then
-                                sudo $tool $installArgs pip | tee -a $logfile
+                                sudo $tool $installArgs python-pip | tee -a $logfile
                             fi
                             echon "Updating PIP"
-                            sudo python3 -m pip install --upgrade pip | tee -a $logfile
+                            python3 -m pip install --upgrade pip | tee -a $logfile
                             pipInit=1
                         fi
                         pip install -U $app | tee -a $logfile
