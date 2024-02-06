@@ -138,6 +138,7 @@ X,kdenlive,N,Video Editing software,,
 X,inetutils,N,A collection of common network programs,,
 X,rpsvc-proto,N,rpcsvc protocol definitions from glibc,,
 X,net-tools,N,Configuration tools for Linux networking,,
+X,konversation,N,irc app,,
 =====,arch user repo packages,=====,=====,=====,=====
 AUR,xrdp,N,Graphical login for rdp,https://aur.archlinux.org/xrdp.git,
 AUR,rst2pdf,Y,Convert rst to pdfs,https://aur.archlinux.org/rst2pdf.git,
