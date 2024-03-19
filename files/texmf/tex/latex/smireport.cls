@@ -485,10 +485,12 @@
                                     %{3.25ex \@plus1ex \@minus.2ex}%
                                     %{-1em}%
                                     %{\normalfont\normalsize\bfseries}}
+\newcommand{\subsubsubsection}{\paragraph}
 \newcommand\subparagraph{\@startsection{subparagraph}{5}{\parindent}%
                                        {3.25ex \@plus1ex \@minus .2ex}%
                                        {-1em}%
                                       {\normalfont\normalsize\bfseries}}
+\newcommand{\subsubsubsubsection}{\paragraph}
 \if@twocolumn
   \setlength\leftmargini  {2em}
 \else
