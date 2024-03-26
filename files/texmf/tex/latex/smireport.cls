@@ -910,16 +910,14 @@
   \vfill
   {\sffamily\begin{flushleft}%
   Space Micro, Inc.\\
-  15378 Avenue of Science\\
-  Suite 200\\
+  15378 Avenue of Science, Suite 200\\
   San Diego, CA 92128\\
   Tel: (858) 332 0700\\
-  Fax: (858) 332 0709\\
   \end{flushleft}}
   %\vfill
-  {\small\begin{center}
+  {\tiny\begin{center}
   %% Put trademark claims, etc., here
-  Space Micro, Inc. Proprietary Information
+  \textbf{Export Restrictions}: The information contained herein is controlled by the U.S. Department of Commerce's Export Administration Regulations (EAR) and classified under ECCN 9E515 (Technical Data). This information may not be exported to a foreign country, disclosed to a foreign person in the United States or placed in the public domain without authorization from the U.S. Department of Commerce's Bureau of Industry and Security (BIS) and Space Micro Inc. The information contained in this document has been exported under the Bureau of Industry and Security (BIS) exception STA. This export does not exceed the indicated exception's scope.\\\textbf{Space Micro Proprietary}: The information contained herein is proprietary to Space Micro, Inc. (SMI) and is disclosed to select parties. No reproduction or distribution of this information shall be permitted outside of the recipient's program team without the prior written authorization from Space Micro, Inc.
   %%SBIR Data Rights.
   \end{center}}
   \null
@@ -976,16 +974,14 @@
   \vfill
   {\sffamily\begin{flushleft}%
   Space Micro, Inc.\\
-  15378 Avenue of Science\\
-  Suite 200\\
+  15378 Avenue of Science, Suite 200\\
   San Diego, CA 92128\\
   Tel: (858) 332 0700\\
-  Fax: (858) 332 0709\\
   \end{flushleft}}
   %\vfill
-  {\small\begin{center}
+  {\tiny\begin{center}
   %% Put trademark claims, etc., here
-  Space Micro, Inc. Proprietary Information
+  \textbf{Export Restrictions}: The information contained herein is controlled by the U.S. Department of Commerce's Export Administration Regulations (EAR) and classified under ECCN 9E515 (Technical Data). This information may not be exported to a foreign country, disclosed to a foreign person in the United States or placed in the public domain without authorization from the U.S. Department of Commerce's Bureau of Industry and Security (BIS) and Space Micro Inc. The information contained in this document has been exported under the Bureau of Industry and Security (BIS) exception STA. This export does not exceed the indicated exception's scope.\\\textbf{Space Micro Proprietary}: The information contained herein is proprietary to Space Micro, Inc. (SMI) and is disclosed to select parties. No reproduction or distribution of this information shall be permitted outside of the recipient's program team without the prior written authorization from Space Micro, Inc.
   %%SBIR Data Rights.
   \end{center}}
   \null
@@ -1032,8 +1028,7 @@
             {}%
             {}%
             {SVN \SVNRevision}%
-            {\textsl{\footnotesize{}Use or disclosure of sensitive information contained on this page is\\
-subject to the restriction on the title page of this proposal or document.}}%
+            {\tiny\textbf{Export Restrictions}: The information contained herein is controlled by the U.S. Department of Commerce's Export Administration Regulations (EAR) \\ and classified under ECCN 9E515 (Technical Data). \\This information may not be exported to a foreign country, disclosed to a foreign person in the United States or placed in the public domain without authorization from the U.S. Department of Commerce's Bureau of Industry and Security (BIS) and Space Micro Inc. The information contained in this document has been exported under the Bureau of Industry and Security (BIS) exception STA. This export does not exceed the indicated exception's scope.\\\textbf{Space Micro Proprietary}: The information contained herein is proprietary to Space Micro, Inc. (SMI) and is disclosed to select parties. No reproduction or distribution of this information shall be permitted outside of the recipient's program team without the prior written authorization from Space Micro, Inc.}%
             {Page \thepage\ of  \hypersetup{linkcolor=black}\pageref{LastPage}}%
 \else
   \setheader{}{}{}
@@ -1044,12 +1039,12 @@ subject to the restriction on the title page of this proposal or document.}}%
             {}%
             {}%
             {SVN \SVNRevision}%
-            {Space Micro, Inc. Proprietary Information \\ Export controlled Information. Unauthorized Distribution Prohibited.}%
+            % {Space Micro, Inc. Proprietary Information \\ Export controlled Information. Unauthorized Distribution Prohibited.}%
+            {\tiny\textbf{Export Restrictions}: The information contained herein is controlled by the U.S. Department of Commerce's Export Administration Regulations (EAR) \\ and classified under ECCN 9E515 (Technical Data). \\This information may not be exported to a foreign country, disclosed to a foreign person in the United States or placed in the public domain without authorization from the U.S. Department of Commerce's Bureau of Industry and Security (BIS) and Space Micro Inc. The information contained in this document has been exported under the Bureau of Industry and Security (BIS) exception STA. This export does not exceed the indicated exception's scope.\\\textbf{Space Micro Proprietary}: The information contained herein is proprietary to Space Micro, Inc. (SMI) and is disclosed to select parties. No reproduction or distribution of this information shall be permitted outside of the recipient's program team without the prior written authorization from Space Micro, Inc.}%
             {Page \thepage\ of  \hypersetup{linkcolor=black}\pageref{LastPage}}%
 \fi
 
 %% process option for adding section numbers to table and figure references
-
 \if@secref
   \makeatletter
   \@addtoreset{figure}{section}
