@@ -17,7 +17,7 @@
 PS1='\[\e[92m\][ \[\e[38;5;39m\]\u\[\e[92m\]@\[\e[96m\]\h\[\e[0m\]:\[\e[38;5;147m\]\w \[\e[92m\]] \[\e[0m\]'
 
 # adding /bin causes issues with buildroot
-def_path=/usr/bin:/usr/sbin:/usr/local/bin:$HOME/.local/bin:/var/lib/snapd/snap/bin
+def_path=/usr/bin:/usr/sbin:/usr/local/bin:$HOME/.local/bin:/var/lib/snapd/snap/bin:$HOME/bin
 PATH=$def_path
 
 # add python 2.7 path ... needed for ranger
@@ -173,8 +173,8 @@ dirsize ()
 complete -W "\`grep -oE '^[a-zA-Z0-9_.-]+\s*:([^=]|$)' ?akefile | sed 's/[^a-zA-Z0-9_.-]*$//'\`" make
 
 # source files
-[[ -r /usr/local/etc/profile.d/bash_completion.sh ]] && . /usr/local/etc/profile.d/bash_completion.sh
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+# [[ -r /usr/local/etc/profile.d/bash_completion.sh ]] && . /usr/local/etc/profile.d/bash_completion.sh
+# [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 # all system indepedent aliases, path modifications, etc should be in ~/.bash_aliases
 [ -f ~/.bash_aliases ] && source ~/.bash_aliases
 [ -f ~/.bash_vivado ] && source ~/.bash_vivado
