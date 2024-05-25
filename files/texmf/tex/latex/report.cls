@@ -1,6 +1,3 @@
-%% This file has been modified by Ken Rose and Jason Gutel of Space Micro, Inc.
-%% In accordance with the terms below, it has been renamed "smireport.cls".
-%%
 %% -------------------------
 %%
 %% This is file `report.cls',
@@ -72,9 +69,9 @@
 %%   Grave accent  \`     Left brace    \{     Vertical bar  \|
 %%   Right brace   \}     Tilde         \~}
 \NeedsTeXFormat{LaTeX2e}[1995/12/01]
-\ProvidesClass{smireport}
+\ProvidesClass{jgreport}
               [2009/03/23 v1.4f-smi-1.0
- Space Micro LaTeX document class]
+LaTeX document class]
 
 \newif\if@mainmatter \@mainmattertrue
 %\usepackage{oldlfont} % Is this needed?
@@ -872,7 +869,6 @@
 % mytitle.sty
 % Julian Smart's Enhanced Titlepage
 % Modified by Eric Smith for VM Labs
-% Modified again by Ken Rose for Space Micro
 
 \newcommand{\TM}[0]{{${}^{{\sc tm}}$}}
 \newcommand{\image}[2]{\psboxto(#1){#2}}
@@ -898,7 +894,7 @@
   \addtolength\logoleft{-\oddsidemargin}
 
   \hskip0in
-  {\begin{center}\includegraphics[width=0.62\columnwidth,height=0.62\textheight,keepaspectratio]{images/smi-logo.png}\end{center}}
+  {\begin{center}\includegraphics[width=0.62\columnwidth,height=0.62\textheight,keepaspectratio]{images/LOGO.png}\end{center}}
 
 
   \vspace*{4cm}\begin{center}
@@ -909,15 +905,12 @@
   \@thanks
   \vfill
   {\sffamily\begin{flushleft}%
-  Space Micro, Inc.\\
-  15378 Avenue of Science, Suite 200\\
-  San Diego, CA 92128\\
-  Tel: (858) 332 0700\\
+  ADDRESS HERE
   \end{flushleft}}
   %\vfill
   {\tiny\begin{center}
   %% Put trademark claims, etc., here
-  \textbf{Export Restrictions}: The information contained herein is controlled by the U.S. Department of Commerce's Export Administration Regulations (EAR) and classified under ECCN 9E515 (Technical Data). This information may not be exported to a foreign country, disclosed to a foreign person in the United States or placed in the public domain without authorization from the U.S. Department of Commerce's Bureau of Industry and Security (BIS) and Space Micro Inc. The information contained in this document has been exported under the Bureau of Industry and Security (BIS) exception STA. This export does not exceed the indicated exception's scope.\\\textbf{Space Micro Proprietary}: The information contained herein is proprietary to Space Micro, Inc. (SMI) and is disclosed to select parties. No reproduction or distribution of this information shall be permitted outside of the recipient's program team without the prior written authorization from Space Micro, Inc.
+  \textbf{Export Restrictions}: TODO
   %%SBIR Data Rights.
   \end{center}}
   \null
@@ -932,7 +925,7 @@
   \addtolength\logoleft{-\oddsidemargin}
 
   \hskip0in
-  {\begin{center}\includegraphics[width=0.62\columnwidth,height=0.62\textheight,keepaspectratio]{images/smi-logo.png}\end{center}}
+  {\begin{center}\includegraphics[width=0.62\columnwidth,height=0.62\textheight,keepaspectratio]{images/LOGO.png}\end{center}}
 
 
   \vspace*{1cm}\begin{center}
@@ -945,9 +938,9 @@
   \begin{flushleft}
   \begin{tabular}{|c|c|c|c|c|c|c|cc|}
   \hline
-  \multicolumn{2}{|c|}{} & \multicolumn{1}{c}{\textsf{\scriptsize{}APPROVALS}} &  & \multicolumn{5}{c|}{\textsf{\scriptsize{}\includegraphics[width=5cm]{images/smi-logo.png}}}\tabularnewline
+  \multicolumn{2}{|c|}{} & \multicolumn{1}{c}{\textsf{\scriptsize{}APPROVALS}} &  & \multicolumn{5}{c|}{\textsf{\scriptsize{}\includegraphics[width=5cm]{images/LOGO.png}}}\tabularnewline
   \cline{1-2}
-  \multicolumn{2}{|c|}{} & \multicolumn{1}{c}{} &  & \multicolumn{5}{c|}{\textsf{\scriptsize{}SPACE MICRO INC}}\tabularnewline
+  \multicolumn{2}{|c|}{} & \multicolumn{1}{c}{} &  & \multicolumn{5}{c|}{\textsf{\scriptsize{}COMPANY NAME}}\tabularnewline
   \cline{1-4}
   \multicolumn{2}{|c|}{} & \textsf{\scriptsize{}ORIGINATOR} & \textsf{\scriptsize{}DATE} & \multicolumn{5}{c|}{\textsf{\scriptsize{}SAN DIEGO CA, 92128}}\tabularnewline
   \cline{1-2} \cline{5-9}
@@ -973,15 +966,12 @@
   \end{flushleft}
   \vfill
   {\sffamily\begin{flushleft}%
-  Space Micro, Inc.\\
-  15378 Avenue of Science, Suite 200\\
-  San Diego, CA 92128\\
-  Tel: (858) 332 0700\\
+  ADDRESS HERE
   \end{flushleft}}
   %\vfill
   {\tiny\begin{center}
   %% Put trademark claims, etc., here
-  \textbf{Export Restrictions}: The information contained herein is controlled by the U.S. Department of Commerce's Export Administration Regulations (EAR) and classified under ECCN 9E515 (Technical Data). This information may not be exported to a foreign country, disclosed to a foreign person in the United States or placed in the public domain without authorization from the U.S. Department of Commerce's Bureau of Industry and Security (BIS) and Space Micro Inc. The information contained in this document has been exported under the Bureau of Industry and Security (BIS) exception STA. This export does not exceed the indicated exception's scope.\\\textbf{Space Micro Proprietary}: The information contained herein is proprietary to Space Micro, Inc. (SMI) and is disclosed to select parties. No reproduction or distribution of this information shall be permitted outside of the recipient's program team without the prior written authorization from Space Micro, Inc.
+  \textbf{Export Restrictions}: TBD
   %%SBIR Data Rights.
   \end{center}}
   \null
@@ -1028,7 +1018,7 @@
             {}%
             {}%
             {SVN \SVNRevision}%
-            {\tiny\textbf{Export Restrictions}: The information contained herein is controlled by the U.S. Department of Commerce's Export Administration Regulations (EAR) \\ and classified under ECCN 9E515 (Technical Data). \\This information may not be exported to a foreign country, disclosed to a foreign person in the United States or placed in the public domain without authorization from the U.S. Department of Commerce's Bureau of Industry and Security (BIS) and Space Micro Inc. The information contained in this document has been exported under the Bureau of Industry and Security (BIS) exception STA. This export does not exceed the indicated exception's scope.\\\textbf{Space Micro Proprietary}: The information contained herein is proprietary to Space Micro, Inc. (SMI) and is disclosed to select parties. No reproduction or distribution of this information shall be permitted outside of the recipient's program team without the prior written authorization from Space Micro, Inc.}%
+            {\tiny\textbf{Export Restrictions}: TBD}%
             {Page \thepage\ of  \hypersetup{linkcolor=black}\pageref{LastPage}}%
 \else
   \setheader{}{}{}
@@ -1039,8 +1029,7 @@
             {}%
             {}%
             {SVN \SVNRevision}%
-            % {Space Micro, Inc. Proprietary Information \\ Export controlled Information. Unauthorized Distribution Prohibited.}%
-            {\tiny\textbf{Export Restrictions}: The information contained herein is controlled by the U.S. Department of Commerce's Export Administration Regulations (EAR) \\ and classified under ECCN 9E515 (Technical Data). \\This information may not be exported to a foreign country, disclosed to a foreign person in the United States or placed in the public domain without authorization from the U.S. Department of Commerce's Bureau of Industry and Security (BIS) and Space Micro Inc. The information contained in this document has been exported under the Bureau of Industry and Security (BIS) exception STA. This export does not exceed the indicated exception's scope.\\\textbf{Space Micro Proprietary}: The information contained herein is proprietary to Space Micro, Inc. (SMI) and is disclosed to select parties. No reproduction or distribution of this information shall be permitted outside of the recipient's program team without the prior written authorization from Space Micro, Inc.}%
+            {\tiny\textbf{Export Restrictions}: TBD}%
             {Page \thepage\ of  \hypersetup{linkcolor=black}\pageref{LastPage}}%
 \fi
 
