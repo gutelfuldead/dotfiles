@@ -113,14 +113,14 @@ call plug#end()
 " set comment string for conf files
     autocmd FileType conf setlocal commentstring=#\ %s
 
-" set comment string for conf files
-    autocmd FileType defconfig setlocal commentstring=#\ %s
-
 " set comment string for xdc files
     autocmd FileType xdc setlocal commentstring=#\ %s
 
 " Interpret _defconfig,config files as conf
     autocmd BufNewFile,BufRead *_defconfig,*.defconfig,*.config set syntax=conf
+
+" set comment string for conf files
+    autocmd FileType defconfig setlocal commentstring=#\ %s
 
 " Interpret ITS files as device tree
     autocmd BufNewFile,BufRead *.its set syntax=dts
@@ -150,7 +150,6 @@ call plug#end()
 
 " Always make TODO highlight as an error (red)
     match Error "TODO"
-
 
 " Spell-check (underline misspelled words in md,rst files)
     hi clear SpellBad

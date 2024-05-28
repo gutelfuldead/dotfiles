@@ -156,6 +156,19 @@ publicip ()
     echo "-----------------------------------------"
 }
 
+# shortcut to create patches
+createpatch ()
+{
+    clean=$1
+    dirty=$2
+    out=$3
+    if [ "$#" -ne 3 ]; then
+        echo "Usage : createpatch clean-file dirty-file output-file"
+    else
+        diff -iurNb $clean $dirty > $out
+    fi
+}
+
 # dirsize - finds directory sizes and lists them for the current directory
 dirsize ()
 {
