@@ -4,11 +4,9 @@ aurinit=0
 gitRepoPath=$here/gitPkgs
 appsFile=$here/apps.csv
 logfile=$here/install.log
-installPip=0
 debian=0
 centos=0
 arch=0
-pipInit=0
 installApps=0
 installAUR=0
 gitinstall=0
@@ -228,29 +226,12 @@ installAppList()
                         paru $installArgs $app
                     fi
                     ;;
-                P ) # python pip
-                    if [ $installPip -eq 1 ]; then
-                        if [ $pipInit -eq 0 ]; then
-                            tmp=$(which pip > /dev/null 2>&1)
-                            if [ $? -ne 0 ]; then
-                                sudo $tool $installArgs python-pip | tee -a $logfile
-                            fi
-                            echon "Updating PIP"
-                            python3 -m pip install --upgrade pip | tee -a $logfile
-                            pipInit=1
-                        fi
-                        pip install -U $app | tee -a $logfile
-                    fi
-                    ;;
                 GP ) # append group list, dont add now wait for everything to be installed, just aggregate
                     groups[${#groups[@]}]=$app
                     ;;
                 G ) # TODO git repo
                     if [ $gitinstall -eq 1 ]; then
                         gitInstall $app $gitRepo
-                    fi
-                    if [ $wgetinstall -eq 1 ]; then
-                        echo "todo"
                     fi
                     ;;
                 * )
@@ -403,34 +384,10 @@ esac
 read -r -p "Install GIT based Applications (tag G from $appsFile) ? [y/n] : " response
 case "$response" in
     [yY][eE][sS]|[yY])
-        read -r -p "Source build files from Git [g] or Wget [w] [g/w] : " response
-        case "$response" in
-            [gG])
-                gitinstall=1
-                ;;
-            [wW])
-                wgetinstall=1
-                ;;
-            *)
-                echo "Invalid response $response not installing these applications"
-                ;;
-        esac
+        gitinstall=1
         ;;
     *)
         echon "NOT installing git applications ..."
-        ;;
-esac
-
-################################################################################
-# Install python packages
-################################################################################
-read -r -p "Install python 3 PIP packages (tag P from $appsFile) ? [y/n] : " response
-case "$response" in
-    [yY][eE][sS]|[yY])
-        installPip=1
-        ;;
-    *)
-        echon "NOT Installing PIP packages"
         ;;
 esac
 
