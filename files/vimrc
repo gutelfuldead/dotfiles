@@ -3,6 +3,7 @@
 "    https://cscope.sourceforge.net/cscope_vim_tutorial.html
 "
 " At top of directory build cscope database with 'cscope -Rb'
+" Then open vim and run :set csre to allow for autochdir to work
 " Three lead control options ...
 "  <ctrl-\> command ... will run command in the same window
 "  <ctrl-space> command ... will run command in a split horizontal window
@@ -49,7 +50,7 @@ call plug#end()
     set wildmode=longest,list,full
     set wildmenu
     let g:netrw_banner=0
-    " set tags=cscope.out
+    set tags=cscope.out
 
 
 " Insert Doxygen style commenting when cursor is on funciton name
