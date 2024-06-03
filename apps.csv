@@ -1,6 +1,9 @@
 AppType,Application,Managed Dotfile,Description,Repository,Wget
 =======,install for all distros,===============,===========,==========,====
 A,cscope,N,code navigator,,
+A,docker.io,N,docker,,
+A,docker-compose.io,N,docker,,
+A,docker-buildx.io,N,docker,,
 A,gparted,N,partition editor,,
 A,p7zip,N,7za extractions,,
 A,figlet,create ascii text banners in terminal,,
