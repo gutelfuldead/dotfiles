@@ -80,6 +80,7 @@ alias asciibanner="figlet"
 alias ls='ls -hN --color=auto --group-directories-first'
 alias l='ls -hN --color=auto --group-directories-first'
 alias ll='ls -lahN --color=auto --group-directories-first'
+alias minicom='minicom -c on'
 
 # arch aliases
 alias pac='sudo pacman -Sy --noconfirm archlinux-keyring && sudo pacman -Sy --noconfirm --needed'
