@@ -46,6 +46,7 @@ call plug#end()
     set shiftwidth=4
     set tabstop=4
     set autochdir
+    set csre
     set autoindent
     set wildmode=longest,list,full
     set wildmenu
@@ -185,10 +186,10 @@ call plug#end()
     endif
 
 " Automatically retab on save
-    autocmd BufWritePre * retab
+    " autocmd BufWritePre * retab
 
 " Automatically deletes all trailing whitespace on save
-    autocmd BufWritePre * %s/\s\+$//e
+    " autocmd BufWritePre * %s/\s\+$//e
 
 " Automatically run clang-format when using gg=G
     " autocmd FileType c,cpp setlocal equalprg=clang-format
