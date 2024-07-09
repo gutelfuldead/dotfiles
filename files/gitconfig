@@ -72,6 +72,6 @@
 
 [user]
     name = Jason Gutel
-    email = jason.gutel@gmail.com
+	email = jason.gutel@vastspace.com
 [http]
     sslverify = false

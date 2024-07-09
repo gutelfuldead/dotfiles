@@ -1,0 +1,14 @@
+{
+    "cmake.pinnedCommands": [
+        "workbench.action.tasks.configureTaskRunner",
+        "workbench.action.tasks.runTask"
+    ],
+    "cmake.configureOnOpen": true
+
+    "vim.insertModeKeyBindings": [
+        {
+            "before": ["j","k"],
+            "after": ["<esc>"]
+        }
+    ]
+}

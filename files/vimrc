@@ -36,6 +36,7 @@ call plug#end()
     syntax on
     set encoding=utf-8
     set number
+    set viminfofile=NONE
     set hlsearch
     set incsearch
     set ignorecase " case insensitivity when searching

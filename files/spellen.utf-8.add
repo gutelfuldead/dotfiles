@@ -34,3 +34,5 @@ buildroot
 Nanocom
 Makefile
 repo
+repos
+schemas
