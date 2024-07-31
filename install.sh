@@ -305,6 +305,11 @@ install_cinnamon()
     sudo $tool $installArgs cinnamon
 }
 
+install_oh_my_zsh()
+{
+    sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+}
+
 ################################################################################
 # start main
 ################################################################################
@@ -534,6 +539,19 @@ if [ $arch -eq 1 ]; then
         echon "GNOME Display Manager Enabled, reboot to load into GNOME/Cinnamon"
     fi
 fi
+
+
+################################################################################
+# Install oh my zsh
+################################################################################
+read -r -p "Install oh my zsh? [y/n] : " response
+case "$response" in
+    [yY][eE][sS]|[yY])
+        install_oh_my_zsh
+        ;;
+    *)
+        ;;
+esac
 
 ################################################################################
 # clean up
