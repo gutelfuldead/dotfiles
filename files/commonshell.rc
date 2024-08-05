@@ -161,7 +161,9 @@ dirsize ()
 }
 
 # autocomplete make commands
-complete -W "\`grep -oE '^[a-zA-Z0-9_.-]+\s*:([^=]|$)' ?akefile | sed 's/[^a-zA-Z0-9_.-]*$//'\`" make
+# complete -W "\`grep -oE '^[a-zA-Z0-9_.-]+\s*:([^=]|$)' ?akefile | sed 's/[^a-zA-Z0-9_.-]*$//'\`" make
+complete -W "$(grep -oE '^[a-zA-Z0-9_.-]+\s*:([^=]|$)' ?akefile | sed 's/[^a-zA-Z0-9_.-]*$//')" make
+
 
 # source files
 # [[ -r /usr/local/etc/profile.d/bash_completion.sh ]] && . /usr/local/etc/profile.d/bash_completion.sh
@@ -170,7 +172,6 @@ complete -W "\`grep -oE '^[a-zA-Z0-9_.-]+\s*:([^=]|$)' ?akefile | sed 's/[^a-zA-
 [ -f ~/.bash_aliases ] && source ~/.bash_aliases
 [ -f ~/.bash_vivado ] && source ~/.bash_vivado
 [ -f ~/.bash_svn ] && source ~/.bash_svn
-[ -f ~/.config/watson/watson.completion.txt ] && source ~/.config/watson/watson.completion.txt
 
 if [ -d $HOME/.rbenv ]; then
     export PATH="$HOME/.rbenv/bin:$PATH"
