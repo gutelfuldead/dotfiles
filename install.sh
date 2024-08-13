@@ -308,6 +308,7 @@ install_cinnamon()
 install_oh_my_zsh()
 {
     sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+    git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 }
 
 ################################################################################
@@ -420,6 +421,18 @@ install_cinnamon
 if [ $centos -eq 1 ]; then
     installCentosI3
 fi
+
+################################################################################
+# Install oh my zsh
+################################################################################
+read -r -p "Install oh my zsh? [y/n] : " response
+case "$response" in
+    [yY][eE][sS]|[yY])
+        install_oh_my_zsh
+        ;;
+    *)
+        ;;
+esac
 
 ################################################################################
 # update dotfiles if RCM was installed
@@ -540,18 +553,6 @@ if [ $arch -eq 1 ]; then
     fi
 fi
 
-
-################################################################################
-# Install oh my zsh
-################################################################################
-read -r -p "Install oh my zsh? [y/n] : " response
-case "$response" in
-    [yY][eE][sS]|[yY])
-        install_oh_my_zsh
-        ;;
-    *)
-        ;;
-esac
 
 ################################################################################
 # clean up
