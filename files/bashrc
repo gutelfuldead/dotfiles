@@ -31,4 +31,6 @@ PROMPT_COMMAND='history -a'
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
 
+# autocomplete make commands
+complete -W "$(grep -oE '^[a-zA-Z0-9_.-]+\s*:([^=]|$)' ?akefile | sed 's/[^a-zA-Z0-9_.-]*$//')" make
 source ~/.commonshell.rc

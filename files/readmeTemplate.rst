@@ -8,10 +8,6 @@ xxx
 .. contents:: Table of Contents
 .. section-numbering::
 
-.. raw:: pdf
-
-        PageBreak
-
 Description
 ===========
 

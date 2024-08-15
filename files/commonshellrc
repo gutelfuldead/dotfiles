@@ -160,23 +160,10 @@ dirsize ()
     echo "Total number of recursive files : $nfiles ($s)"
 }
 
-# autocomplete make commands
-# complete -W "\`grep -oE '^[a-zA-Z0-9_.-]+\s*:([^=]|$)' ?akefile | sed 's/[^a-zA-Z0-9_.-]*$//'\`" make
-complete -W "$(grep -oE '^[a-zA-Z0-9_.-]+\s*:([^=]|$)' ?akefile | sed 's/[^a-zA-Z0-9_.-]*$//')" make
-
-
-# source files
-# [[ -r /usr/local/etc/profile.d/bash_completion.sh ]] && . /usr/local/etc/profile.d/bash_completion.sh
-# [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 # all system indepedent aliases, path modifications, etc should be in ~/.bash_aliases
 [ -f ~/.bash_aliases ] && source ~/.bash_aliases
 [ -f ~/.bash_vivado ] && source ~/.bash_vivado
 [ -f ~/.bash_svn ] && source ~/.bash_svn
-
-if [ -d $HOME/.rbenv ]; then
-    export PATH="$HOME/.rbenv/bin:$PATH"
-    eval "$(rbenv init -)"
-fi
 
 # remove duplicate entries in path
 if [ -n "$PATH" ]; then
