@@ -1,7 +1,8 @@
-"""""""""""""""""""""""""""" Vim Cscope quick guide """""""""""""""""""""""""""
+"""" Vim Cscope quick guide 
 " Integrated Cscope tutorial see,
 "    https://cscope.sourceforge.net/cscope_vim_tutorial.html
 "
+"""" C-Scope Commands 
 " At top of directory build cscope database with 'cscope -Rb'
 " Then open vim and run :set csre to allow for autochdir to work
 " Three lead control options ...
@@ -13,6 +14,20 @@
 "  g : find global definitions(s) of symbol
 "  c : find all calls to a function
 "  f : opens the filename
+"
+"""" Table Mode 
+" table creator <leader>tm to toggle mode on and off 
+" Create New Table by starting with | 
+" use || to create the table header boundary (underneath column titles)
+" use || to complete a table above the header boundary (when complete with the
+"        table)
+" use <leader>tic to insert a new column
+" use <leader>tdc to delete a column
+" navigate cells 
+"    [| move left
+"    |] move right
+"    {| move up
+"    |} move down
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let mapleader ="-"
 
@@ -27,7 +42,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'vhda/verilog_systemverilog.vim' " system verilog
     Plug 'gutelfuldead/vim-tex-fold'      " fork from matze/vim-tex-fold add chapter, sub&subsub section support
     Plug 'xuhdev/vim-latex-live-preview'  " requires Okular and/or pdflatex, <leader>llp to open pdf preview
-    Plug 'dhruvasagar/vim-table-mode'     " table creator <leader>tm to toggle and use | to create
+    Plug 'dhruvasagar/vim-table-mode'     " allows for automatic table creation in rst/md
 call plug#end()
 
 " Some basics:
@@ -106,6 +121,10 @@ call plug#end()
 
 " Press <leader>r to resource ~/.vimrc
     noremap <leader>r :source ~/.vimrc<cr>
+
+" Get RST style tables
+    let g:table_mode_corner_corner='+'
+    let g:table_mode_header_fillchar='='
 
 " set comment string for idd files to work with vim-commentary
     autocmd FileType idd setlocal commentstring=#\ %s
