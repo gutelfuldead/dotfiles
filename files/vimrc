@@ -69,6 +69,12 @@ call plug#end()
     let g:netrw_banner=0
     set tags=cscope.out
 
+" Remove all whitespace from end of a line
+    fun! TrimWhitespace()
+        let l:save = winsaveview()
+        keeppatterns %s/\s\+$//e
+        call winrestview(l:save)
+    endfun
 
 " Insert Doxygen style commenting when cursor is on funciton name
     map <leader>t :Dox<CR><ESC>
@@ -77,8 +83,10 @@ call plug#end()
     noremap <F2> :set invrelativenumber<CR>
 " F3 toggle to paste mode (assumes relativenumber IS set, use F2 to get there)
     nnoremap <F3> :set invnumber<CR>:set invrelativenumber<CR>:set invpaste<CR>
+" F4 toggle auto change directory, useful to disable for cscope
     noremap <F4> :set invautochdir<CR>
-    noremap <F5> :windo set scrollbind!<CR>
+" F5 to trim all white space in a file
+    noremap <F5> :call TrimWhitespace()<CR>
 
 " place swap files and others in a common directory
     set backupdir=~/.vim/backup//
