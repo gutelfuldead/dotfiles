@@ -72,3 +72,6 @@ checksums
 workspace
 SSDs
 PCIe
+Expander
+UART
+Artifactory
