@@ -75,3 +75,8 @@ PCIe
 Expander
 UART
 Artifactory
+wakeup
+EEPROM
+DDR
+expanders
+repeatability
