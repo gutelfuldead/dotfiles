@@ -80,3 +80,11 @@ EEPROM
 DDR
 expanders
 repeatability
+ng
+uptime
+filename
+subdirectories
+NFS
+uncorrectable
+directionality
+jitter

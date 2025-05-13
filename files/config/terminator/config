@@ -7,11 +7,12 @@
   page_down_half = <Primary><Shift>j
   line_up = <Primary>k
   line_down = <Primary>j
-  preferences_keybindings = ""
   help = <Primary>F1
 [profiles]
   [[default]]
-    background_darkness = 0.63
+    background_darkness = 0.87
+    background_type = transparent
+    cursor_color = "#aaaaaa"
     show_titlebar = False
     scrollback_lines = 10000
     exit_action = hold

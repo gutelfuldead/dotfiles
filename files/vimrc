@@ -35,6 +35,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'tpope/vim-commentary'           " press gcc to auto comment a line
     Plug 'tpope/vim-repeat'               " makes . work better with plugins
     Plug 'tpope/vim-surround'             " surrounds text in (), [], quotes, etc.
+    Plug 'tpope/vim-fugitive'             " git wrapper
     Plug 'vim-airline/vim-airline'        " status bar
     Plug 'kshenoy/vim-signature'          " show mark ids left of line number
     Plug 'morhetz/gruvbox'                " colorscheme
@@ -43,6 +44,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'gutelfuldead/vim-tex-fold'      " fork from matze/vim-tex-fold add chapter, sub&subsub section support
     Plug 'xuhdev/vim-latex-live-preview'  " requires Okular and/or pdflatex, <leader>llp to open pdf preview
     Plug 'dhruvasagar/vim-table-mode'     " allows for automatic table creation in rst/md
+    Plug 'mbbill/undotree'                " Creates tree for undo bound to F6
 call plug#end()
 
 " Some basics:
@@ -87,6 +89,8 @@ call plug#end()
     noremap <F4> :set invautochdir<CR>
 " F5 to trim all white space in a file
     noremap <F5> :call TrimWhitespace()<CR>
+" F6 toggle UndoTree
+    nnoremap <F6> :UndotreeToggle<CR>
 
 " place swap files and others in a common directory
     set backupdir=~/.vim/backup//
@@ -134,8 +138,8 @@ call plug#end()
     let g:table_mode_corner_corner='+'
     let g:table_mode_header_fillchar='='
 
-" set comment string for idd files to work with vim-commentary
-    autocmd FileType idd setlocal commentstring=#\ %s
+" set service file syntac
+    autocmd BufNewFile,BufRead *.service set ft=systemd
 
 " set comment string for vhdl files to work with vim-commentary
     autocmd FileType vhdl setlocal commentstring=--\ %s
@@ -259,3 +263,17 @@ call plug#end()
       wincmd R
     endfunction
     com! GitDiff call s:DiffWithGITCheckedOut()
+
+" Add directory for persistent undo files
+    if has("persistent_undo")
+       let target_path = expand('~/.vim/undodir')
+
+        " create the directory and any parent directories
+        " if the location does not exist.
+        if !isdirectory(target_path)
+            call mkdir(target_path, "p", 0700)
+        endif
+
+        let &undodir=target_path
+        set undofile
+    endif
