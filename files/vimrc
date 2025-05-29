@@ -59,7 +59,7 @@ call plug#end()
     set ignorecase " case insensitivity when searching
     set smartcase  " re enables case sensitivity when pattern has upper case
     set cursorline
-    set relativenumber
+    " set relativenumber
     set expandtab
     set shiftwidth=4
     set tabstop=4
@@ -78,8 +78,8 @@ call plug#end()
         call winrestview(l:save)
     endfun
 
-" Insert Doxygen style commenting when cursor is on funciton name
-    map <leader>t :Dox<CR><ESC>
+" Use <leader>t for C/C++ files to run :Dox
+    autocmd FileType c,cpp nnoremap <buffer> <leader>t :Dox<CR>
 
 " Fx Key Bindings
     noremap <F2> :set invrelativenumber<CR>
@@ -91,6 +91,8 @@ call plug#end()
     noremap <F5> :call TrimWhitespace()<CR>
 " F6 toggle UndoTree
     nnoremap <F6> :UndotreeToggle<CR>
+" F7 retab
+    autocmd BufWritePre * retab
 
 " place swap files and others in a common directory
     set backupdir=~/.vim/backup//
