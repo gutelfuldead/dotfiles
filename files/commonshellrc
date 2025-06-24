@@ -64,6 +64,9 @@ alias pac='sudo pacman -Sy --noconfirm archlinux-keyring && sudo pacman -Sy --no
 alias pacup='sudo pacman -Sy --noconfirm archlinux-keyring && sudo pacman -Syu --noconfirm --needed && sudo pacman -Sc --noconfirm'
 alias aur='makepkg -si --skippgpcheck --noconfirm --needed'
 
+# git aliases
+alias githead='git checkout --ours $1' # auto-accept the head changes during a rebase
+
 # create quick rst readmes from template
 readme ()
 {

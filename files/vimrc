@@ -65,11 +65,16 @@ call plug#end()
     set tabstop=4
     set autochdir
     set csre
-    set autoindent
+    " set autoindent
     set wildmode=longest,list,full
     set wildmenu
     let g:netrw_banner=0
     set tags=cscope.out
+
+" Linux settings
+    fun! SetLinuxKernelIndentStyle()
+        setlocal noexpandtab shiftwidth=8 tabstop=8 softtabstop=8
+    endfun
 
 " Remove all whitespace from end of a line
     fun! TrimWhitespace()
@@ -81,10 +86,10 @@ call plug#end()
 " Use <leader>t for C/C++ files to run :Dox
     autocmd FileType c,cpp nnoremap <buffer> <leader>t :Dox<CR>
 
-" Fx Key Bindings
-    noremap <F2> :set invrelativenumber<CR>
+" F2 toggle linenumbers
+    noremap <F2> :set invnumber<CR>
 " F3 toggle to paste mode (assumes relativenumber IS set, use F2 to get there)
-    nnoremap <F3> :set invnumber<CR>:set invrelativenumber<CR>:set invpaste<CR>
+    nnoremap <F3> :set invpaste<CR>
 " F4 toggle auto change directory, useful to disable for cscope
     noremap <F4> :set invautochdir<CR>
 " F5 to trim all white space in a file
@@ -92,7 +97,7 @@ call plug#end()
 " F6 toggle UndoTree
     nnoremap <F6> :UndotreeToggle<CR>
 " F7 retab
-    autocmd BufWritePre * retab
+    noremap <F7> :retab<CR>
 
 " place swap files and others in a common directory
     set backupdir=~/.vim/backup//
