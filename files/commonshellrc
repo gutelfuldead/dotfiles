@@ -52,6 +52,7 @@ alias lynx='lynx -cfg=~/.config/lynx/lynx.cfg'
 alias grepy='grep -r --color=auto --line-number'
 alias asciibanner="figlet"
 alias python='python3'
+alias python-black='python -m black'
 
 # Adding color
 alias ls='ls -hN --color=auto --group-directories-first'
