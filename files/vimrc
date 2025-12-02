@@ -135,6 +135,10 @@ call plug#end()
     map <leader>tn :tabnext<cr>
     map <leader>tx :tabclose<cr>
 
+" Run Black on the current file
+    command! Black execute '!python3 -m black %' | edit!
+    autocmd BufWritePre *.py execute 'Black'
+
 " Press <leader>Enter to remove search highlights
     noremap <silent> <leader><cr> :noh<cr>
 
