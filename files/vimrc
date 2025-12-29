@@ -45,6 +45,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'xuhdev/vim-latex-live-preview'  " requires Okular and/or pdflatex, <leader>llp to open pdf preview
     Plug 'dhruvasagar/vim-table-mode'     " allows for automatic table creation in rst/md
     Plug 'mbbill/undotree'                " Creates tree for undo bound to F6
+    Plug 'vivien/vim-linux-coding-style'  " Format to linux kernel style with :LinuxCodingStyle
 call plug#end()
 
 " Some basics:
@@ -136,8 +137,8 @@ call plug#end()
     map <leader>tx :tabclose<cr>
 
 " Run Black on the current file
-    command! Black execute '!python3 -m black %' | edit!
-    autocmd BufWritePre *.py execute 'Black'
+" Install on PC with `pip install black`
+    command! Black write | execute '!python3 -m black %' | edit!
 
 " Press <leader>Enter to remove search highlights
     noremap <silent> <leader><cr> :noh<cr>
