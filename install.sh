@@ -193,7 +193,7 @@ detect_distro() {
         DISTRO="debian"
         DEBIAN=1
         TOOL="apt-get"
-        INSTALL_ARGS=(install -y)
+        INSTALL_ARGS=(install -y --ignore-missing)
     elif command_exists yum; then
         DISTRO="centos"
         CENTOS=1
