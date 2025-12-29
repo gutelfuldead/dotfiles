@@ -1,6 +1,0 @@
---ignore-errors
--o ~/ytd/%(playlist)s-%(title)s.%(ext)s
--f 'bestvideo[ext=mp4]+bestaudio[ext=mp4]/best[ext=mp4]/best'
---restrict-filenames
---no-overwrites
---continue
