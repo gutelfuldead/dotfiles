@@ -1,11 +1,11 @@
 #!/bin/bash
 here=$(pwd)
 aurinit=0
+autoyes=0
 gitRepoPath=$here/gitPkgs
 appsFile=$here/apps.csv
 logfile=$here/install.log
 debian=0
-centos=0
 arch=0
 installApps=0
 installAUR=0
@@ -17,6 +17,43 @@ distro=""
 tool=""
 installArgs=""
 groups=()
+
+# parse command line arguments
+for arg in "$@"; do
+    case "$arg" in
+        -y|--yes)
+            autoyes=1
+            ;;
+        -h|--help)
+            echo "Usage: $0 [--yes|-y]"
+            echo "  --yes, -y    Auto-answer yes to all prompts (unattended mode)"
+            exit 0
+            ;;
+        *)
+            echo "Unknown argument: $arg"
+            echo "Usage: $0 [--yes|-y]"
+            exit 1
+            ;;
+    esac
+done
+
+# confirm prompt helper: returns 0 (yes) or 1 (no)
+# in --yes mode, always returns 0 without prompting
+confirm()
+{
+    if [ "$autoyes" -eq 1 ]; then
+        return 0
+    fi
+    read -r -p "$1 [y/n] : " response
+    case "$response" in
+        [yY][eE][sS]|[yY])
+            return 0
+            ;;
+        *)
+            return 1
+            ;;
+    esac
+}
 
 echon ()
 {
@@ -58,97 +95,12 @@ installRcm ()
         rm -rf ~/.rcm/rcm-${ver}
         rm -f rcm-${ver}.tar.gz
     fi
-    cd ~/.rcm
-    ./configure
-    make
-    sudo make install
-    cd "$here"
-}
-
-# manually install i3 on CentOS 7.1 which has deprecated packages in yum
-installCentosI3 ()
-{
-    read -r -p "Install i3? [y/n] : " response
-    case "$response" in
-        [yY][eE][sS]|[yY])
-            echon "Installing i3 Desktop"
-            ;;
-        *)
-            echon "NOT Installing i3 Desktop"
-            return 0
-            ;;
-    esac
-
-    if [ ! -d "$gitRepoPath" ]; then
-        mkdir -pv "$gitRepoPath"
-    fi
-
-    # pre-reqs for i3-gaps and i3status
-    sudo yum install -y -q "xcb-util*-devel" \
-            "xorg-x11-font*" \
-            autoconf \
-            automake \
-            gcc \
-            git \
-            libev-devel \
-            libX11-devel \
-            libxcb-devel \
-            libXinerama-devel \
-            libxkbcommon-devel \
-            libxkbcommon-x11-devel \
-            libXrandr-devel \
-            libconfuse-devel \
-            pulseaudio-libs-devel \
-            libnl-devel \
-            libnl3-devel \
-            alsa-lib-devel \
-            make \
-            pango-devel \
-            pcre-devel \
-            startup-notification-devel \
-            wget \
-            xcb-util-cursor-devel \
-            xcb-util-devel \
-            xcb-util-keysyms-devel \
-            xcb-util-wm-devel \
-            xcb-util-xrm-devel \
-            xorg-x11-util-macros \
-            i3 \
-            i3lock \
-            i3status \
-            yajl-devel \
-            xterm
-
-    git clone --recursive https://github.com/Airblader/xcb-util-xrm "$gitRepoPath/xcb-util-xrm"
-    cd "$gitRepoPath/xcb-util-xrm"
-    git submodule update --init
-    ./autogen.sh --prefix=/usr --libdir=/usr/lib64
-    make
-    sudo make install
-
-    git clone https://www.github.com/Airblader/i3 "$gitRepoPath/i3-gaps"
-    cd "$gitRepoPath/i3-gaps"
-    mkdir -p build && cd build
-    meson ..
-    ninja
-    sudo make install
-
-    git clone https://github.com/i3/i3status.git "$gitRepoPath/i3status"
-    cd "$gitRepoPath/i3status"
-    autoreconf -fi
-    mkdir -p build && cd build
-    ../configure --disable-sanitizers
-    make -j$(nproc)
-    sudo make install
-
-    git clone https://github.com/vivien/i3blocks "$gitRepoPath/i3blocks"
-    cd "$gitRepoPath/i3blocks"
-    ./autogen.sh
-    ./configure
-    make
-    make install
-
-    cd "$here"
+    (
+        cd ~/.rcm || return 1
+        ./configure
+        make
+        sudo make install
+    )
 }
 
 gitInstall()
@@ -157,17 +109,18 @@ gitInstall()
     repo=$2
     if ! command -v "$app" &>/dev/null && [ ! -d ~/."$app" ]; then
         git clone --depth 1 "$repo" ~/."$app" | tee -a "$logfile"
-        cd ~/."$app"
-        if [ -f configure ]; then
-            ./configure | tee -a "$logfile"
-        fi
-        if [ -f install ]; then
-            ./install | tee -a "$logfile"
-        elif [ -f makefile ] || [ -f Makefile ]; then
-            make | tee -a "$logfile"
-            sudo make install | tee -a "$logfile"
-        fi
-        cd "$here"
+        (
+            cd ~/."$app" || return 1
+            if [ -f configure ]; then
+                ./configure | tee -a "$logfile"
+            fi
+            if [ -f install ]; then
+                ./install | tee -a "$logfile"
+            elif [ -f makefile ] || [ -f Makefile ]; then
+                make | tee -a "$logfile"
+                sudo make install | tee -a "$logfile"
+            fi
+        )
     else
         echo "$app already installed, skipping"
     fi
@@ -184,16 +137,6 @@ installAppList()
                     if [ "$installApps" -eq 1 ]; then
                         echo "sudo $tool $installArgs $app"
                         sudo $tool $installArgs "$app" | tee -a "$logfile"
-                    fi
-                    ;;
-                C ) # install all centos apps
-                    if [ "$installApps" -eq 1 ] && [ "$centos" -eq 1 ]; then
-                        sudo $tool $installArgs "$app" | tee -a "$logfile"
-                    fi
-                    ;;
-                RC) # uninstall centos app
-                    if [ "$installApps" -eq 1 ] && [ "$centos" -eq 1 ]; then
-                        sudo $tool $uninstallArgs "$app" | tee -a "$logfile"
                     fi
                     ;;
                 U ) # install all ubuntu/debian apps
@@ -216,9 +159,10 @@ installAppList()
                                     mkdir -pv "$gitRepoPath"
                                 fi
                                 git clone https://aur.archlinux.org/paru.git "$gitRepoPath/paru"
-                                cd "$gitRepoPath/paru"
-                                makepkg -si --skippgpcheck --needed --noconfirm --noprogressbar | tee -a "$logfile"
-                                cd "$here"
+                                (
+                                    cd "$gitRepoPath/paru" || exit 1
+                                    makepkg -si --skippgpcheck --needed --noconfirm --noprogressbar | tee -a "$logfile"
+                                )
                             fi
                             aurinit=1
                         fi
@@ -251,29 +195,26 @@ backup ()
     backupdir=$here/backup
     overwrite=0
     if [ -d "$backupdir" ]; then
-        read -r -p "Overwrite current contents of $backupdir ? [y/n] : " response
-        case "$response" in
-            [yY][eE][sS]|[yY])
-                echon "OVERWRITING CURRENT CONTENTS OF $backupdir"
-                overwrite=1
-                ;;
-            *)
-                return
-                ;;
-        esac
+        if confirm "Overwrite current contents of $backupdir ?"; then
+            echon "OVERWRITING CURRENT CONTENTS OF $backupdir"
+            overwrite=1
+        else
+            return
+        fi
     fi
     echon "Backing up current existing dot files to $backupdir ..."
-    cd files
-    all=$(find . -maxdepth 100 -type f -not -path '/*\.*' | sort)
     if [ ! -d "$here/backup" ]; then
         mkdir "$here/backup"
     fi
-    if [ "$overwrite" -eq 1 ]; then
-        for i in $all; do
-            cp --verbose --parents "$i" "$here/backup" | tee -a "$logfile"
-        done
-    fi
-    cd "$here"
+    (
+        cd "$here/files" || return 1
+        all=$(find . -maxdepth 100 -type f -not -path '/*\.*' | sort)
+        if [ "$overwrite" -eq 1 ]; then
+            for i in $all; do
+                cp --verbose --parents "$i" "$here/backup" | tee -a "$logfile"
+            done
+        fi
+    )
 }
 
 addGroup()
@@ -291,20 +232,11 @@ addGroup()
 
 install_cinnamon()
 {
-    read -r -p "Install Cinnamon Desktop? [y/n] : " response
-    case "$response" in
-        [yY][eE][sS]|[yY])
-            echon "Installing Cinnamon Desktop"
-            ;;
-        *)
-            echon "NOT Installing Cinnamon Desktop"
-            return 0
-            ;;
-    esac
-
-    if [ "$centos" -eq 1 ]; then
-        sudo "$tool" groupinstall "Server with GUI" -y
+    if ! confirm "Install Cinnamon Desktop?"; then
+        echon "NOT Installing Cinnamon Desktop"
+        return 0
     fi
+    echon "Installing Cinnamon Desktop"
     sudo $tool $installArgs cinnamon
 }
 
@@ -325,29 +257,19 @@ echon "$0 ran @ $(date)..."
 ################################################################################
 # get linux distro
 ################################################################################
-if command -v apt-get &>/dev/null; then
+if command -v pacman &>/dev/null; then
+    distro="arch"
+    arch=1
+    tool="pacman"
+    installArgs="-Sy --noconfirm --needed --noprogressbar"
+elif command -v apt-get &>/dev/null; then
     distro="debian"
     debian=1
     tool="apt-get"
     installArgs="install -y"
 fi
 
-if command -v yum &>/dev/null; then
-    distro="centos"
-    centos=1
-    tool="yum"
-    installArgs="install -y --nogpgcheck --skip-broken"
-    uninstallArgs="uninstall -y"
-fi
-
-if command -v pacman &>/dev/null; then
-    distro="arch"
-    arch=1
-    tool="pacman"
-    installArgs="-Sy --noconfirm --needed --noprogressbar"
-fi
-
-if [ "$arch" -eq 0 ] && [ "$centos" -eq 0 ] && [ "$debian" -eq 0 ]; then
+if [ "$arch" -eq 0 ] && [ "$debian" -eq 0 ]; then
     # arch is so OP it doesnt come with which
     sudo pacman -Sy which
     if [ $? -ne 0 ]; then
@@ -366,66 +288,47 @@ fi
 ################################################################################
 echon "Setup for $distro ..."
 
-read -r -p "Install packages with $tool (tag(s) A|C|U|X from $appsFile) ? [y/n] : " response
-case "$response" in
-    [yY][eE][sS]|[yY])
-        echon "installing and updating apps with $tool ..."
-        installApps=1
-        if [ "$centos" -eq 1 ]; then
-            sudo "$tool" update --skip-broken -y | tee -a "$logfile"
-            sudo "$tool" upgrade --skip-broken -y | tee -a "$logfile"
-        elif [ "$debian" -eq 1 ]; then
-            sudo "$tool" update -y | tee -a "$logfile"
-            sudo "$tool" upgrade -y | tee -a "$logfile"
-        fi
-        if [ "$arch" -eq 1 ]; then
-            sudo pacman -Syu --noconfirm --needed --noprogressbar | tee -a "$logfile"
-        fi
-        ;;
-    *)
-        echon "NOT installing and updating apps with $tool ..."
-        ;;
-esac
+if confirm "Install packages with $tool (tag(s) A|U|X from $appsFile) ?"; then
+    echon "installing and updating apps with $tool ..."
+    installApps=1
+    if [ "$debian" -eq 1 ]; then
+        sudo "$tool" update | tee -a "$logfile"
+        sudo "$tool" upgrade -y | tee -a "$logfile"
+    fi
+    if [ "$arch" -eq 1 ]; then
+        sudo pacman -Syu --noconfirm --needed --noprogressbar | tee -a "$logfile"
+    fi
+else
+    echon "NOT installing and updating apps with $tool ..."
+fi
 
 ################################################################################
 # Install git apps
 ################################################################################
-read -r -p "Install GIT based Applications (tag G from $appsFile) ? [y/n] : " response
-case "$response" in
-    [yY][eE][sS]|[yY])
-        gitinstall=1
-        ;;
-    *)
-        echon "NOT installing git applications ..."
-        ;;
-esac
+if confirm "Install GIT based Applications (tag G from $appsFile) ?"; then
+    gitinstall=1
+else
+    echon "NOT installing git applications ..."
+fi
 
 ################################################################################
 # Install pip packages
 ################################################################################
-read -r -p "Install Python packages with pip (tag P from $appsFile) ? [y/n] : " response
-case "$response" in
-    [yY][eE][sS]|[yY])
-        installPip=1
-        ;;
-    *)
-        echon "NOT installing pip packages ..."
-        ;;
-esac
+if confirm "Install Python packages with pip (tag P from $appsFile) ?"; then
+    installPip=1
+else
+    echon "NOT installing pip packages ..."
+fi
 
 ################################################################################
 # install all arch AUR apps
 ################################################################################
 if [ "$arch" -eq 1 ]; then
-    read -r -p "Install AUR packages (tag AUR from $appsFile) ? [y/n] : " response
-    case "$response" in
-        [yY][eE][sS]|[yY])
-            installAUR=1
-            ;;
-        *)
-            echon "NOT Installing ARCH AUR packages"
-            ;;
-    esac
+    if confirm "Install AUR packages (tag AUR from $appsFile) ?"; then
+        installAUR=1
+    else
+        echon "NOT Installing ARCH AUR packages"
+    fi
 fi
 
 ################################################################################
@@ -434,28 +337,18 @@ fi
 echon "Installing Applications"
 installAppList
 install_cinnamon
-if [ "$centos" -eq 1 ]; then
-    installCentosI3
-fi
 
 ################################################################################
 # Install oh my zsh
 ################################################################################
-read -r -p "Install oh my zsh? [y/n] : " response
-case "$response" in
-    [yY][eE][sS]|[yY])
-        install_oh_my_zsh
-        ;;
-    *)
-        ;;
-esac
+if confirm "Install oh my zsh?"; then
+    install_oh_my_zsh
+fi
 
 ################################################################################
 # update dotfiles if RCM was installed
 ################################################################################
-read -r -p "Replace local dotfiles? (current versions will be backed up) [y/n] : " response
-case "$response" in
-[yY][eE][sS]|[yY])
+if confirm "Replace local dotfiles? (current versions will be backed up)"; then
     installDotfiles=1
     backup
     echon "updating dotfiles ..."
@@ -465,7 +358,6 @@ case "$response" in
     rcup -v -d "$here/files/rcrc" | tee -a "$logfile"
     source ~/.rcrc
     rcup -v -d "$here/files" | tee -a "$logfile"
-    source ~/.bashrc
     if [ "$arch" -eq 1 ]; then
         rcup -v -d "$here/arch-files" | tee -a "$logfile"
         sudo sed -i "s/^#VerbosePkgLists$/VerbosePkgLists/" /etc/pacman.conf
@@ -489,46 +381,35 @@ case "$response" in
         echon "Running texhash"
         texhash ~/texmf
     fi
-    ;;
-*)
+else
     echon "NOT replacing dotfiles"
-    ;;
-esac
+fi
 
 ################################################################################
 # Add user to groups
 ################################################################################
 tmp="${groups[*]}"
-read -r -p "Add $(whoami) to groups : < $tmp > [y/n] : " response
-case "$response" in
-    [yY][eE][sS]|[yY])
-        echon "Adding $(whoami) to groups..."
-        for i in "${groups[@]}"; do
-            addGroup "$i"
-        done
-        ;;
-    *)
-        echon "NOT adding $(whoami) to groups < $tmp >"
-        ;;
-esac
+if confirm "Add $(whoami) to groups : < $tmp >"; then
+    echon "Adding $(whoami) to groups..."
+    for i in "${groups[@]}"; do
+        addGroup "$i"
+    done
+else
+    echon "NOT adding $(whoami) to groups < $tmp >"
+fi
 
 ################################################################################
 # Kill the arch beeps
 ################################################################################
 if [ "$arch" -eq 1 ]; then
-    grep "blacklist pcspkr" /etc/modprobe.d/nobeep.conf > /dev/null 2>&1
-    if [ $? -ne 0 ]; then
-        read -r -p "Disable system beeps ? [y/n] : " response
-        case "$response" in
-            [yY][eE][sS]|[yY])
-                echon "Disabling system beeps"
-                lsmod | grep pcspkr && sudo rmmod pcspkr
-                sudo echo "blacklist pcspkr" | sudo tee /etc/modprobe.d/nobeep.conf
-                ;;
-            *)
-                echon "NOT Disabling system beeps"
-                ;;
-        esac
+    if ! grep -q "blacklist pcspkr" /etc/modprobe.d/nobeep.conf 2>/dev/null; then
+        if confirm "Disable system beeps ?"; then
+            echon "Disabling system beeps"
+            lsmod | grep pcspkr && sudo rmmod pcspkr
+            sudo echo "blacklist pcspkr" | sudo tee /etc/modprobe.d/nobeep.conf
+        else
+            echon "NOT Disabling system beeps"
+        fi
     fi
 fi
 
@@ -536,23 +417,15 @@ fi
 # Get rid of my name from anywhere it doesnt belong
 ################################################################################
 if [ "$installDotfiles" -eq 1 ]; then
-    read -r -p "Modify .gitconfig default name and email ? [y/n] : " response
-    case "$response" in
-        [yY][eE][sS]|[yY])
-            updateGitConfig
-            ;;
-        *)
-            ;;
-    esac
-    read -r -p "Store passwords in svn config? [y/n] : " response
-    case "$response" in
-        [yY][eE][sS]|[yY])
-            updateSvnConfig 1
-            ;;
-        *)
-            updateSvnConfig 0
-            ;;
-    esac
+    # skip in --yes mode since this requires interactive input
+    if [ "$autoyes" -eq 0 ] && confirm "Modify .gitconfig default name and email ?"; then
+        updateGitConfig
+    fi
+    if confirm "Store passwords in svn config?"; then
+        updateSvnConfig 1
+    else
+        updateSvnConfig 0
+    fi
 fi
 
 ################################################################################
@@ -570,20 +443,16 @@ fi
 ################################################################################
 # clean up
 ################################################################################
-read -r -p "Clean unused packages ($tool autoremove)? [y/n] : " response
-case "$response" in
-    [yY][eE][sS]|[yY])
-        if [ "$arch" -eq 0 ]; then
-            sudo "$tool" autoremove -y | tee -a "$logfile"
-        else
-            orphans=$(pacman -Qdtq)
-            if [ -n "$orphans" ]; then
-                sudo pacman -Rns $orphans --noconfirm
-            fi
-            sudo pacman -Sc --noconfirm --noprogressbar | tee -a "$logfile"
+if confirm "Clean unused packages ($tool autoremove)?"; then
+    if [ "$arch" -eq 0 ]; then
+        sudo "$tool" autoremove -y | tee -a "$logfile"
+    else
+        orphans=$(pacman -Qdtq)
+        if [ -n "$orphans" ]; then
+            sudo pacman -Rns $orphans --noconfirm
         fi
-        ;;
-    *)
-        echon "NOT cleaning packages"
-        ;;
-esac
+        sudo pacman -Sc --noconfirm --noprogressbar | tee -a "$logfile"
+    fi
+else
+    echon "NOT cleaning packages"
+fi

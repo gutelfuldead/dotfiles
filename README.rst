@@ -15,9 +15,7 @@ prompt first,
 
 * Installs applications
 
-  * Ubuntu
-
-  * CentOS
+  * Ubuntu/Debian
 
   * Arch
 
@@ -56,7 +54,6 @@ First column (AppType) uses key,
         :header: "Key","Descrption"
 
         "A","Common package for All distributions"
-        "C","CentOS only package (uses yum)"
         "U","Ubuntu/Debian only package (uses apt)"
         "X","Arch only package (uses pacman)"
         "AUR","Arch User Repository Package"
@@ -64,7 +61,6 @@ First column (AppType) uses key,
         python-pip installations using the package manager"
         "G","Git build with make/configure"
         "GP","Group to add user to (if it exists on the system)"
-        "RC","Remove CentOS package from base distro install"
         "S","Snap packages"
 
 Just install dotfiles
