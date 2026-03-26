@@ -10,6 +10,7 @@ arch=0
 installApps=0
 installAUR=0
 gitinstall=0
+installPip=0
 wgetinstall=0
 installDotfiles=0
 distro=""
@@ -232,6 +233,11 @@ installAppList()
                         gitInstall "$app" "$gitRepo"
                     fi
                     ;;
+                P ) # install python packages via pip
+                    if [ "$installPip" -eq 1 ]; then
+                        pip3 install "$app" | tee -a "$logfile"
+                    fi
+                    ;;
                 * )
                     ;;
             esac
@@ -391,6 +397,19 @@ case "$response" in
         ;;
     *)
         echon "NOT installing git applications ..."
+        ;;
+esac
+
+################################################################################
+# Install pip packages
+################################################################################
+read -r -p "Install Python packages with pip (tag P from $appsFile) ? [y/n] : " response
+case "$response" in
+    [yY][eE][sS]|[yY])
+        installPip=1
+        ;;
+    *)
+        echon "NOT installing pip packages ..."
         ;;
 esac
 
