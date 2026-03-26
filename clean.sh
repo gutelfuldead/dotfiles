@@ -1,2 +1,2 @@
 #!/bin/bash
-rm -rf archPkgs install.log
+rm -rf gitPkgs install.log

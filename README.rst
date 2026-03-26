@@ -75,9 +75,9 @@ Install rcm ::
         here=$(pwd) &&
         mkdir ~/.rcm &&
         cd ~/.rcm &&
-        curl -LO https://thoughtbot.github.io/rcm/dist/rcm-1.3.3.tar.gz &&
-        tar -xvf rcm-1.3.3.tar.gz &&
-        cd rcm-1.3.3 &&
+        curl -LO https://thoughtbot.github.io/rcm/dist/rcm-1.3.4.tar.gz &&
+        tar -xvf rcm-1.3.4.tar.gz &&
+        cd rcm-1.3.4 &&
         ./configure &&
         make &&
         sudo make install &&
