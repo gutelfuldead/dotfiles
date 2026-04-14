@@ -42,10 +42,8 @@ call plug#begin('~/.vim/plugged')
     Plug 'amal-khailtash/vim-xdc-syntax'  " xdc syntax
     Plug 'vhda/verilog_systemverilog.vim' " system verilog
     Plug 'gutelfuldead/vim-tex-fold'      " fork from matze/vim-tex-fold add chapter, sub&subsub section support
-    Plug 'xuhdev/vim-latex-live-preview'  " requires Okular and/or pdflatex, <leader>llp to open pdf preview
     Plug 'dhruvasagar/vim-table-mode'     " allows for automatic table creation in rst/md
     Plug 'mbbill/undotree'                " Creates tree for undo bound to F6
-    Plug 'vivien/vim-linux-coding-style'  " Format to linux kernel style with :LinuxCodingStyle
 call plug#end()
 
 " Some basics:
@@ -103,7 +101,6 @@ call plug#end()
 " place swap files and others in a common directory
     set backupdir=~/.vim/backup//
     set directory=~/.vim/swap//
-    set undodir=~/.vim/undo//
 
 " Instead of noesckeys use this so arrows can still be used in insert mode
     set timeout " timeout on partial command like: <leader>, g, etc.
@@ -254,16 +251,6 @@ call plug#end()
     endfunction
     com! DiffSaved call s:DiffWithSaved()
 
-" Allows to see diff between current file and svn
-    function! s:DiffWithSVNCheckedOut()
-      let filetype=&ft
-      diffthis
-      vnew | exe "%!svn cat " . fnameescape( expand("#:p") )
-      diffthis
-      exe "setlocal bt=nofile bh=wipe nobl noswf ro ft=" . filetype
-      wincmd R
-    endfunction
-    com! SvnDiff call s:DiffWithSVNCheckedOut()
 
 " Allows to see diff between current file and git
     function! s:DiffWithGITCheckedOut()

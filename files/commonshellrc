@@ -30,8 +30,8 @@ export CSCOPE_EDITOR='vim'
 # aliases
 alias vi='vim'
 alias xclip='xclip -selection c' # cat some.file | xclip # now it is in system clipboard
-alias scpi='scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null' # ignore keys
-alias sshi='ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null' # ignore keys
+alias scpi='scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null' # ignore keys (use only on trusted networks)
+alias sshi='ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null' # ignore keys (use only on trusted networks)
 alias rst2html='rst2html --stylesheet-dirs=~/.rst2html/html --stylesheet=sm-docutils.css'
 alias mkdir='mkdir -pv'
 alias ..='cd ..'
@@ -167,7 +167,6 @@ dirsize ()
 # all system indepedent aliases, path modifications, etc should be in ~/.bash_aliases
 [ -f ~/.bash_aliases ] && source ~/.bash_aliases
 [ -f ~/.bash_vivado ] && source ~/.bash_vivado
-[ -f ~/.bash_svn ] && source ~/.bash_svn
 
 # remove duplicate entries in path
 if [ -n "$PATH" ]; then

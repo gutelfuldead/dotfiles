@@ -16,9 +16,6 @@
 # change color when running as su
 PS1='\[\e[92m\][ \[\e[38;5;39m\]\u\[\e[92m\]@\[\e[96m\]\h\[\e[0m\]:\[\e[38;5;147m\]\w \[\e[92m\]] \[\e[0m\]'
 
-# add python 2.7 path ... needed for ranger
-export PYTHONPATH=/usr/local/lib/python2.7/site-packages
-
 # don't put duplicate lines in the history. See bash(1) for more options
 export HISTCONTROL=ignoredups:erasedups
 export HISTTIMEFORMAT="%Y/%m/%d %H:%M:%S:   "
@@ -34,4 +31,4 @@ shopt -s checkwinsize
 # autocomplete make commands
 complete -W "$(grep -oE '^[a-zA-Z0-9_.-]+\s*:([^=]|$)' ?akefile | sed 's/[^a-zA-Z0-9_.-]*$//')" make
 source ~/.commonshell.rc
-. "$HOME/.cargo/env"
+[ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
