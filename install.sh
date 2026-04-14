@@ -2,6 +2,7 @@
 here=$(pwd)
 aurinit=0
 autoyes=0
+rcmVersion=1.3.6
 gitRepoPath=$here/gitPkgs
 appsFile=$here/apps.csv
 logfile=$here/install.log
@@ -63,15 +64,6 @@ echon ()
     sleep 1
 }
 
-updateSvnConfig()
-{
-    store=$1
-    if [ "$store" -eq 1 ]; then
-        sed -i "s/store-passwords = .*/store-passwords = yes/g" ~/.subversion/config
-    else
-        sed -i "s/store-passwords = .*/store-passwords = no/g" ~/.subversion/config
-    fi
-}
 
 updateGitConfig()
 {
@@ -85,7 +77,7 @@ updateGitConfig()
 # https://github.com/thoughtbot/rcm
 installRcm ()
 {
-    ver=1.3.4
+    ver=$rcmVersion
     echon "Installing RCM"
     if [ ! -d ~/.rcm ]; then
         curl -LO https://thoughtbot.github.io/rcm/dist/rcm-${ver}.tar.gz
@@ -193,27 +185,26 @@ installAppList()
 backup ()
 {
     backupdir=$here/backup
-    overwrite=0
     if [ -d "$backupdir" ]; then
         if confirm "Overwrite current contents of $backupdir ?"; then
             echon "OVERWRITING CURRENT CONTENTS OF $backupdir"
-            overwrite=1
+            rm -rf "$backupdir"
         else
             return
         fi
     fi
-    echon "Backing up current existing dot files to $backupdir ..."
-    if [ ! -d "$here/backup" ]; then
-        mkdir "$here/backup"
-    fi
+    echon "Backing up deployed dot files from ~ to $backupdir ..."
+    mkdir -p "$backupdir"
     (
         cd "$here/files" || return 1
-        all=$(find . -maxdepth 100 -type f -not -path '/*\.*' | sort)
-        if [ "$overwrite" -eq 1 ]; then
-            for i in $all; do
-                cp --verbose --parents "$i" "$here/backup" | tee -a "$logfile"
-            done
-        fi
+        find . -maxdepth 100 -type f | sort | while read -r i; do
+            relpath="${i#./}"
+            deployed="$HOME/.$relpath"
+            if [ -f "$deployed" ] || [ -L "$deployed" ]; then
+                mkdir -p "$backupdir/$(dirname "$relpath")"
+                cp -v "$deployed" "$backupdir/$relpath" | tee -a "$logfile"
+            fi
+        done
     )
 }
 
@@ -242,7 +233,7 @@ install_cinnamon()
 
 install_oh_my_zsh()
 {
-    sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
     git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 }
 
@@ -287,6 +278,20 @@ fi
 # install pacman apps
 ################################################################################
 echon "Setup for $distro ..."
+
+if [ "$debian" -eq 1 ]; then
+    # Prevent apt-get from prompting during package installs
+    export DEBIAN_FRONTEND=noninteractive
+    echo 'Defaults env_keep += "DEBIAN_FRONTEND"' | sudo tee /etc/sudoers.d/debian_frontend > /dev/null
+    sudo chmod 440 /etc/sudoers.d/debian_frontend
+    # Pre-seed known interactive package prompts
+    if ! command -v debconf-set-selections &>/dev/null; then
+        sudo "$tool" install -y -q debconf-utils
+    fi
+    sudo debconf-set-selections <<< "tzdata tzdata/Areas select Etc"
+    sudo debconf-set-selections <<< "tzdata tzdata/Zones/Etc select UTC"
+    sudo debconf-set-selections <<< "wireshark-common wireshark-common/install-setuid boolean false"
+fi
 
 if confirm "Install packages with $tool (tag(s) A|U|X from $appsFile) ?"; then
     echon "installing and updating apps with $tool ..."
@@ -355,19 +360,16 @@ if confirm "Replace local dotfiles? (current versions will be backed up)"; then
     if ! command -v rcup &>/dev/null; then
         installRcm
     fi
-    rcup -v -d "$here/files/rcrc" | tee -a "$logfile"
+    rcup -v -d "$here/files" rcrc | tee -a "$logfile"
     source ~/.rcrc
     rcup -v -d "$here/files" | tee -a "$logfile"
     if [ "$arch" -eq 1 ]; then
         rcup -v -d "$here/arch-files" | tee -a "$logfile"
         sudo sed -i "s/^#VerbosePkgLists$/VerbosePkgLists/" /etc/pacman.conf
         sudo sed -i "s/^#Color$/Color/" /etc/pacman.conf
-        # use this for i3 so we can share the .conf across multiple OS'
-        if [ ! -f /usr/bin/urxvt256c ]; then
-            sudo ln -s /usr/bin/urxvt /usr/bin/urxvt256c
-        fi
+
+        sudo sed -i "s/^#*MAKEFLAGS=.*/MAKEFLAGS=\"-j$(nproc)\"/" /etc/makepkg.conf
     fi
-    sudo sed -i "s/-j2/-j$(nproc)/;s/^#MAKEFLAGS/MAKEFLAGS/" /etc/makepkg.conf
     ###################################
     # install vim dotfiles and packages
     ###################################
@@ -375,7 +377,7 @@ if confirm "Replace local dotfiles? (current versions will be backed up)"; then
         echon "installing vim settings ... "
         vim -c 'PlugClean' +qa
         vim -c 'PlugInstall' +qa
-        vim ~/.vim/vbas/Align.vba 'source %' +qa
+        vim ~/.vim/vbas/Align.vba -c 'source %' +qa
     fi
     if command -v texhash &>/dev/null; then
         echon "Running texhash"
@@ -421,11 +423,7 @@ if [ "$installDotfiles" -eq 1 ]; then
     if [ "$autoyes" -eq 0 ] && confirm "Modify .gitconfig default name and email ?"; then
         updateGitConfig
     fi
-    if confirm "Store passwords in svn config?"; then
-        updateSvnConfig 1
-    else
-        updateSvnConfig 0
-    fi
+
 fi
 
 ################################################################################

@@ -8,3 +8,4 @@ git*
 smi-files
 smi-install.sh
 rcm*tar.gz
+docker-test-logs
