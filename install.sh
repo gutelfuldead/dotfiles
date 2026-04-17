@@ -8,6 +8,7 @@ appsFile=$here/apps.csv
 logfile=$here/install.log
 debian=0
 arch=0
+macos=0
 installApps=0
 installAUR=0
 gitinstall=0
@@ -69,8 +70,13 @@ updateGitConfig()
 {
     read -r -p "Enter name : " name
     read -r -p "Enter email : " email
-    sed -i "s/Jason Gutel/$name/g" ~/.gitconfig
-    sed -i "s/jason.gutel@gmail.com/$email/g" ~/.gitconfig
+    if [ "$macos" -eq 1 ]; then
+        sed -i '' "s/Jason Gutel/$name/g" ~/.gitconfig
+        sed -i '' "s/jason.gutel@gmail.com/$email/g" ~/.gitconfig
+    else
+        sed -i "s/Jason Gutel/$name/g" ~/.gitconfig
+        sed -i "s/jason.gutel@gmail.com/$email/g" ~/.gitconfig
+    fi
     echon "Overriding default name and email for gitconfig with name=$name email=$email"
 }
 
@@ -122,27 +128,33 @@ installAppList()
 {
     total=$(wc -l < "$appsFile")
     n=0
-    while IFS=, read -r appType app manDot description gitRepo wgetRepo; do
+    while IFS=, read -r type app archPkg debianPkg homebrewPkg manDot description gitRepo; do
         if [ "$n" -gt 0 ]; then # ignore top row of csv
-            case "$appType" in
-                A ) # install all distros
+            case "$type" in
+                pkg ) # regular packages - check platform-specific columns
                     if [ "$installApps" -eq 1 ]; then
-                        echo "sudo $tool $installArgs $app"
-                        sudo $tool $installArgs "$app" | tee -a "$logfile"
+                        pkgname=""
+                        if [ "$arch" -eq 1 ] && [ "$archPkg" != "n/a" ]; then
+                            pkgname="$archPkg"
+                        elif [ "$debian" -eq 1 ] && [ "$debianPkg" != "n/a" ]; then
+                            pkgname="$debianPkg"
+                        elif [ "$macos" -eq 1 ] && [ "$homebrewPkg" != "n/a" ]; then
+                            pkgname="$homebrewPkg"
+                        fi
+
+                        if [ -n "$pkgname" ]; then
+                            echo "sudo $tool $installArgs $pkgname"
+                            sudo $tool $installArgs "$pkgname" | tee -a "$logfile"
+                        fi
                     fi
                     ;;
-                U ) # install all ubuntu/debian apps
-                    if [ "$installApps" -eq 1 ] && [ "$debian" -eq 1 ]; then
-                        sudo $tool $installArgs "$app" | tee -a "$logfile"
+                arch ) # arch-only packages
+                    if [ "$installApps" -eq 1 ] && [ "$arch" -eq 1 ] && [ "$archPkg" != "n/a" ]; then
+                        sudo $tool $installArgs "$archPkg" | tee -a "$logfile"
                     fi
                     ;;
-                X ) # install all arch apps
-                    if [ "$installApps" -eq 1 ] && [ "$arch" -eq 1 ]; then
-                        sudo $tool $installArgs "$app" | tee -a "$logfile"
-                    fi
-                    ;;
-                AUR ) # install arch aur apps using paru TODO FIX THIS
-                    if [ "$installAUR" -eq 1 ] ; then
+                aur ) # arch user repository packages
+                    if [ "$installAUR" -eq 1 ] && [ "$archPkg" != "n/a" ]; then
                         if [ "$aurinit" -eq 0 ]; then
                             # https://github.com/Morganamilo/paru
                             if ! command -v paru &>/dev/null; then
@@ -158,20 +170,22 @@ installAppList()
                             fi
                             aurinit=1
                         fi
-                        paru $installArgs $app
+                        paru $installArgs "$archPkg"
                     fi
                     ;;
-                GP ) # append group list, dont add now wait for everything to be installed, just aggregate
-                    groups[${#groups[@]}]="$app"
+                pip ) # python packages via pip (same name across platforms)
+                    if [ "$installPip" -eq 1 ] && [ "$archPkg" != "n/a" ]; then
+                        pip3 install "$archPkg" | tee -a "$logfile"
+                    fi
                     ;;
-                G ) # TODO git repo
-                    if [ "$gitinstall" -eq 1 ]; then
+                group ) # groups to add user to
+                    if [ "$archPkg" != "n/a" ]; then
+                        groups[${#groups[@]}]="$archPkg"
+                    fi
+                    ;;
+                git ) # git-based installations
+                    if [ "$gitinstall" -eq 1 ] && [ -n "$gitRepo" ]; then
                         gitInstall "$app" "$gitRepo"
-                    fi
-                    ;;
-                P ) # install python packages via pip
-                    if [ "$installPip" -eq 1 ]; then
-                        pip3 install "$app" | tee -a "$logfile"
                     fi
                     ;;
                 * )
@@ -211,18 +225,36 @@ backup ()
 addGroup()
 {
     user=$(whoami)
-    # check to see if the group exists first
-    getent group | grep "$1" > /dev/null 2>&1
-    if [ $? -eq 0 ]; then
-        echon "adding user $user to $1 ..."
-        sudo usermod -a -G "$1" "$user"
+    if [ "$macos" -eq 1 ]; then
+        # macOS: check if group exists and user is member
+        if dscl . -read /Groups/"$1" &>/dev/null; then
+            if ! dscl . -read /Groups/"$1" GroupMembership | grep -q "$user"; then
+                echon "adding user $user to $1 ..."
+                sudo dseditgroup -o edit -a "$user" -t user "$1"
+            else
+                echon "user $user already in group $1"
+            fi
+        else
+            echon "group $1 does not exist, ignoring ..."
+        fi
     else
-        echon "group $1 does not exist, ignoring ..."
+        # Linux: use getent and usermod
+        getent group | grep "$1" > /dev/null 2>&1
+        if [ $? -eq 0 ]; then
+            echon "adding user $user to $1 ..."
+            sudo usermod -a -G "$1" "$user"
+        else
+            echon "group $1 does not exist, ignoring ..."
+        fi
     fi
 }
 
 install_cinnamon()
 {
+    if [ "$macos" -eq 1 ]; then
+        echon "Skipping Cinnamon Desktop (Linux only)"
+        return 0
+    fi
     if ! confirm "Install Cinnamon Desktop?"; then
         echon "NOT Installing Cinnamon Desktop"
         return 0
@@ -258,13 +290,18 @@ elif command -v apt-get &>/dev/null; then
     debian=1
     tool="apt-get"
     installArgs="install -y"
+elif command -v brew &>/dev/null; then
+    distro="macos"
+    macos=1
+    tool="brew"
+    installArgs="install"
 fi
 
-if [ "$arch" -eq 0 ] && [ "$debian" -eq 0 ]; then
+if [ "$arch" -eq 0 ] && [ "$debian" -eq 0 ] && [ "$macos" -eq 0 ]; then
     # arch is so OP it doesnt come with which
     sudo pacman -Sy which
     if [ $? -ne 0 ]; then
-        echon "unknown distro"
+        echon "unknown distro - no package manager found (pacman, apt-get, or brew)"
         exit 1
     else
         distro="arch"
@@ -442,7 +479,10 @@ fi
 # clean up
 ################################################################################
 if confirm "Clean unused packages ($tool autoremove)?"; then
-    if [ "$arch" -eq 0 ]; then
+    if [ "$macos" -eq 1 ]; then
+        brew cleanup | tee -a "$logfile"
+        brew autoremove | tee -a "$logfile"
+    elif [ "$arch" -eq 0 ]; then
         sudo "$tool" autoremove -y | tee -a "$logfile"
     else
         orphans=$(pacman -Qdtq)

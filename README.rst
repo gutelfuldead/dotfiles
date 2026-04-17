@@ -19,6 +19,8 @@ prompt first,
 
   * Arch
 
+  * macOS
+
   * Common Python-Pip packages
 
   * Common applications from Github
@@ -48,20 +50,48 @@ Packages
 
 Full list of packages by distribution `apps.csv <./apps.csv>`_.
 
-First column (AppType) uses key,
+The CSV format uses columns for each package manager:
 
 .. csv-table::
-        :header: "Key","Descrption"
+        :header: "Column","Description"
 
-        "A","Common package for All distributions"
-        "U","Ubuntu/Debian only package (uses apt)"
-        "X","Arch only package (uses pacman)"
-        "AUR","Arch User Repository Package"
-        "P","Python package uses pip2/pip3, ensure these occur AFTER the local
-        python-pip installations using the package manager"
-        "G","Git build with make/configure"
-        "GP","Group to add user to (if it exists on the system)"
-        "S","Snap packages"
+        "Type","Package type: pkg, arch, aur, pip, group, git"
+        "Application","Logical application name"
+        "Arch","Package name for pacman (or n/a if not available)"
+        "Debian","Package name for apt (or n/a if not available)"
+        "Homebrew","Package name for brew (or n/a if not available)"
+        "ManagedDotfile","Y if dotfiles are managed, N otherwise"
+        "Description","Description of the package"
+        "Repository","Git repository URL (for git type packages)"
+
+Package types:
+
+.. csv-table::
+        :header: "Type","Description"
+
+        "pkg","Regular package available on multiple platforms"
+        "arch","Arch Linux specific package"
+        "aur","Arch User Repository package"
+        "pip","Python package installed via pip"
+        "group","System group to add the user to"
+        "git","Package installed from git repository"
+
+macOS Installation
+==================
+
+On macOS, first install Homebrew if not already installed::
+
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+Then run the installer::
+
+    git clone https://github.com/gutelfuldead/dotfiles.git ~/.dotfiles
+    cd ~/.dotfiles
+    ./install.sh
+
+The script will detect macOS and use Homebrew for package installation.
+
+Note: Some Linux-specific packages (gparted, evince, remmina, Cinnamon desktop) will be skipped on macOS.
 
 Just install dotfiles
 =====================
