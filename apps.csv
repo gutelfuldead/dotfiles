@@ -1,91 +1,93 @@
-Type,Application,Debian,Homebrew,ManagedDotfile,Description,Repository
-====,===========,======,========,==============,===========,==========
-pkg,cscope,cscope,cscope,N,Code navigator,
-pkg,nmap,nmap,nmap,N,IP scanner,
-pkg,net-tools,net-tools,n/a,N,Network tools (ifconfig),
-pkg,gh,gh,gh,N,GitHub CLI,
-pkg,docker,docker.io,docker,N,Container platform,
-pkg,docker-compose,docker-compose,docker-compose,N,Multi-container orchestration,
-pkg,docker-buildx,docker-buildx,n/a,N,Docker build plugin,
-pkg,hexedit,hexedit,hexedit,N,Hex editor,
-pkg,gparted,gparted,n/a,N,Partition editor,
-pkg,zsh,zsh,zsh,N,Z shell,
-pkg,p7zip,p7zip,p7zip,N,7zip archiver,
-pkg,figlet,figlet,figlet,N,ASCII text banners,
-pkg,colordiff,colordiff,colordiff,N,Colorized diff,
-pkg,xcalib,xcalib,n/a,N,X11 color calibration,
-pkg,sshpass,sshpass,sshpass,N,Non-interactive SSH auth,
-pkg,dmenu,suckless-tools,n/a,N,X11 menu launcher,
-pkg,freerdp,freerdp2-x11,freerdp,N,RDP client,
-pkg,remmina,remmina,n/a,N,Remote desktop GUI,
-pkg,tree,tree,tree,N,Directory tree viewer,
-pkg,man,man,man-db,N,Manual pages,
-pkg,make,make,make,N,Build automation,
-pkg,terminus-font,fonts-terminus,n/a,N,Monospace font,
-pkg,gnome-screenshot,gnome-screenshot,n/a,N,Screenshot tool,
-pkg,evince,evince,n/a,N,PDF viewer,
-pkg,cmake,cmake,cmake,N,Cross-platform build system,
-pkg,zip,zip,zip,N,Zip archiver,
-pkg,clang,clang,clang,Y,C/C++ compiler and formatter,
-pkg,pdftk,pdftk,n/a,N,PDF toolkit,
-pkg,minicom,minicom,minicom,Y,Serial terminal,
-pkg,putty,putty,putty,N,SSH/serial client,
-pkg,eog,eog,n/a,N,Image viewer,
-pkg,iperf3,iperf3,iperf3,N,Network performance tool,
-pkg,xsel,xsel,n/a,N,X11 clipboard access,
-pkg,gcc,gcc,gcc,N,GNU C compiler,
-pkg,python3,python3,python3,N,Python interpreter,
-pkg,cron,cron,n/a,N,Job scheduler,
-pkg,pip,python3-pip,n/a,N,Python package manager,
-pkg,dtc,device-tree-compiler,dtc,N,Device tree compiler,
-pkg,meld,meld,meld,N,Visual diff tool,
-pkg,sc-im,n/a,sc-im,N,Spreadsheet calculator,
-pkg,curl,curl,curl,N,URL transfer tool,
-pkg,pinta,pinta,n/a,N,Image editor,
-pkg,git,git,git,Y,Version control,
-pkg,wireshark,wireshark,wireshark,N,Network protocol analyzer,
-pkg,octave,octave,octave,N,Numerical computing,
-pkg,libreoffice,libreoffice,libreoffice,N,Office suite,
-pkg,htop,htop,htop,N,Process viewer,
-pkg,vagrant,vagrant,vagrant,N,VM manager,
-pkg,bison,bison,bison,N,Parser generator,
-pkg,ranger,ranger,ranger,Y,File browser,
-pkg,dropbear,dropbear,n/a,N,Lightweight SSH,
-pkg,flex,flex,flex,N,Lexical analyzer,
-pkg,sshfs,sshfs,sshfs,N,SSH filesystem,
-pkg,wine,wine,wine-stable,N,Windows compatibility layer,
-pkg,xclip,xclip,n/a,N,X11 clipboard CLI,
-pkg,feh,feh,feh,N,Image viewer,
-pkg,ccrypt,ccrypt,ccrypt,N,File encryption,
-pkg,vim,vim,vim,Y,Text editor,
-pkg,rst2pdf,rst2pdf,rst2pdf,Y,reStructuredText to PDF,
-pkg,patch,patch,patch,N,Apply patches,
-pkg,ctags,exuberant-ctags,ctags,Y,Source code indexer,
-pkg,terminator,terminator,n/a,Y,Terminal emulator,
-pkg,tmux,tmux,tmux,Y,Terminal multiplexer,
-pkg,repo,repo,n/a,N,Git repository manager,
-pkg,perl,perl,perl,N,Perl interpreter,
-pkg,screen,screen,screen,Y,Terminal multiplexer,
-pkg,docutils-common,docutils-common,n/a,N,reStructuredText tools,
-pkg,g++,g++,gcc,N,GNU C++ compiler,
-pkg,libssl-dev,libssl-dev,openssl,N,OpenSSL libraries,
-pkg,libarchive-zip-perl,libarchive-zip-perl,n/a,N,Perl archive module,
-pkg,libncurses-dev,libncurses-dev,ncurses,N,Terminal UI library,
-pkg,coreutils,coreutils,coreutils,N,Core utilities,
-====,Python packages (pip),====,====,====,====,====
-pip,numpy,numpy,numpy,N,Scientific computing,
-pip,pyvisa,pyvisa,pyvisa,N,VISA instrument control,
-pip,matplotlib,matplotlib,matplotlib,N,Plotting library,
-pip,scipy,scipy,scipy,N,Scientific algorithms,
-pip,pandas,pandas,pandas,N,Data analysis,
-pip,pyvisa-py,pyvisa-py,pyvisa-py,N,Pure Python VISA backend,
-pip,pyusb,pyusb,pyusb,N,USB access,
-pip,passlib,passlib,passlib,N,Password hashing,
-pip,bpytop,bpytop,bpytop,Y,Resource monitor,
-pip,black,black,black,N,Python formatter,
-====,Groups to add user to,====,====,====,====,====
-group,wheel,wheel,wheel,N/A,Sudo group,
-group,dialout,dialout,n/a,N/A,Serial port access,
-group,libvirt,libvirt,n/a,N/A,Virtual machine management,
-group,vboxusers,vboxusers,n/a,N/A,VirtualBox access,
-group,wireshark,wireshark,n/a,N/A,Packet capture,
+Type,Application,Description,Dotfiles,Debian,Homebrew
+====,===========,===========,========,======,========
+pkg,bison,Parser generator,N,bison,bison
+pkg,ccrypt,File encryption,N,ccrypt,ccrypt
+pkg,clang,C/C++ compiler and formatter,Y,clang,clang
+pkg,cmake,Cross-platform build system,N,cmake,cmake
+pkg,colordiff,Colorized diff,N,colordiff,colordiff
+pkg,coreutils,Core utilities,N,coreutils,coreutils
+pkg,cron,Job scheduler,N,cron,n/a
+pkg,cscope,Code navigator,N,cscope,cscope
+pkg,ctags,Source code indexer,Y,exuberant-ctags,ctags
+pkg,curl,URL transfer tool,N,curl,curl
+pkg,dmenu,X11 menu launcher,N,suckless-tools,n/a
+pkg,docker,Container platform,N,docker.io,docker
+pkg,docker-buildx,Docker build plugin,N,docker-buildx,n/a
+pkg,docker-compose,Multi-container orchestration,N,docker-compose,docker-compose
+pkg,docutils-common,reStructuredText tools,N,docutils-common,n/a
+pkg,dropbear,Lightweight SSH,N,dropbear,n/a
+pkg,dtc,Device tree compiler,N,device-tree-compiler,dtc
+pkg,eog,Image viewer,N,eog,n/a
+pkg,evince,PDF viewer,N,evince,n/a
+pkg,feh,Image viewer,N,feh,feh
+pkg,figlet,ASCII text banners,N,figlet,figlet
+pkg,flex,Lexical analyzer,N,flex,flex
+pkg,freerdp,RDP client,N,freerdp2-x11,freerdp
+pkg,g++,GNU C++ compiler,N,g++,gcc
+pkg,gcc,GNU C compiler,N,gcc,gcc
+pkg,gh,GitHub CLI,N,gh,gh
+pkg,git,Version control,Y,git,git
+pkg,gnome-screenshot,Screenshot tool,N,gnome-screenshot,n/a
+pkg,gparted,Partition editor,N,gparted,n/a
+pkg,hexedit,Hex editor,N,hexedit,hexedit
+pkg,htop,Process viewer,N,htop,htop
+pkg,iperf3,Network performance tool,N,iperf3,iperf3
+pkg,libarchive-zip-perl,Perl archive module,N,libarchive-zip-perl,n/a
+pkg,libncurses-dev,Terminal UI library,N,libncurses-dev,ncurses
+pkg,libreoffice,Office suite,N,libreoffice,libreoffice
+pkg,libssl-dev,OpenSSL libraries,N,libssl-dev,openssl
+pkg,make,Build automation,N,make,make
+pkg,man,Manual pages,N,man,man-db
+pkg,meld,Visual diff tool,N,meld,meld
+pkg,minicom,Serial terminal,Y,minicom,minicom
+pkg,net-tools,Network tools (ifconfig),N,net-tools,n/a
+pkg,nmap,IP scanner,N,nmap,nmap
+pkg,octave,Numerical computing,N,octave,octave
+pkg,p7zip,7zip archiver,N,p7zip,p7zip
+pkg,patch,Apply patches,N,patch,patch
+pkg,pdftk,PDF toolkit,N,pdftk,n/a
+pkg,perl,Perl interpreter,N,perl,perl
+pkg,pinta,Image editor,N,pinta,n/a
+pkg,pip,Python package manager,N,python3-pip,n/a
+pkg,putty,SSH/serial client,N,putty,putty
+pkg,python3,Python interpreter,N,python3,python3
+pkg,ranger,File browser,Y,ranger,ranger
+pkg,remmina,Remote desktop GUI,N,remmina,n/a
+pkg,repo,Git repository manager,N,repo,n/a
+pkg,rst2pdf,reStructuredText to PDF,Y,rst2pdf,rst2pdf
+pkg,sc-im,Spreadsheet calculator,N,n/a,sc-im
+pkg,screen,Terminal multiplexer,Y,screen,screen
+pkg,sshfs,SSH filesystem,N,sshfs,sshfs
+pkg,sshpass,Non-interactive SSH auth,N,sshpass,sshpass
+pkg,terminus-font,Monospace font,N,fonts-terminus,n/a
+pkg,terminator,Terminal emulator,Y,terminator,n/a
+pkg,tmux,Terminal multiplexer,Y,tmux,tmux
+pkg,tree,Directory tree viewer,N,tree,tree
+pkg,vagrant,VM manager,N,vagrant,vagrant
+pkg,vim,Text editor,Y,vim,vim
+pkg,wine,Windows compatibility layer,N,wine,wine-stable
+pkg,wireshark,Network protocol analyzer,N,wireshark,wireshark
+pkg,xcalib,X11 color calibration,N,xcalib,n/a
+pkg,xclip,X11 clipboard CLI,N,xclip,n/a
+pkg,xsel,X11 clipboard access,N,xsel,n/a
+pkg,zip,Zip archiver,N,zip,zip
+pkg,zsh,Z shell,N,zsh,zsh
+====,Python packages (pip),====,====,====,====
+pip,black,Python formatter,N,black,black
+pip,bpytop,Resource monitor,Y,bpytop,bpytop
+pip,matplotlib,Plotting library,N,matplotlib,matplotlib
+pip,numpy,Scientific computing,N,numpy,numpy
+pip,pandas,Data analysis,N,pandas,pandas
+pip,passlib,Password hashing,N,passlib,passlib
+pip,pyvisa,VISA instrument control,N,pyvisa,pyvisa
+pip,pyvisa-py,Pure Python VISA backend,N,pyvisa-py,pyvisa-py
+pip,pyusb,USB access,N,pyusb,pyusb
+pip,scipy,Scientific algorithms,N,scipy,scipy
+pip,uv,Fast Python package installer,N,uv,uv
+pip,virtualenv,Virtual environment tool,N,virtualenv,virtualenv
+====,Groups to add user to,====,====,====,====
+group,dialout,Serial port access,N/A,dialout,n/a
+group,libvirt,Virtual machine management,N/A,libvirt,n/a
+group,vboxusers,VirtualBox access,N/A,vboxusers,n/a
+group,wheel,Sudo group,N/A,wheel,wheel
+group,wireshark,Packet capture,N/A,wireshark,n/a

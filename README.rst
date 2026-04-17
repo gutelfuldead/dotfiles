@@ -48,18 +48,17 @@ Packages
 
 Full list of packages by distribution `apps.csv <./apps.csv>`_.
 
-The CSV format uses columns for each package manager:
+The CSV format uses the following columns:
 
 .. csv-table::
         :header: "Column","Description"
 
-        "Type","Package type: pkg, pip, group, git"
+        "Type","Package type: pkg, pip, group"
         "Application","Logical application name"
+        "Description","Brief description of the package"
+        "Dotfiles","Y if dotfiles are managed, N otherwise"
         "Debian","Package name for apt (or n/a if not available)"
         "Homebrew","Package name for brew (or n/a if not available)"
-        "ManagedDotfile","Y if dotfiles are managed, N otherwise"
-        "Description","Description of the package"
-        "Repository","Git repository URL (for git type packages)"
 
 Package types:
 
@@ -69,7 +68,6 @@ Package types:
         "pkg","Regular package available on Debian and/or macOS"
         "pip","Python package installed via pip"
         "group","System group to add the user to"
-        "git","Package installed from git repository"
 
 macOS Installation
 ==================

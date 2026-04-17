@@ -124,7 +124,7 @@ installAppList()
 {
     total=$(wc -l < "$appsFile")
     n=0
-    while IFS=, read -r type app debianPkg homebrewPkg manDot description gitRepo; do
+    while IFS=, read -r type app description dotfiles debianPkg homebrewPkg; do
         if [ "$n" -gt 0 ]; then # ignore top row of csv
             case "$type" in
                 pkg ) # regular packages - check platform-specific columns
@@ -152,11 +152,6 @@ installAppList()
                         groups[${#groups[@]}]="$debianPkg"
                     elif [ "$macos" -eq 1 ] && [ "$homebrewPkg" != "n/a" ]; then
                         groups[${#groups[@]}]="$homebrewPkg"
-                    fi
-                    ;;
-                git ) # git-based installations
-                    if [ "$gitinstall" -eq 1 ] && [ -n "$gitRepo" ]; then
-                        gitInstall "$app" "$gitRepo"
                     fi
                     ;;
                 * )
