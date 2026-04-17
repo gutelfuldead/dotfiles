@@ -1,19 +1,15 @@
 #!/bin/bash
 here=$(pwd)
-aurinit=0
 autoyes=0
 rcmVersion=1.3.6
 gitRepoPath=$here/gitPkgs
 appsFile=$here/apps.csv
 logfile=$here/install.log
 debian=0
-arch=0
 macos=0
 installApps=0
-installAUR=0
 gitinstall=0
 installPip=0
-wgetinstall=0
 installDotfiles=0
 distro=""
 tool=""
@@ -128,15 +124,13 @@ installAppList()
 {
     total=$(wc -l < "$appsFile")
     n=0
-    while IFS=, read -r type app archPkg debianPkg homebrewPkg manDot description gitRepo; do
+    while IFS=, read -r type app debianPkg homebrewPkg manDot description gitRepo; do
         if [ "$n" -gt 0 ]; then # ignore top row of csv
             case "$type" in
                 pkg ) # regular packages - check platform-specific columns
                     if [ "$installApps" -eq 1 ]; then
                         pkgname=""
-                        if [ "$arch" -eq 1 ] && [ "$archPkg" != "n/a" ]; then
-                            pkgname="$archPkg"
-                        elif [ "$debian" -eq 1 ] && [ "$debianPkg" != "n/a" ]; then
+                        if [ "$debian" -eq 1 ] && [ "$debianPkg" != "n/a" ]; then
                             pkgname="$debianPkg"
                         elif [ "$macos" -eq 1 ] && [ "$homebrewPkg" != "n/a" ]; then
                             pkgname="$homebrewPkg"
@@ -148,39 +142,16 @@ installAppList()
                         fi
                     fi
                     ;;
-                arch ) # arch-only packages
-                    if [ "$installApps" -eq 1 ] && [ "$arch" -eq 1 ] && [ "$archPkg" != "n/a" ]; then
-                        sudo $tool $installArgs "$archPkg" | tee -a "$logfile"
-                    fi
-                    ;;
-                aur ) # arch user repository packages
-                    if [ "$installAUR" -eq 1 ] && [ "$archPkg" != "n/a" ]; then
-                        if [ "$aurinit" -eq 0 ]; then
-                            # https://github.com/Morganamilo/paru
-                            if ! command -v paru &>/dev/null; then
-                                sudo $tool $installArgs --needed base-devel
-                                if [ ! -d "$gitRepoPath" ]; then
-                                    mkdir -pv "$gitRepoPath"
-                                fi
-                                git clone https://aur.archlinux.org/paru.git "$gitRepoPath/paru"
-                                (
-                                    cd "$gitRepoPath/paru" || exit 1
-                                    makepkg -si --skippgpcheck --needed --noconfirm --noprogressbar | tee -a "$logfile"
-                                )
-                            fi
-                            aurinit=1
-                        fi
-                        paru $installArgs "$archPkg"
-                    fi
-                    ;;
                 pip ) # python packages via pip (same name across platforms)
-                    if [ "$installPip" -eq 1 ] && [ "$archPkg" != "n/a" ]; then
-                        pip3 install "$archPkg" | tee -a "$logfile"
+                    if [ "$installPip" -eq 1 ] && [ "$debianPkg" != "n/a" ]; then
+                        pip3 install "$debianPkg" | tee -a "$logfile"
                     fi
                     ;;
                 group ) # groups to add user to
-                    if [ "$archPkg" != "n/a" ]; then
-                        groups[${#groups[@]}]="$archPkg"
+                    if [ "$debian" -eq 1 ] && [ "$debianPkg" != "n/a" ]; then
+                        groups[${#groups[@]}]="$debianPkg"
+                    elif [ "$macos" -eq 1 ] && [ "$homebrewPkg" != "n/a" ]; then
+                        groups[${#groups[@]}]="$homebrewPkg"
                     fi
                     ;;
                 git ) # git-based installations
@@ -278,14 +249,9 @@ fi
 echon "$0 ran @ $(date)..."
 
 ################################################################################
-# get linux distro
+# get distro
 ################################################################################
-if command -v pacman &>/dev/null; then
-    distro="arch"
-    arch=1
-    tool="pacman"
-    installArgs="-Sy --noconfirm --needed --noprogressbar"
-elif command -v apt-get &>/dev/null; then
+if command -v apt-get &>/dev/null; then
     distro="debian"
     debian=1
     tool="apt-get"
@@ -297,18 +263,9 @@ elif command -v brew &>/dev/null; then
     installArgs="install"
 fi
 
-if [ "$arch" -eq 0 ] && [ "$debian" -eq 0 ] && [ "$macos" -eq 0 ]; then
-    # arch is so OP it doesnt come with which
-    sudo pacman -Sy which
-    if [ $? -ne 0 ]; then
-        echon "unknown distro - no package manager found (pacman, apt-get, or brew)"
-        exit 1
-    else
-        distro="arch"
-        arch=1
-        tool="pacman"
-        installArgs="-Sy --noconfirm --needed --noprogressbar"
-    fi
+if [ "$debian" -eq 0 ] && [ "$macos" -eq 0 ]; then
+    echon "unknown distro - no package manager found (apt-get or brew)"
+    exit 1
 fi
 
 ################################################################################
@@ -330,15 +287,12 @@ if [ "$debian" -eq 1 ]; then
     sudo debconf-set-selections <<< "wireshark-common wireshark-common/install-setuid boolean false"
 fi
 
-if confirm "Install packages with $tool (tag(s) A|U|X from $appsFile) ?"; then
+if confirm "Install packages with $tool from $appsFile ?"; then
     echon "installing and updating apps with $tool ..."
     installApps=1
     if [ "$debian" -eq 1 ]; then
         sudo "$tool" update | tee -a "$logfile"
         sudo "$tool" upgrade -y | tee -a "$logfile"
-    fi
-    if [ "$arch" -eq 1 ]; then
-        sudo pacman -Syu --noconfirm --needed --noprogressbar | tee -a "$logfile"
     fi
 else
     echon "NOT installing and updating apps with $tool ..."
@@ -360,17 +314,6 @@ if confirm "Install Python packages with pip (tag P from $appsFile) ?"; then
     installPip=1
 else
     echon "NOT installing pip packages ..."
-fi
-
-################################################################################
-# install all arch AUR apps
-################################################################################
-if [ "$arch" -eq 1 ]; then
-    if confirm "Install AUR packages (tag AUR from $appsFile) ?"; then
-        installAUR=1
-    else
-        echon "NOT Installing ARCH AUR packages"
-    fi
 fi
 
 ################################################################################
@@ -400,13 +343,6 @@ if confirm "Replace local dotfiles? (current versions will be backed up)"; then
     rcup -v -d "$here/files" rcrc | tee -a "$logfile"
     source ~/.rcrc
     rcup -v -d "$here/files" | tee -a "$logfile"
-    if [ "$arch" -eq 1 ]; then
-        rcup -v -d "$here/arch-files" | tee -a "$logfile"
-        sudo sed -i "s/^#VerbosePkgLists$/VerbosePkgLists/" /etc/pacman.conf
-        sudo sed -i "s/^#Color$/Color/" /etc/pacman.conf
-
-        sudo sed -i "s/^#*MAKEFLAGS=.*/MAKEFLAGS=\"-j$(nproc)\"/" /etc/makepkg.conf
-    fi
     ###################################
     # install vim dotfiles and packages
     ###################################
@@ -438,21 +374,6 @@ else
 fi
 
 ################################################################################
-# Kill the arch beeps
-################################################################################
-if [ "$arch" -eq 1 ]; then
-    if ! grep -q "blacklist pcspkr" /etc/modprobe.d/nobeep.conf 2>/dev/null; then
-        if confirm "Disable system beeps ?"; then
-            echon "Disabling system beeps"
-            lsmod | grep pcspkr && sudo rmmod pcspkr
-            sudo echo "blacklist pcspkr" | sudo tee /etc/modprobe.d/nobeep.conf
-        else
-            echon "NOT Disabling system beeps"
-        fi
-    fi
-fi
-
-################################################################################
 # Get rid of my name from anywhere it doesnt belong
 ################################################################################
 if [ "$installDotfiles" -eq 1 ]; then
@@ -464,32 +385,14 @@ if [ "$installDotfiles" -eq 1 ]; then
 fi
 
 ################################################################################
-# Enable GNOME Display Manager for Arch if it isnt already
-################################################################################
-if [ "$arch" -eq 1 ]; then
-    systemctl is-enabled gdm > /dev/null 2>&1
-    if [ $? -ne 0 ]; then
-        sudo systemctl enable gdm
-        echon "GNOME Display Manager Enabled, reboot to load into GNOME/Cinnamon"
-    fi
-fi
-
-
-################################################################################
 # clean up
 ################################################################################
 if confirm "Clean unused packages ($tool autoremove)?"; then
     if [ "$macos" -eq 1 ]; then
         brew cleanup | tee -a "$logfile"
         brew autoremove | tee -a "$logfile"
-    elif [ "$arch" -eq 0 ]; then
-        sudo "$tool" autoremove -y | tee -a "$logfile"
     else
-        orphans=$(pacman -Qdtq)
-        if [ -n "$orphans" ]; then
-            sudo pacman -Rns $orphans --noconfirm
-        fi
-        sudo pacman -Sc --noconfirm --noprogressbar | tee -a "$logfile"
+        sudo "$tool" autoremove -y | tee -a "$logfile"
     fi
 else
     echon "NOT cleaning packages"
