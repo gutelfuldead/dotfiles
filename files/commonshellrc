@@ -62,9 +62,15 @@ alias python='python3'
 alias python-black='python -m black'
 
 # Adding color
-alias ls='ls -hN --color=auto --group-directories-first'
-alias l='ls -hN --color=auto --group-directories-first'
-alias ll='ls -lahN --color=auto --group-directories-first'
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    alias ls='ls -hG'
+    alias l='ls -hG'
+    alias ll='ls -lahG'
+else
+    alias ls='ls -hN --color=auto --group-directories-first'
+    alias l='ls -hN --color=auto --group-directories-first'
+    alias ll='ls -lahN --color=auto --group-directories-first'
+fi
 alias minicom='minicom -c on'
 
 # arch aliases
