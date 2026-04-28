@@ -36,7 +36,7 @@ alias xclip='xclip -selection c' # cat some.file | xclip # now it is in system c
 alias scpi='scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null' # ignore keys (use only on trusted networks)
 alias sshi='ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null' # ignore keys (use only on trusted networks)
 alias rst2html='rst2html --stylesheet-dirs=~/.rst2html/html --stylesheet=sm-docutils.css'
-alias mkdir='mkdir -pv'
+alias mkdir='mkdir -p'
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
     alias mcd='command mkdir -pv'
