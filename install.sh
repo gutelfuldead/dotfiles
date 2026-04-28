@@ -2,13 +2,11 @@
 here=$(pwd)
 autoyes=0
 rcmVersion=1.3.6
-gitRepoPath=$here/gitPkgs
 appsFile=$here/apps.csv
 logfile=$here/install.log
 debian=0
 macos=0
 installApps=0
-gitinstall=0
 installPip=0
 installDotfiles=0
 distro=""
@@ -97,29 +95,6 @@ installRcm ()
     )
 }
 
-gitInstall()
-{
-    app=$1
-    repo=$2
-    if ! command -v "$app" &>/dev/null && [ ! -d ~/."$app" ]; then
-        git clone --depth 1 "$repo" ~/."$app" | tee -a "$logfile"
-        (
-            cd ~/."$app" || return 1
-            if [ -f configure ]; then
-                ./configure | tee -a "$logfile"
-            fi
-            if [ -f install ]; then
-                ./install | tee -a "$logfile"
-            elif [ -f makefile ] || [ -f Makefile ]; then
-                make | tee -a "$logfile"
-                sudo make install | tee -a "$logfile"
-            fi
-        )
-    else
-        echo "$app already installed, skipping"
-    fi
-}
-
 installAppList()
 {
     total=$(wc -l < "$appsFile")
@@ -137,14 +112,26 @@ installAppList()
                         fi
 
                         if [ -n "$pkgname" ]; then
-                            echo "sudo $tool $installArgs $pkgname"
-                            sudo $tool $installArgs "$pkgname" | tee -a "$logfile"
+                            if [ "$macos" -eq 1 ]; then
+                                echo "$tool $installArgs $pkgname"
+                                $tool $installArgs "$pkgname" </dev/null | tee -a "$logfile"
+                            else
+                                echo "sudo $tool $installArgs $pkgname"
+                                sudo $tool $installArgs "$pkgname" </dev/null | tee -a "$logfile"
+                            fi
                         fi
                     fi
                     ;;
                 pip ) # python packages via pip (same name across platforms)
                     if [ "$installPip" -eq 1 ] && [ "$debianPkg" != "n/a" ]; then
-                        pip3 install "$debianPkg" | tee -a "$logfile"
+                        if [ "$macos" -eq 1 ]; then
+                            if ! command -v pipx &>/dev/null; then
+                                brew install pipx </dev/null | tee -a "$logfile"
+                            fi
+                            pipx install "$debianPkg" </dev/null | tee -a "$logfile"
+                        else
+                            pip3 install "$debianPkg" </dev/null | tee -a "$logfile"
+                        fi
                     fi
                     ;;
                 group ) # groups to add user to
@@ -294,15 +281,6 @@ else
 fi
 
 ################################################################################
-# Install git apps
-################################################################################
-if confirm "Install GIT based Applications (tag G from $appsFile) ?"; then
-    gitinstall=1
-else
-    echon "NOT installing git applications ..."
-fi
-
-################################################################################
 # Install pip packages
 ################################################################################
 if confirm "Install Python packages with pip (tag P from $appsFile) ?"; then
@@ -358,14 +336,16 @@ fi
 ################################################################################
 # Add user to groups
 ################################################################################
-tmp="${groups[*]}"
-if confirm "Add $(whoami) to groups : < $tmp >"; then
-    echon "Adding $(whoami) to groups..."
-    for i in "${groups[@]}"; do
-        addGroup "$i"
-    done
-else
-    echon "NOT adding $(whoami) to groups < $tmp >"
+if [ "$debian" -eq 1 ]; then
+    tmp="${groups[*]}"
+    if confirm "Add $(whoami) to groups : < $tmp >"; then
+        echon "Adding $(whoami) to groups..."
+        for i in "${groups[@]}"; do
+            addGroup "$i"
+        done
+    else
+        echon "NOT adding $(whoami) to groups < $tmp >"
+    fi
 fi
 
 ################################################################################

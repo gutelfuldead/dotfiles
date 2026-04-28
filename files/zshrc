@@ -3,6 +3,9 @@ ZSH_THEME="cloud"
 
 plugins=(zsh-autosuggestions z)
 
+# Reset zsh-z's tab binding before reload so it doesn't capture itself
+(( ${+functions[_zshz_zle_completion_widget]} )) && bindkey '^I' expand-or-complete
+
 source $ZSH/oh-my-zsh.sh
 
 source ~/.commonshellrc

@@ -34,7 +34,6 @@ pkg,htop,Process viewer,N,htop,htop
 pkg,iperf3,Network performance tool,N,iperf3,iperf3
 pkg,libarchive-zip-perl,Perl archive module,N,libarchive-zip-perl,n/a
 pkg,libncurses-dev,Terminal UI library,N,libncurses-dev,ncurses
-pkg,libreoffice,Office suite,N,libreoffice,libreoffice
 pkg,libssl-dev,OpenSSL libraries,N,libssl-dev,openssl
 pkg,make,Build automation,N,make,make
 pkg,man,Manual pages,N,man,man-db
@@ -49,6 +48,7 @@ pkg,pdftk,PDF toolkit,N,pdftk,n/a
 pkg,perl,Perl interpreter,N,perl,perl
 pkg,pinta,Image editor,N,pinta,n/a
 pkg,pip,Python package manager,N,python3-pip,n/a
+pkg,pipx,Python app installer,N,n/a,pipx
 pkg,putty,SSH/serial client,N,putty,putty
 pkg,python3,Python interpreter,N,python3,python3
 pkg,ranger,File browser,Y,ranger,ranger
@@ -63,9 +63,7 @@ pkg,terminus-font,Monospace font,N,fonts-terminus,n/a
 pkg,terminator,Terminal emulator,Y,terminator,n/a
 pkg,tmux,Terminal multiplexer,Y,tmux,tmux
 pkg,tree,Directory tree viewer,N,tree,tree
-pkg,vagrant,VM manager,N,vagrant,vagrant
 pkg,vim,Text editor,Y,vim,vim
-pkg,wine,Windows compatibility layer,N,wine,wine-stable
 pkg,wireshark,Network protocol analyzer,N,wireshark,wireshark
 pkg,xcalib,X11 color calibration,N,xcalib,n/a
 pkg,xclip,X11 clipboard CLI,N,xclip,n/a
