@@ -9,6 +9,9 @@
 
 # adding /bin causes issues with buildroot
 def_path=/usr/bin:/usr/sbin:/usr/local/bin:$HOME/.local/bin:/var/lib/snapd/snap/bin:$HOME/bin
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    def_path=/bin:/usr/bin:/usr/sbin:/opt/homebrew/bin:/opt/homebrew/sbin:$HOME/.local/bin:$HOME/bin
+fi
 PATH=$def_path
 
 # Color for manpages
@@ -34,6 +37,10 @@ alias scpi='scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null' # i
 alias sshi='ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null' # ignore keys (use only on trusted networks)
 alias rst2html='rst2html --stylesheet-dirs=~/.rst2html/html --stylesheet=sm-docutils.css'
 alias mkdir='mkdir -pv'
+
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    alias mcd='command mkdir -pv'
+fi
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'

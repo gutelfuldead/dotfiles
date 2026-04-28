@@ -1,153 +1,91 @@
-AppType,Application,Managed Dotfile,Description,Repository,Wget
-=======,install for all distros,===============,===========,==========,====
-A,cscope,N,code navigator,,
-A,nmap,N,ip scanner,,
-A,net-tools,N,ifconfig,,
-A,gh,N,github cli,,
-U,docker.io,N,docker,,
-X,docker,N,docker,,
-A,docker-compose,N,docker,,
-A,hexedit,N,edit hexfiles in linux,,
-U,docker-buildx,N,docker buildx plugin,,
-X,docker-buildx,N,docker buildx plugin,,
-A,gparted,N,partition editor,,
-A,zsh,N,zsh,,
-A,p7zip,N,7za extractions,,
-A,figlet,create ascii text banners in terminal,,
-A,colordiff,N,colorized diff output,,
-U,xcalib,N,used to invert color scheme,,
-X,xcalib,N,used to invert color scheme,,
-A,sshpass,N,noninteractive ssh password provider,,
-U,suckless-tools,N,generic menu for X (dmenu),,
-X,dmenu,N,generic menu for X,,
-U,freerdp2-x11,N,remote desktop protocol,,
-X,freerdp,N,remote desktop protocol,,
-A,remmina,remote desktop gui,,
-A,tree,N,Recursive Directory listing,,
-A,man,N,interface to the system reference manuals,,
-A,make,N,GNU Make,,
-U,fonts-terminus,N,Clean fixed width font,,
-X,terminus-font,N,Clean fixed width font,,
-U,gnome-screenshot,N,screenshot tool,,
-A,evince,N,pdf viewer,,
-A,cmake,N,GNU Cmake,,
-A,zip,N,zip,,
-A,clang,Y,C Language Formatter,,
-U,pdftk,N,PDF Tool Kit,,
-X,pdftk,N,PDF Tool Kit,,
-A,minicom,Y,Serial communication,,
-A,putty,N,Serial comms,,
-A,eog,N,Eye of Gnome Image Viewer,,
-A,iperf3,N,Network Performance Tool,,
-A,xsel,N,Command Line Clipboard and X Selection,,
-A,gcc,N,GNU C Compiler,,
-
-U,python3,N,Python 3,,
-X,python,N,Python 3,,
-U,cron,N,cron scheduler,,
-X,cronie,N,cron scheduler,,
-U,python3-pip,N,Python Package Installer,,
-X,python-pip,N,Python Package Installer,,
-U,device-tree-compiler,N,Device Tree Compiler,,
-X,dtc,N,Device Tree Compiler,,
-A,meld,N,File Comparison tool,,
-X,sc-im,N,SC-IM excel like terminal editor,,
-A,curl,N,Web data transfer tool,,
-U,pinta,N,MSPAINT like application,,
-A,git,Y,GIT version control,,
-A,wireshark,N,Network protocol analyzer,,
-A,octave,N,Numerical Computation Engine (opensource matlab),,
-A,libreoffice,N,Libre Office Suite,,
-A,htop,N,Improved top system performance monitor,,
-A,vagrant,N,manage and configure vms,,
-A,bison,N,GNU Bison parser generator,,
-A,ranger,Y,Command Line File Browser,,
-A,dropbear,N,Small SSH server/client,,
-A,flex,N,Fast Lexical Analyser Generator,,
-A,sshfs,N,Mount remote filesystems with sftp,,
-A,wine,N,Wine Is Not an Emulator,,
-A,xclip,N,terminal clipboard,,
-A,feh,N,Image viewer,,
-A,ccrypt,N,Encryption/decryption utility,,
-A,vim,Y,Vi IMproved text editor,,
-A,rst2pdf,Y,reStructuredText to PDF,,
-A,patch,N,Apply a diff file,,
-U,exuberant-ctags,Y,Generate tag files for source code,,
-X,ctags,Y,Generate tag files for source code,,
-A,terminator,Y,Multiple GNOME terminals in one window,,
-A,tmux,Y,Terminal multiplexer,,
-U,repo,N,manage git repos,,
-A,perl,N,practical extraction and report language,,
-A,screen,Y,screen,,
-=====,python packages,=====,=====,=====,=====
-P,numpy,N,Scientific Computing,,
-P,pyvisa,N,Wrapper for VISA shared libraries,,
-P,matplotlib,N,Visualization with python,,
-P,scipy,N,Scientific computing tools for python,,
-P,pandas,N,Data analysis and manipulation tool,,
-P,pyvisa-py,N,Pure python backend for pyVISA,,
-P,pyusb,N,USB access for Python,,
-P,passlib,N,password hashing library,,
-P,bpytop,Y,linux/osx/freebsd resource monitor,,
-P,black,N,Uncompromising Formatter,,
-=====,ubuntu packages,=====,=====,=====,=====
-U,docutils-common,N,Used for rst2html,,
-U,g++,N,GNU C++ Compiler,,
-U,libssl-dev,N,,,
-U,libarchive-zip-perl,N,crc32 app,,
-U,libncurses-dev,N,,,
-=====,arch packages,=====,=====,=====,=====
-X,base-devel,N,Base Development tools,,
-X,fzf,Y,Fuzzy Finder,,
-X,xorg-server,N,is the graphical server,,
-X,xorg-xinit,N,starts the graphical server,,
-X,gdm,N,gnome display manager,,
-X,glibc,N,needed for git,,
-X,texlive-most,N,latex packages,,
-X,xorg-xbacklight,N,adjust backlight brightness using RandR extension,,
-X,biber,N,bibliography for latex,,
-X,playerctl,N,control media players via MPRIS,,
-X,picom,Y,X compisitor,,
-X,flameshot,Y,screenshot tool,,
-X,pulseaudio-alsa,N,is the audio system,,
-X,pulsemixer,N,is an audio controller,,
-X,pamixer,N,is a command-line audio interface,,
-X,acpi,N,shows battery status,,
-X,unrar,N,extracts rar's,,
-X,unzip,N,unzips zips,,
-X,caprine,N,facebook messenger app,,
-X,bc,N,arbitrary percision calculator,,
-X,ttf-font-awesome,N,image font,,
-X,vivaldi,N,web browser,,
-X,cmus,N,terminal music player,,
-X,clementine,N,music player,,
-X,mpv,N,video player,,
-X,openssl-1.1,N,open ssl needed for paru,,
-X,mtpfs,N,needed for MTP file support (android mounting),,
-X,gvfs-mtp,N,needed for MTP file support (android mounting),,
-X,screenfetch,N,print system information in terminal,,
-X,exfatprogs,N,exfat support,,
-X,exfat-utils,N,exfat support programs,,
-X,dosfstools,N,mkfs.fat,,
-X,mtools,N,fat file system utilities,,
-X,linux,N,kernel and modules,,
-X,linux-headers,N,headers and scripts for building modules,,
-X,kdenlive,N,Video Editing software,,
-X,inetutils,N,A collection of common network programs,,
-X,rpsvc-proto,N,rpcsvc protocol definitions from glibc,,
-X,konversation,N,irc app,,
-=====,arch user repo packages,=====,=====,=====,=====
-AUR,xrdp,N,Graphical login for rdp,https://aur.archlinux.org/xrdp.git,
-AUR,rst2pdf,Y,Convert rst to pdfs,https://aur.archlinux.org/rst2pdf.git,
-AUR,spotify,N,Music streaming,https://aur.archlinux.org/spotify.git,
-AUR,ncurses5-compat-libs,N,ncurses5 development libs,https://aur.archlinux.org/ncurses5-compat-libs.git,
-AUR,drawio,N,diagram generator,https://aur.archlinux.org/drawio-desktop.git,
-AUR,surfshark-gui-bin,N,SurfShark VPN,https://aur.archlinux.org/surfshark-gui-bin.git,
-AUR,ventoy-bin,N,installs /opt/ventoy application for bootable usbs with file partitions,
-AUR,discord,N,discord,
-=====,Groups to add user to,=====,=====,=====,=====
-GP,wheel,N/A,sudoers group for debian,,
-GP,dialout,N/A,group for serial programs like minicom,,
-GP,libvirt,N/A,group for kvm,,
-GP,vboxusers,N/A,group for virtual box,,
-GP,wireshark,N/A,group for wireshark,,
+Type,Application,Description,Dotfiles,Debian,Homebrew
+====,===========,===========,========,======,========
+pkg,bison,Parser generator,N,bison,bison
+pkg,ccrypt,File encryption,N,ccrypt,ccrypt
+pkg,clang,C/C++ compiler and formatter,Y,clang,clang
+pkg,cmake,Cross-platform build system,N,cmake,cmake
+pkg,colordiff,Colorized diff,N,colordiff,colordiff
+pkg,coreutils,Core utilities,N,coreutils,coreutils
+pkg,cron,Job scheduler,N,cron,n/a
+pkg,cscope,Code navigator,N,cscope,cscope
+pkg,ctags,Source code indexer,Y,exuberant-ctags,ctags
+pkg,curl,URL transfer tool,N,curl,curl
+pkg,dmenu,X11 menu launcher,N,suckless-tools,n/a
+pkg,docker,Container platform,N,docker.io,docker
+pkg,docker-buildx,Docker build plugin,N,docker-buildx,n/a
+pkg,docker-compose,Multi-container orchestration,N,docker-compose,docker-compose
+pkg,docutils-common,reStructuredText tools,N,docutils-common,n/a
+pkg,dropbear,Lightweight SSH,N,dropbear,n/a
+pkg,dtc,Device tree compiler,N,device-tree-compiler,dtc
+pkg,eog,Image viewer,N,eog,n/a
+pkg,evince,PDF viewer,N,evince,n/a
+pkg,feh,Image viewer,N,feh,feh
+pkg,figlet,ASCII text banners,N,figlet,figlet
+pkg,flex,Lexical analyzer,N,flex,flex
+pkg,freerdp,RDP client,N,freerdp2-x11,freerdp
+pkg,g++,GNU C++ compiler,N,g++,gcc
+pkg,gcc,GNU C compiler,N,gcc,gcc
+pkg,gh,GitHub CLI,N,gh,gh
+pkg,git,Version control,Y,git,git
+pkg,gnome-screenshot,Screenshot tool,N,gnome-screenshot,n/a
+pkg,gparted,Partition editor,N,gparted,n/a
+pkg,hexedit,Hex editor,N,hexedit,hexedit
+pkg,htop,Process viewer,N,htop,htop
+pkg,iperf3,Network performance tool,N,iperf3,iperf3
+pkg,libarchive-zip-perl,Perl archive module,N,libarchive-zip-perl,n/a
+pkg,libncurses-dev,Terminal UI library,N,libncurses-dev,ncurses
+pkg,libssl-dev,OpenSSL libraries,N,libssl-dev,openssl
+pkg,make,Build automation,N,make,make
+pkg,man,Manual pages,N,man,man-db
+pkg,meld,Visual diff tool,N,meld,meld
+pkg,minicom,Serial terminal,Y,minicom,minicom
+pkg,net-tools,Network tools (ifconfig),N,net-tools,n/a
+pkg,nmap,IP scanner,N,nmap,nmap
+pkg,octave,Numerical computing,N,octave,octave
+pkg,p7zip,7zip archiver,N,p7zip,p7zip
+pkg,patch,Apply patches,N,patch,patch
+pkg,pdftk,PDF toolkit,N,pdftk,n/a
+pkg,perl,Perl interpreter,N,perl,perl
+pkg,pinta,Image editor,N,pinta,n/a
+pkg,pip,Python package manager,N,python3-pip,n/a
+pkg,pipx,Python app installer,N,n/a,pipx
+pkg,putty,SSH/serial client,N,putty,putty
+pkg,python3,Python interpreter,N,python3,python3
+pkg,ranger,File browser,Y,ranger,ranger
+pkg,remmina,Remote desktop GUI,N,remmina,n/a
+pkg,repo,Git repository manager,N,repo,n/a
+pkg,rst2pdf,reStructuredText to PDF,Y,rst2pdf,rst2pdf
+pkg,sc-im,Spreadsheet calculator,N,n/a,sc-im
+pkg,screen,Terminal multiplexer,Y,screen,screen
+pkg,sshfs,SSH filesystem,N,sshfs,sshfs
+pkg,sshpass,Non-interactive SSH auth,N,sshpass,sshpass
+pkg,terminus-font,Monospace font,N,fonts-terminus,n/a
+pkg,terminator,Terminal emulator,Y,terminator,n/a
+pkg,tmux,Terminal multiplexer,Y,tmux,tmux
+pkg,tree,Directory tree viewer,N,tree,tree
+pkg,vim,Text editor,Y,vim,vim
+pkg,wireshark,Network protocol analyzer,N,wireshark,wireshark
+pkg,xcalib,X11 color calibration,N,xcalib,n/a
+pkg,xclip,X11 clipboard CLI,N,xclip,n/a
+pkg,xsel,X11 clipboard access,N,xsel,n/a
+pkg,zip,Zip archiver,N,zip,zip
+pkg,zsh,Z shell,N,zsh,zsh
+====,Python packages (pip),====,====,====,====
+pip,black,Python formatter,N,black,black
+pip,bpytop,Resource monitor,Y,bpytop,bpytop
+pip,matplotlib,Plotting library,N,matplotlib,matplotlib
+pip,numpy,Scientific computing,N,numpy,numpy
+pip,pandas,Data analysis,N,pandas,pandas
+pip,passlib,Password hashing,N,passlib,passlib
+pip,pyvisa,VISA instrument control,N,pyvisa,pyvisa
+pip,pyvisa-py,Pure Python VISA backend,N,pyvisa-py,pyvisa-py
+pip,pyusb,USB access,N,pyusb,pyusb
+pip,scipy,Scientific algorithms,N,scipy,scipy
+pip,uv,Fast Python package installer,N,uv,uv
+pip,virtualenv,Virtual environment tool,N,virtualenv,virtualenv
+====,Groups to add user to,====,====,====,====
+group,dialout,Serial port access,N/A,dialout,n/a
+group,libvirt,Virtual machine management,N/A,libvirt,n/a
+group,vboxusers,VirtualBox access,N/A,vboxusers,n/a
+group,wheel,Sudo group,N/A,wheel,wheel
+group,wireshark,Packet capture,N/A,wireshark,n/a

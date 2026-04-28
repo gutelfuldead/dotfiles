@@ -1,18 +1,13 @@
 #!/bin/bash
 here=$(pwd)
-aurinit=0
 autoyes=0
 rcmVersion=1.3.6
-gitRepoPath=$here/gitPkgs
 appsFile=$here/apps.csv
 logfile=$here/install.log
 debian=0
-arch=0
+macos=0
 installApps=0
-installAUR=0
-gitinstall=0
 installPip=0
-wgetinstall=0
 installDotfiles=0
 distro=""
 tool=""
@@ -69,8 +64,13 @@ updateGitConfig()
 {
     read -r -p "Enter name : " name
     read -r -p "Enter email : " email
-    sed -i "s/Jason Gutel/$name/g" ~/.gitconfig
-    sed -i "s/jason.gutel@gmail.com/$email/g" ~/.gitconfig
+    if [ "$macos" -eq 1 ]; then
+        sed -i '' "s/Jason Gutel/$name/g" ~/.gitconfig
+        sed -i '' "s/jason.gutel@gmail.com/$email/g" ~/.gitconfig
+    else
+        sed -i "s/Jason Gutel/$name/g" ~/.gitconfig
+        sed -i "s/jason.gutel@gmail.com/$email/g" ~/.gitconfig
+    fi
     echon "Overriding default name and email for gitconfig with name=$name email=$email"
 }
 
@@ -95,83 +95,50 @@ installRcm ()
     )
 }
 
-gitInstall()
-{
-    app=$1
-    repo=$2
-    if ! command -v "$app" &>/dev/null && [ ! -d ~/."$app" ]; then
-        git clone --depth 1 "$repo" ~/."$app" | tee -a "$logfile"
-        (
-            cd ~/."$app" || return 1
-            if [ -f configure ]; then
-                ./configure | tee -a "$logfile"
-            fi
-            if [ -f install ]; then
-                ./install | tee -a "$logfile"
-            elif [ -f makefile ] || [ -f Makefile ]; then
-                make | tee -a "$logfile"
-                sudo make install | tee -a "$logfile"
-            fi
-        )
-    else
-        echo "$app already installed, skipping"
-    fi
-}
-
 installAppList()
 {
     total=$(wc -l < "$appsFile")
     n=0
-    while IFS=, read -r appType app manDot description gitRepo wgetRepo; do
+    while IFS=, read -r type app description dotfiles debianPkg homebrewPkg; do
         if [ "$n" -gt 0 ]; then # ignore top row of csv
-            case "$appType" in
-                A ) # install all distros
+            case "$type" in
+                pkg ) # regular packages - check platform-specific columns
                     if [ "$installApps" -eq 1 ]; then
-                        echo "sudo $tool $installArgs $app"
-                        sudo $tool $installArgs "$app" | tee -a "$logfile"
-                    fi
-                    ;;
-                U ) # install all ubuntu/debian apps
-                    if [ "$installApps" -eq 1 ] && [ "$debian" -eq 1 ]; then
-                        sudo $tool $installArgs "$app" | tee -a "$logfile"
-                    fi
-                    ;;
-                X ) # install all arch apps
-                    if [ "$installApps" -eq 1 ] && [ "$arch" -eq 1 ]; then
-                        sudo $tool $installArgs "$app" | tee -a "$logfile"
-                    fi
-                    ;;
-                AUR ) # install arch aur apps using paru TODO FIX THIS
-                    if [ "$installAUR" -eq 1 ] ; then
-                        if [ "$aurinit" -eq 0 ]; then
-                            # https://github.com/Morganamilo/paru
-                            if ! command -v paru &>/dev/null; then
-                                sudo $tool $installArgs --needed base-devel
-                                if [ ! -d "$gitRepoPath" ]; then
-                                    mkdir -pv "$gitRepoPath"
-                                fi
-                                git clone https://aur.archlinux.org/paru.git "$gitRepoPath/paru"
-                                (
-                                    cd "$gitRepoPath/paru" || exit 1
-                                    makepkg -si --skippgpcheck --needed --noconfirm --noprogressbar | tee -a "$logfile"
-                                )
-                            fi
-                            aurinit=1
+                        pkgname=""
+                        if [ "$debian" -eq 1 ] && [ "$debianPkg" != "n/a" ]; then
+                            pkgname="$debianPkg"
+                        elif [ "$macos" -eq 1 ] && [ "$homebrewPkg" != "n/a" ]; then
+                            pkgname="$homebrewPkg"
                         fi
-                        paru $installArgs $app
+
+                        if [ -n "$pkgname" ]; then
+                            if [ "$macos" -eq 1 ]; then
+                                echo "$tool $installArgs $pkgname"
+                                $tool $installArgs "$pkgname" </dev/null | tee -a "$logfile"
+                            else
+                                echo "sudo $tool $installArgs $pkgname"
+                                sudo $tool $installArgs "$pkgname" </dev/null | tee -a "$logfile"
+                            fi
+                        fi
                     fi
                     ;;
-                GP ) # append group list, dont add now wait for everything to be installed, just aggregate
-                    groups[${#groups[@]}]="$app"
-                    ;;
-                G ) # TODO git repo
-                    if [ "$gitinstall" -eq 1 ]; then
-                        gitInstall "$app" "$gitRepo"
+                pip ) # python packages via pip (same name across platforms)
+                    if [ "$installPip" -eq 1 ] && [ "$debianPkg" != "n/a" ]; then
+                        if [ "$macos" -eq 1 ]; then
+                            if ! command -v pipx &>/dev/null; then
+                                brew install pipx </dev/null | tee -a "$logfile"
+                            fi
+                            pipx install "$debianPkg" </dev/null | tee -a "$logfile"
+                        else
+                            pip3 install "$debianPkg" </dev/null | tee -a "$logfile"
+                        fi
                     fi
                     ;;
-                P ) # install python packages via pip
-                    if [ "$installPip" -eq 1 ]; then
-                        pip3 install "$app" | tee -a "$logfile"
+                group ) # groups to add user to
+                    if [ "$debian" -eq 1 ] && [ "$debianPkg" != "n/a" ]; then
+                        groups[${#groups[@]}]="$debianPkg"
+                    elif [ "$macos" -eq 1 ] && [ "$homebrewPkg" != "n/a" ]; then
+                        groups[${#groups[@]}]="$homebrewPkg"
                     fi
                     ;;
                 * )
@@ -211,18 +178,36 @@ backup ()
 addGroup()
 {
     user=$(whoami)
-    # check to see if the group exists first
-    getent group | grep "$1" > /dev/null 2>&1
-    if [ $? -eq 0 ]; then
-        echon "adding user $user to $1 ..."
-        sudo usermod -a -G "$1" "$user"
+    if [ "$macos" -eq 1 ]; then
+        # macOS: check if group exists and user is member
+        if dscl . -read /Groups/"$1" &>/dev/null; then
+            if ! dscl . -read /Groups/"$1" GroupMembership | grep -q "$user"; then
+                echon "adding user $user to $1 ..."
+                sudo dseditgroup -o edit -a "$user" -t user "$1"
+            else
+                echon "user $user already in group $1"
+            fi
+        else
+            echon "group $1 does not exist, ignoring ..."
+        fi
     else
-        echon "group $1 does not exist, ignoring ..."
+        # Linux: use getent and usermod
+        getent group | grep "$1" > /dev/null 2>&1
+        if [ $? -eq 0 ]; then
+            echon "adding user $user to $1 ..."
+            sudo usermod -a -G "$1" "$user"
+        else
+            echon "group $1 does not exist, ignoring ..."
+        fi
     fi
 }
 
 install_cinnamon()
 {
+    if [ "$macos" -eq 1 ]; then
+        echon "Skipping Cinnamon Desktop (Linux only)"
+        return 0
+    fi
     if ! confirm "Install Cinnamon Desktop?"; then
         echon "NOT Installing Cinnamon Desktop"
         return 0
@@ -246,32 +231,23 @@ fi
 echon "$0 ran @ $(date)..."
 
 ################################################################################
-# get linux distro
+# get distro
 ################################################################################
-if command -v pacman &>/dev/null; then
-    distro="arch"
-    arch=1
-    tool="pacman"
-    installArgs="-Sy --noconfirm --needed --noprogressbar"
-elif command -v apt-get &>/dev/null; then
+if command -v apt-get &>/dev/null; then
     distro="debian"
     debian=1
     tool="apt-get"
     installArgs="install -y"
+elif command -v brew &>/dev/null; then
+    distro="macos"
+    macos=1
+    tool="brew"
+    installArgs="install"
 fi
 
-if [ "$arch" -eq 0 ] && [ "$debian" -eq 0 ]; then
-    # arch is so OP it doesnt come with which
-    sudo pacman -Sy which
-    if [ $? -ne 0 ]; then
-        echon "unknown distro"
-        exit 1
-    else
-        distro="arch"
-        arch=1
-        tool="pacman"
-        installArgs="-Sy --noconfirm --needed --noprogressbar"
-    fi
+if [ "$debian" -eq 0 ] && [ "$macos" -eq 0 ]; then
+    echon "unknown distro - no package manager found (apt-get or brew)"
+    exit 1
 fi
 
 ################################################################################
@@ -293,27 +269,15 @@ if [ "$debian" -eq 1 ]; then
     sudo debconf-set-selections <<< "wireshark-common wireshark-common/install-setuid boolean false"
 fi
 
-if confirm "Install packages with $tool (tag(s) A|U|X from $appsFile) ?"; then
+if confirm "Install packages with $tool from $appsFile ?"; then
     echon "installing and updating apps with $tool ..."
     installApps=1
     if [ "$debian" -eq 1 ]; then
         sudo "$tool" update | tee -a "$logfile"
         sudo "$tool" upgrade -y | tee -a "$logfile"
     fi
-    if [ "$arch" -eq 1 ]; then
-        sudo pacman -Syu --noconfirm --needed --noprogressbar | tee -a "$logfile"
-    fi
 else
     echon "NOT installing and updating apps with $tool ..."
-fi
-
-################################################################################
-# Install git apps
-################################################################################
-if confirm "Install GIT based Applications (tag G from $appsFile) ?"; then
-    gitinstall=1
-else
-    echon "NOT installing git applications ..."
 fi
 
 ################################################################################
@@ -323,17 +287,6 @@ if confirm "Install Python packages with pip (tag P from $appsFile) ?"; then
     installPip=1
 else
     echon "NOT installing pip packages ..."
-fi
-
-################################################################################
-# install all arch AUR apps
-################################################################################
-if [ "$arch" -eq 1 ]; then
-    if confirm "Install AUR packages (tag AUR from $appsFile) ?"; then
-        installAUR=1
-    else
-        echon "NOT Installing ARCH AUR packages"
-    fi
 fi
 
 ################################################################################
@@ -363,13 +316,6 @@ if confirm "Replace local dotfiles? (current versions will be backed up)"; then
     rcup -v -d "$here/files" rcrc | tee -a "$logfile"
     source ~/.rcrc
     rcup -v -d "$here/files" | tee -a "$logfile"
-    if [ "$arch" -eq 1 ]; then
-        rcup -v -d "$here/arch-files" | tee -a "$logfile"
-        sudo sed -i "s/^#VerbosePkgLists$/VerbosePkgLists/" /etc/pacman.conf
-        sudo sed -i "s/^#Color$/Color/" /etc/pacman.conf
-
-        sudo sed -i "s/^#*MAKEFLAGS=.*/MAKEFLAGS=\"-j$(nproc)\"/" /etc/makepkg.conf
-    fi
     ###################################
     # install vim dotfiles and packages
     ###################################
@@ -390,28 +336,15 @@ fi
 ################################################################################
 # Add user to groups
 ################################################################################
-tmp="${groups[*]}"
-if confirm "Add $(whoami) to groups : < $tmp >"; then
-    echon "Adding $(whoami) to groups..."
-    for i in "${groups[@]}"; do
-        addGroup "$i"
-    done
-else
-    echon "NOT adding $(whoami) to groups < $tmp >"
-fi
-
-################################################################################
-# Kill the arch beeps
-################################################################################
-if [ "$arch" -eq 1 ]; then
-    if ! grep -q "blacklist pcspkr" /etc/modprobe.d/nobeep.conf 2>/dev/null; then
-        if confirm "Disable system beeps ?"; then
-            echon "Disabling system beeps"
-            lsmod | grep pcspkr && sudo rmmod pcspkr
-            sudo echo "blacklist pcspkr" | sudo tee /etc/modprobe.d/nobeep.conf
-        else
-            echon "NOT Disabling system beeps"
-        fi
+if [ "$debian" -eq 1 ]; then
+    tmp="${groups[*]}"
+    if confirm "Add $(whoami) to groups : < $tmp >"; then
+        echon "Adding $(whoami) to groups..."
+        for i in "${groups[@]}"; do
+            addGroup "$i"
+        done
+    else
+        echon "NOT adding $(whoami) to groups < $tmp >"
     fi
 fi
 
@@ -427,29 +360,14 @@ if [ "$installDotfiles" -eq 1 ]; then
 fi
 
 ################################################################################
-# Enable GNOME Display Manager for Arch if it isnt already
-################################################################################
-if [ "$arch" -eq 1 ]; then
-    systemctl is-enabled gdm > /dev/null 2>&1
-    if [ $? -ne 0 ]; then
-        sudo systemctl enable gdm
-        echon "GNOME Display Manager Enabled, reboot to load into GNOME/Cinnamon"
-    fi
-fi
-
-
-################################################################################
 # clean up
 ################################################################################
 if confirm "Clean unused packages ($tool autoremove)?"; then
-    if [ "$arch" -eq 0 ]; then
-        sudo "$tool" autoremove -y | tee -a "$logfile"
+    if [ "$macos" -eq 1 ]; then
+        brew cleanup | tee -a "$logfile"
+        brew autoremove | tee -a "$logfile"
     else
-        orphans=$(pacman -Qdtq)
-        if [ -n "$orphans" ]; then
-            sudo pacman -Rns $orphans --noconfirm
-        fi
-        sudo pacman -Sc --noconfirm --noprogressbar | tee -a "$logfile"
+        sudo "$tool" autoremove -y | tee -a "$logfile"
     fi
 else
     echon "NOT cleaning packages"
