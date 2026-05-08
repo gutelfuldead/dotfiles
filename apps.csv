@@ -85,7 +85,5 @@ pip,uv,Fast Python package installer,N,uv,uv
 pip,virtualenv,Virtual environment tool,N,virtualenv,virtualenv
 ====,Groups to add user to,====,====,====,====
 group,dialout,Serial port access,N/A,dialout,n/a
-group,libvirt,Virtual machine management,N/A,libvirt,n/a
-group,vboxusers,VirtualBox access,N/A,vboxusers,n/a
 group,wheel,Sudo group,N/A,wheel,wheel
 group,wireshark,Packet capture,N/A,wireshark,n/a
