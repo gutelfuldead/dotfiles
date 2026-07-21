@@ -10,7 +10,7 @@
 # adding /bin causes issues with buildroot
 def_path=/usr/bin:/usr/sbin:/usr/local/bin:$HOME/.local/bin:/var/lib/snapd/snap/bin:$HOME/bin
 if [[ "$OSTYPE" == "darwin"* ]]; then
-    def_path=/bin:/usr/bin:/usr/sbin:/opt/homebrew/bin:/opt/homebrew/sbin:$HOME/.local/bin:$HOME/bin
+    def_path=/bin:/sbin:/usr/bin:/usr/sbin:/opt/homebrew/bin:/opt/homebrew/sbin:$HOME/.local/bin:$HOME/bin
 fi
 PATH=$def_path
 
@@ -32,7 +32,6 @@ export CSCOPE_EDITOR='vim'
 
 # aliases
 alias vi='vim'
-alias xclip='xclip -selection c' # cat some.file | xclip # now it is in system clipboard
 alias scpi='scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null' # ignore keys (use only on trusted networks)
 alias sshi='ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null' # ignore keys (use only on trusted networks)
 alias rst2html='rst2html --stylesheet-dirs=~/.rst2html/html --stylesheet=sm-docutils.css'
@@ -40,6 +39,10 @@ alias mkdir='mkdir -p'
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
     alias mcd='command mkdir -pv'
+    alias xclip="pbcopy"
+    alias "xclip -o"="pbpaste"
+else
+    alias xclip='xclip -selection c' # cat some.file | xclip # now it is in system clipboard
 fi
 alias ..='cd ..'
 alias ...='cd ../..'
